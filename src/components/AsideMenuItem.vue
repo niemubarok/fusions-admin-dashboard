@@ -4,36 +4,60 @@
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      exact-active-class="bg-gray-700"
-      class="flex text-gray-300 cursor-pointer hover:bg-gray-700"
-      :class="{'py-2': !isSubmenuList, 'p-3 text-sm': isSubmenuList}"
+      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md "
+      :class="{
+        'py-2': !isSubmenuList,
+        'p-3 text-sm': isSubmenuList,
+        'bg-gray-200': item.label == 'Menu'
+      }"
+      exact-active-class="bg-blue-500 text-gray-50 "
       @click="menuClick"
     >
-      <icon v-if="item.icon" :path="item.icon" class="flex-none" w="w-12" />
+      <feather-icon
+        v-if="item.icon"
+        :path="item.icon"
+        class="flex-none"
+        w="w-9"
+      ></feather-icon>
       <span class="flex-grow">{{ item.label }}</span>
-      <icon v-if="hasDropdown" :path="dropdownIcon" class="flex-none" w="w-12" />
+      <!-- <vue-feather v-if="hasDropdown" :type="dropdownIcon" class="flex-none" w="w-12" ></vue-feather> -->
+      <icon
+        v-if="hasDropdown"
+        :path="dropdownIcon"
+        class="flex-none"
+        w="w-12"
+      />
+      <!-- <vue-feather type="star"></vue-feather> -->
     </component>
     <aside-menu-list
       v-if="hasDropdown"
       :menu="item.menu"
-      :class="{ 'hidden': !isDropdownActive, 'block bg-gray-600': isDropdownActive }"
+      :class="{
+        hidden: !isDropdownActive,
+        'block bg-gray-600': isDropdownActive
+      }"
       is-submenu-list
+      :color="color"
     />
   </li>
 </template>
 
 <script>
-import { defineAsyncComponent, ref, computed } from 'vue'
-import { mdiMinus, mdiPlus } from '@mdi/js'
-import Icon from '@/components/Icon'
+import { defineAsyncComponent, ref, computed } from "vue";
+import { mdiMinus, mdiChevronDown } from "@mdi/js";
+import Icon from "@/components/Icon";
+import featherIcon from "@/components/FeatherIcon";
 
 export default {
-  name: 'AsideMenuItem',
+  name: "AsideMenuItem",
   components: {
-    AsideMenuList: defineAsyncComponent(() => import('@/components/AsideMenuList')),
-    Icon
+    AsideMenuList: defineAsyncComponent(() =>
+      import("@/components/AsideMenuList")
+    ),
+    Icon,
+    featherIcon
   },
-  emits: ['menu-click'],
+  emits: ["menu-click"],
   props: {
     item: {
       type: Object,
@@ -42,28 +66,38 @@ export default {
     isSubmenuList: {
       type: Boolean,
       default: false
+    },
+    color: {
+      type: String,
+      default: ""
     }
   },
-  setup (props, { emit }) {
-    const isDropdownActive = ref(false)
+  setup(props, { emit }) {
+    const isDropdownActive = ref(false);
 
-    const componentIs = computed(() => props.item.to ? 'router-link' : 'a')
+    const componentIs = computed(() => (props.item.to ? "router-link" : "a"));
 
-    const hasDropdown = computed(() => !!props.item.menu)
+    const hasDropdown = computed(() => !!props.item.menu);
 
-    const dropdownIcon = computed(() => isDropdownActive.value ? mdiMinus : mdiPlus)
+    const dropdownIcon = computed(() =>
+      isDropdownActive.value ? mdiMinus : mdiChevronDown
+    );
 
-    const itemTo = computed(() => props.item.to || null)
+    const itemTo = computed(() => props.item.to || null);
 
-    const itemHref = computed(() => props.item.href || null)
+    const itemHref = computed(() => props.item.href || null);
 
     const menuClick = event => {
-      emit('menu-click', event, props.item)
+      emit("menu-click", event, props.item);
 
       if (hasDropdown.value) {
-        isDropdownActive.value = !isDropdownActive.value
+        isDropdownActive.value = !isDropdownActive.value;
       }
-    }
+    };
+
+    // onMounted(()=>{
+    //   console.log(props.item.icon);
+    // })
 
     return {
       isDropdownActive,
@@ -73,7 +107,7 @@ export default {
       itemTo,
       itemHref,
       menuClick
-    }
+    };
   }
-}
+};
 </script>

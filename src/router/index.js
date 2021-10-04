@@ -2,71 +2,127 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home'
 
 const routes = [
+  // {
+  //   // Document title tag
+  //   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+  //   meta: {
+  //     title: 'Dashboard'
+  //   },
+  //   path: '/',
+  //   name: 'home',
+  //   component: Home
+  // },
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-    meta: {
-      title: 'Dashboard'
+    meta:{
+      title:'Login',
+      formScreen:true
     },
-    path: '/',
-    name: 'home',
-    component: Home
+    path:'/',
+    name:'login',
+    component:()=> import('../views/Login')
   },
   {
     meta: {
-      title: 'Tables'
+      title: 'All User'
     },
-    path: '/tables',
-    name: 'tables',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "tables" */ '../views/Tables')
+    path: '/user/all',
+    name: 'user',
+    component: () => import(/* webpackChunkName: "user" */ '../views/Users')
   },
   {
     meta: {
-      title: 'Forms'
+      title: 'Restaurant List'
     },
-    path: '/forms',
-    name: 'forms',
-    component: () => import(/* webpackChunkName: "forms" */ '../views/Forms')
+    path: '/restaurant/all',
+    name: 'restaurant',
+    component: () => import(/* webpackChunkName: "restaurant" */ '../views/Restaurants')
   },
   {
     meta: {
-      title: 'Profile'
+      title: 'Google Analytics'
     },
-    path: '/profile',
-    name: 'profile',
-    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile')
+    path: '/analytics',
+    name: 'googleAnalytics',
+    component: () => import(/* webpackChunkName: "googleAnalytics" */ '../views/GoogleAnalytics')
   },
-  {
-    meta: {
-      title: 'Ui'
-    },
-    path: '/ui',
-    name: 'ui',
-    component: () => import(/* webpackChunkName: "ui" */ '../views/Ui')
-  },
-  {
-    meta: {
-      title: 'Responsive layout'
-    },
-    path: '/responsive',
-    name: 'responsive',
-    component: () => import(/* webpackChunkName: "responsive" */ '../views/Responsive')
-  },
-  {
-    meta: {
-      title: 'Login',
-      formScreen: true
-    },
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login')
-  }
+  
+  // {
+  //   meta: {
+  //     title: 'Feedback'
+  //   },
+  //   path: '/feedback',
+  //   name: 'feedback',
+  //   component: () => import(/* webpackChunkName: "feedback" */ '../views/Feedback')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Modifier'
+  //   },
+  //   path: '/modifier',
+  //   name: 'modifier',
+  //   component: () => import(/* webpackChunkName: "modifier" */ '../views/Modifier')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Banner'
+  //   },
+  //   path: '/banner',
+  //   name: 'banner',
+  //   component: () => import(/* webpackChunkName: "banner" */ '../views/Banner')
+  // },
+  // {
+  //   meta: {
+  //     title: 'QR-Code'
+  //   },
+  //   path: '/qr-code',
+  //   name: 'qrcode',
+  //   component: () => import(/* webpackChunkName: "qrcode" */ '../views/general/Qrcode')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Publish'
+  //   },
+  //   path: '/publish',
+  //   name: 'publish',
+  //   component: () => import(/* webpackChunkName: "publish" */ '../views/general/Publish')
+  // },
+  // {
+  //   meta: {
+  //     title: 'View Menu'
+  //   },
+  //   path: '/view-menu',
+  //   name: 'view-menu',
+  //   component: () => import(/* webpackChunkName: "view-menu" */ '../views/general/ViewMenu')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Devices'
+  //   },
+  //   path: '/devices',
+  //   name: 'devices',
+  //   component: () => import(/* webpackChunkName: "devices" */ '../views/general/Devices')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Settings'
+  //   },
+  //   path: '/settings',
+  //   name: 'settings',
+  //   component: () => import(/* webpackChunkName: "settings" */ '../views/general/Settings')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Login',
+  //     formScreen: true
+  //   },
+  //   path: '/login',
+  //   name: 'login',
+  //   component: () => import(/* webpackChunkName: "login" */ '../views/base/Login')
+  // }
 ]
 
 const router = createRouter({
+  mode:history,
   history: createWebHashHistory(),
   routes,
   scrollBehavior (to, from, savedPosition) {

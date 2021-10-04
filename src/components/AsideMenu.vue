@@ -1,21 +1,34 @@
 <template>
   <aside
     v-show="!isFormScreen"
-    class="w-60 fixed top-0 z-40 h-screen bg-gray-800 transition-position lg:left-0 overflow-y-scroll
-    scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900 hover:scrollbar-thumb-gray-900"
-    :class="[ isAsideMobileExpanded ? 'left-0' : '-left-60', isAsideLgActive ? 'block' : 'lg:hidden xl:block' ]"
+    class="
+      mt-2
+      w-60
+      fixed
+      top-0
+      z-40
+      h-screen
+      transition-position
+      lg:left-0
+      overflow-y-scroll
+      scrollbar-thin scrollbar-thumb-white scrollbar-track-gray-200
+      hover:scrollbar-thumb-blue-900
+      bg-white
+      p-3
+      flow-root
+    "
+    :class="[
+      isAsideMobileExpanded ? 'left-0' : '-left-60',
+      isAsideLgActive ? 'flex' : 'lg:hidden md:hidden'
+    ]"
   >
-    <div class="flex flex-row w-full bg-gray-900 text-white flex-1 h-14 items-center">
-      <nav-bar-item type="hidden lg:flex xl:hidden" color="" @click="asideLgClose">
-        <icon :path="mdiMenu" class="cursor-pointer" size="24" />
-      </nav-bar-item>
-      <div class="flex-1 px-3">
-        <span>Admin</span> <b class="font-black">One</b>
-      </div>
-    </div>
     <div>
       <template v-for="(menuGroup, index) in menu">
-        <p v-if="typeof menuGroup === 'string'" :key="`a-${index}`" class="p-3 text-xs uppercase text-gray-400">
+        <p
+          v-if="typeof menuGroup === 'string'"
+          :key="`a-${index}`"
+          class="p-3 text-xs uppercase text-gray-600"
+        >
           {{ menuGroup }}
         </p>
         <aside-menu-list
@@ -24,53 +37,69 @@
           :menu="menuGroup"
           @menu-click="menuClick"
         />
+        <!-- style="background-color:#F8F8F8" -->
       </template>
+      <!-- <div>
+        <divider />
+
+        <bussiness-detail />
+      </div> -->
     </div>
   </aside>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { mdiMenu } from '@mdi/js'
-import AsideMenuList from '@/components/AsideMenuList'
-import NavBarItem from '@/components/NavBarItem'
-import Icon from '@/components/Icon'
+import { computed } from "vue";
+import { useStore } from "vuex";
+// import { mdiMenu } from "@mdi/js";
+import AsideMenuList from "@/components/AsideMenuList";
+import NavBarItem from "@/components/NavBarItem";
+import Icon from "@/components/Icon";
+// import BussinessDetail from "@/components/BussinessDetail";
+// import Divider from "@/components/Divider";
 
 export default {
-  name: 'AsideMenu',
-  components: { AsideMenuList, NavBarItem, Icon },
+  name: "AsideMenu",
+  components: {
+    AsideMenuList
+    // BussinessDetail,
+    // Divider
+    // NavBarItem,
+    // Icon
+  },
   props: {
     menu: {
       type: Array,
       default: () => []
     }
   },
-  setup () {
-    const store = useStore()
+  setup() {
+    const store = useStore();
 
-    const isFormScreen = computed(() => store.state.isFormScreen)
+    const isFormScreen = computed(() => store.state.isFormScreen);
 
-    const isAsideMobileExpanded = computed(() => store.state.isAsideMobileExpanded)
+    const isAsideMobileExpanded = computed(
+      () => store.state.isAsideMobileExpanded
+    );
 
-    const isAsideLgActive = computed(() => store.state.isAsideLgActive)
+    const isAsideLgActive = computed(() => store.state.isAsideLgActive);
 
     const asideLgClose = () => {
-      store.dispatch('asideLgToggle', false)
-    }
+      store.dispatch("asideLgToggle", false);
+    };
 
     const menuClick = (event, item) => {
       //
-    }
+    };
 
     return {
       isFormScreen,
       isAsideMobileExpanded,
       isAsideLgActive,
       asideLgClose,
-      menuClick,
-      mdiMenu
-    }
+      menuClick
+      // mdiMenu,
+    };
   }
-}
+};
 </script>

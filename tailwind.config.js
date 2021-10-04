@@ -5,6 +5,17 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    // screens: {
+    //   'sm': '320px',
+    //   'md': '640px',
+    //   // => @media (min-width: 640px) { ... }
+
+    //   'lg': '1024px',
+    //   // => @media (min-width: 1024px) { ... }
+
+    //   'xl': '1280px',
+    //   // => @media (min-width: 1280px) { ... }
+    // },
     extend: {
       zIndex: {
         '-1': '-1'
@@ -18,7 +29,11 @@ module.exports = {
       },
       transitionProperty: {
         position: 'right, left, top, bottom, margin, padding'
-      }
+      },
+      
+    },
+    boxShadow:{
+      lg: '2px 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.03)'
     }
   },
   variants: {

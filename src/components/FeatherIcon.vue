@@ -1,8 +1,6 @@
 <template>
   <span :class="spanClass">
-    <svg v-if="path" viewBox="0 0 24 24" :width="size" :height="size" class="inline-block">
-      <path :d="path" />
-    </svg>
+    <vue-feather :type="path" :size="size"></vue-feather>
   </span>
 </template>
 

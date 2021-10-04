@@ -2,7 +2,6 @@
   <title-bar :title-stack="titleStack" />
   <hero-bar>Profile</hero-bar>
   <main-section>
-
     <card-component
       title="Edit Profile"
       class="lg:w-8/12 lg:mx-auto"
@@ -15,13 +14,26 @@
       </field>
 
       <field label="Name" help="Required. Your name">
-        <control :icon="mdiAccount" v-model="profileForm.name" name="username" required autocomplete="username"/>
+        <control
+          :icon="mdiAccount"
+          v-model="profileForm.name"
+          name="username"
+          required
+          autocomplete="username"
+        />
       </field>
       <field label="E-mail" help="Required. Your e-mail">
-        <control :icon="mdiMail" type="email" name="email" v-model="profileForm.email" required autocomplete="email"/>
+        <control
+          :icon="mdiMail"
+          type="email"
+          name="email"
+          v-model="profileForm.email"
+          required
+          autocomplete="email"
+        />
       </field>
 
-      <divider/>
+      <divider />
 
       <jb-buttons>
         <jb-button color="info" type="submit" label="Submit" />
@@ -47,7 +59,7 @@
         />
       </field>
 
-      <divider/>
+      <divider />
 
       <field label="New password" help="Required. New password">
         <control
@@ -60,7 +72,10 @@
         />
       </field>
 
-      <field label="Confirm password" help="Required. New password one more time">
+      <field
+        label="Confirm password"
+        help="Required. New password one more time"
+      >
         <control
           :icon="mdiFormTextboxPassword"
           v-model="passwordForm.password_confirmation"
@@ -71,13 +86,12 @@
         />
       </field>
 
-      <divider/>
+      <divider />
 
       <jb-buttons>
         <jb-button type="submit" color="info" label="Submit" />
         <jb-button color="info" label="Options" outline />
       </jb-buttons>
-
     </card-component>
   </main-section>
 
@@ -87,7 +101,14 @@
 <script>
 import { ref, reactive } from 'vue'
 import { useStore } from 'vuex'
-import { mdiAccount, mdiAccountCircle, mdiLock, mdiMail, mdiAsterisk, mdiFormTextboxPassword } from '@mdi/js'
+import {
+  mdiAccount,
+  mdiAccountCircle,
+  mdiLock,
+  mdiMail,
+  mdiAsterisk,
+  mdiFormTextboxPassword
+} from '@mdi/js'
 import MainSection from '@/components/MainSection'
 import CardComponent from '@/components/CardComponent'
 import TitleBar from '@/components/TitleBar'

@@ -1,31 +1,31 @@
 <template>
   <component :is="type" class="checkbox-cell">
-    <label class="checkbox">
-      <input type="checkbox" v-model="checked">
-      <span class="check"></span>
-    </label>
+    <!-- <label class="checkbox"> -->
+    <input type="checkbox" v-model="checked" />
+    <span class="check"></span>
+    <!-- </label> -->
   </component>
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch } from "vue";
 
 export default {
-  name: 'CheckboxCell',
+  name: "CheckboxCell",
   props: {
     type: {
       type: String,
-      default: 'td'
+      default: "td"
     }
   },
-  setup (props, { emit }) {
-    const checked = ref(false)
+  setup(props, { emit }) {
+    const checked = ref(false);
 
     watch(checked, newVal => {
-      emit('checked', newVal)
-    })
+      emit("checked", newVal);
+    });
 
-    return { checked }
+    return { checked };
   }
-}
+};
 </script>

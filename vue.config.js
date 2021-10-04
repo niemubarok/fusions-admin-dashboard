@@ -3,7 +3,7 @@
  */
 module.exports = {
   publicPath: process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? '/admin-one-vue-tailwind/'
+    ? '/cloud-menu/'
     : '/',
 
   // Remove moment.js from chart.js

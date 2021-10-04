@@ -1,83 +1,82 @@
-import {
-  mdiAccountCircle,
-  mdiDesktopMac,
-  mdiGithub,
-  mdiLock,
-  mdiMonitorClean,
-  mdiSquareEditOutline,
-  mdiTable,
-  mdiViewList,
-  mdiTelevisionGuide,
-  mdiResponsive
-} from '@mdi/js'
+
 
 export default [
-  'General',
   [
     {
-      to: '/',
-      icon: mdiDesktopMac,
-      label: 'Dashboard'
-    }
-  ],
-  'Examples',
-  [
-    {
-      to: '/tables',
-      label: 'Tables',
-      icon: mdiTable,
-      updateMark: true
+      to:'/dashboard',
+      icon:'home',
+      label:'Dashboard'
     },
     {
-      to: '/forms',
-      label: 'Forms',
-      icon: mdiSquareEditOutline
-    },
-    {
-      to: '/ui',
-      label: 'UI',
-      icon: mdiTelevisionGuide
-    },
-    {
-      to: '/responsive',
-      label: 'Responsive',
-      icon: mdiResponsive
-    },
-    {
-      to: '/profile',
-      label: 'Profile',
-      icon: mdiAccountCircle
-    },
-    {
-      to: '/login',
-      label: 'Login',
-      icon: mdiLock
-    },
-    {
-      label: 'Submenus',
-      subLabel: 'Submenus Example',
-      icon: mdiViewList,
+      label: 'User',
+      subLabel: '',
+      icon: 'grid',
+      color:'gray-300',
       menu: [
         {
-          label: 'Sub-item One'
+          to: '/user/all',
+          icon: 'circle',
+          label: 'All User'
         },
         {
-          label: 'Sub-item Two'
+          to: '/user/banned',
+          icon: 'circle',
+          label: 'Banned Users'
         }
       ]
     }
   ],
-  'About',
   [
     {
-      href: 'https://tailwind-vue.justboil.me/',
-      label: 'Premium version',
-      icon: mdiMonitorClean
-    },
-    {
-      href: 'https://github.com/justboil/admin-one-vue-tailwind',
-      label: 'GitHub',
-      icon: mdiGithub
+      to: '/restaurant/all',
+      icon: 'box',
+      label: 'Restaurant'
     }
+  ],
+  [
+    {
+      to: '/analytics',
+      label: 'Google Analytics',
+      icon: 'message-square',
+      // updateMark: true
+    },
+  //   {
+  //     to: '/modifier',
+  //     label: 'Modifier',
+  //     icon: 'sliders'
+  //   },
+  //   {
+  //     to: '/banner',
+  //     label: 'Banner',
+  //     icon: 'bookmark'
+  //   },
+  // ],
+  // 'General',
+  // [
+  //   {
+  //     to:'/qr-code',
+  //     label: 'QR-Code',
+  //     icon: 'grid'
+  //   },
+  //   {
+  //     to:'/publish',
+  //     label: 'Publish',
+  //     icon: 'send'
+  //   },
+  //   {
+  //     to:'/view-menu',
+  //     label: 'View Menu',
+  //     icon: 'eye'
+  //   },
+  //   {
+  //     to:'/devices',
+  //     label: 'Devices',
+  //     icon: 'tablet'
+  //   },
+  //   {
+  //     to:'/settings',
+  //     label: 'Setting',
+  //     icon: 'settings'
+  //   }
   ]
 ]

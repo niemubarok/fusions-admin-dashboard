@@ -6,11 +6,12 @@ import store from './store'
 
 import './css/main.css'
 
+import VueFeather from 'vue-feather'
 /* Fetch sample data */
 store.dispatch('fetchClients')
 
 /* Default title tag */
-const defaultDocumentTitle = 'Admin One Vue 3 Tailwind'
+const defaultDocumentTitle = 'Cloud Menu'
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.beforeEach(to => {
@@ -28,4 +29,6 @@ router.afterEach(to => {
   }
 })
 
-createApp(App).use(store).use(router).mount('#app')
+const app = createApp(App)
+app.component(VueFeather.name, VueFeather)
+app.use(store).use(router).mount('#app')

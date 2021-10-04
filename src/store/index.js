@@ -16,7 +16,8 @@ export default createStore({
     isAsideLgActive: false,
 
     /* Sample data (commonly used) */
-    clients: []
+    clients: [],
+    restaurants:[]
   },
   mutations: {
     /* A fit-them-all commit */
@@ -60,7 +61,7 @@ export default createStore({
     },
     fetchClients ({ commit }) {
       axios
-        .get('data-sources/clients.json')
+        .get('data-sources/restaurants.json')
         .then(r => {
           if (r.data) {
             if (r.data.data) {

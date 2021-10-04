@@ -6,19 +6,20 @@
       :item="item"
       :is-submenu-list="isSubmenuList"
       @menu-click="menuClick"
+      class="bg-white py-2"
     />
   </ul>
 </template>
 
 <script>
-import AsideMenuItem from '@/components/AsideMenuItem'
+import AsideMenuItem from "@/components/AsideMenuItem";
 
 export default {
-  name: 'AsideMenuList',
+  name: "AsideMenuList",
   components: {
     AsideMenuItem
   },
-  emits: ['menu-click'],
+  emits: ["menu-click"],
   props: {
     isSubmenuList: {
       type: Boolean,
@@ -29,14 +30,14 @@ export default {
       default: () => []
     }
   },
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const menuClick = (event, item) => {
-      emit('menu-click', event, item)
-    }
+      emit("menu-click", event, item);
+    };
 
     return {
       menuClick
-    }
+    };
   }
-}
+};
 </script>
