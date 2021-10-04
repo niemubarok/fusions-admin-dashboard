@@ -14,25 +14,28 @@
         <icon :path="mdiMenu" size="24" />
       </nav-bar-item>
       <nav-bar-item>
+        <!-- logo -->
+        <nav-bar-item>
+          <img src="/assets/img/logo _cloud_menu.png" />
+          <strong class="ml-2 mr-20">Cloud Menu</strong>
+        </nav-bar-item>
+
         <!-- search  -->
-        <div class="control border-0">
-          <div
-            class="relative flex w-full flex-wrap items-stretch mb-3 border-0 "
-          >
+        <div class="border-none flex justify-center w-full">
+          <div class="flex w-100 flex-wrap items-stretch border-none ">
             <span
               class="z-10 border-0 h-full font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-2 py-1 "
             >
               <featherIcon path="search" />
-              <!-- <i class="fas fa-search"></i> -->
             </span>
             <input
               type="text"
-              placeholder="Search here..
+              placeholder="Search User / Restaurant...
               "
-              class="px-2 py-1 border-0 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring w-full pl-10"
+              v-model="store.state.search"
+              class="px-2 py-1 border-0 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring w-100 pl-10"
             />
           </div>
-          <!-- <img src="public/assets/img/logo_cloud_menu.png" alt="" /> -->
         </div>
       </nav-bar-item>
     </div>
@@ -72,19 +75,19 @@
           </div>
 
           <template #dropdown>
-            <nav-bar-item to="/profile">
+            <!-- <nav-bar-item to="/profile">
               <nav-bar-item-label :icon="mdiAccount" label="My Profile" />
-            </nav-bar-item>
-            <nav-bar-item>
+            </nav-bar-item> -->
+            <!-- <nav-bar-item>
               <nav-bar-item-label :icon="mdiCogOutline" label="Settings" />
-            </nav-bar-item>
-            <nav-bar-item>
+            </nav-bar-item> -->
+            <!-- <nav-bar-item>
               <nav-bar-item-label :icon="mdiEmail" label="Messages" />
-            </nav-bar-item>
-            <nav-bar-menu-divider />
+            </nav-bar-item> -->
             <nav-bar-item>
               <nav-bar-item-label :icon="mdiLogout" label="Log Out" />
             </nav-bar-item>
+            <nav-bar-menu-divider />
           </template>
         </nav-bar-menu>
         <nav-bar-item is-desktop-icon-only>
@@ -170,6 +173,7 @@ export default {
     };
 
     return {
+      store,
       isNavBarVisible,
       isAsideMobileExpanded,
       userName,

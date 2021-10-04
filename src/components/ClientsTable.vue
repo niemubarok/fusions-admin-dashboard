@@ -13,17 +13,22 @@
     >
   </div>
 
-  <div v-if="itemsPaginated.length == 0">
+  <div v-if="filterClients().length == 0">
     <card-component empty />
   </div>
 
-  <table v-if="itemsPaginated.length !== 0" class="md:pa-md">
+  <table v-if="filterClients().length !== 0" class="md:pa-md">
     <thead>
       <tr>
-        <th v-if="checkable" class="text-center checkbox-cell">
-          <input type="checkbox" @click="selectAll()" v-model="allSelected" />
+        <th v-if="checkable" class="text-center">
+          <input
+            type="checkbox"
+            @click="selectAll()"
+            v-model="allSelected"
+            class="rounded"
+          />
         </th>
-        <th>Logo</th>
+        <th class="text-center">Logo</th>
         <th>User</th>
         <th>Restaurant</th>
         <th>Phone</th>
@@ -35,29 +40,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="client in itemsPaginated"
-        :key="client.id"
-        class="text-center checkbox-cell"
-      >
-        <td>
-          <input type="checkbox" v-model="checkedRows" :value="client" />
-        </td>
-        <td class="flex justify-center">
-          <!-- <div> -->
-          <img
-            :src="client.logo"
-            class="rounded-full w-10 h-10 md:w-50 md:h-50"
+      <tr v-for="client in itemsPaginated" :key="client.id" class="text-center">
+        <td class="text-center">
+          <input
+            type="checkbox"
+            v-model="checkedRows"
+            :value="client"
+            class="rounded"
           />
-          <!-- </div> -->
+        </td>
+        <td>
+          <div class="flex item-center">
+            <img :src="client.logo" class="w-20 rounded-full " />
+          </div>
         </td>
         <td data-label="User">{{ client.user }}</td>
-        <td data-label="Restaurant">{{ client.name }}</td>
+        <td data-label="Restaurant">{{ client.restaurant }}</td>
         <td data-label="Phone">{{ client.phone }}</td>
         <td data-label="Country">
-          <!-- <progress max="100" :value="client.progress">{{
-            client.progress -->
-          <!-- }}</progress> -->
           {{ client.country }}
         </td>
         <td data-label="Subscription">
@@ -66,7 +66,6 @@
           }}</span>
         </td>
         <td data-label="Status">
-          <!-- style="width:500px;" -->
           <small
             class="rounded-md py-1"
             :class="{
@@ -79,22 +78,25 @@
         </td>
         <td data-label="Invoices">
           <jb-buttons type="justify-start lg:justify-center" no-wrap>
-            <feather-icon
-              size="20px"
-              class="rounded-md no-border cursor-pointer text-green-500"
-              path="eye"
-              small
-              @click="isModalActive = true"
-            >
-            </feather-icon>
+            <span title="click to see invoice's detail">
+              <feather-icon
+                size="20px"
+                class="rounded-md no-border cursor-pointer text-green-500"
+                path="eye"
+                small
+                @click="isModalActive = true"
+              >
+              </feather-icon>
+            </span>
           </jb-buttons>
         </td>
-        <td class="flex justify-start lg:justify-center">
-          <more-action class="sm:hidden  md:hidden ">
+        <td>
+          <more-action
+            class="sm:hidden  md:hidden flex justify-start lg:justify-center "
+          >
             <feather-icon size="20px" path="more-vertical"></feather-icon>
-            <!-- class="hidden lg:inline-flex" -->
             <template #dropdown>
-              <nav-bar-item to="/profile">
+              <nav-bar-item to="/user/profile">
                 <nav-bar-item-label :icon="mdiAccountDetails" label="Detail" />
               </nav-bar-item>
               <nav-bar-item>
@@ -106,10 +108,6 @@
               <nav-bar-item class="text-red-500">
                 <nav-bar-item-label :icon="mdiTrashCan" label="Remove" />
               </nav-bar-item>
-              <!-- <nav-bar-menu-divider />
-              <nav-bar-item>
-                <nav-bar-item-label :icon="mdiLogout" label="Log Out" />
-              </nav-bar-item> -->
             </template>
           </more-action>
         </td>
@@ -125,6 +123,7 @@
         :label="page + 1"
         :key="page"
         small
+        class="mr-2"
       />
     </div>
     <small class="float-right -mt-7"
@@ -144,8 +143,6 @@ import {
   mdiAccountConvert
 } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
-import CheckboxCell from "@/components/CheckboxCell";
-import Level from "@/components/Level";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
 import CardComponent from "@/components/CardComponent";
@@ -158,14 +155,11 @@ export default {
   name: "ClientsTable",
   components: {
     ModalBox,
-    // CheckboxCell,
-    // Level,
     JbButtons,
     JbButton,
     CardComponent,
     NavBarItem,
     NavBarItemLabel,
-    // NavBarMenu,
     MoreAction,
     FeatherIcon
   },
@@ -179,7 +173,7 @@ export default {
 
     const isModalActive = ref(false);
 
-    const perPage = ref(10);
+    const perPage = ref(3);
 
     const currentPage = ref(0);
 
@@ -187,14 +181,14 @@ export default {
     const allSelected = ref(false);
 
     const itemsPaginated = computed(() =>
-      items.value.slice(
+      filterClients().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       )
     );
 
     const numPages = computed(() =>
-      Math.ceil(items.value.length / perPage.value)
+      Math.ceil(filterClients().length / perPage.value)
     );
 
     const currentPageHuman = computed(() => currentPage.value + 1);
@@ -227,7 +221,6 @@ export default {
           checkedRows.value.push(client);
         }
         checkedRows.value.push(client);
-        // console.log(checkedRows.value);
       } else {
         checkedRows.value = remove(
           checkedRows.value,
@@ -238,22 +231,38 @@ export default {
 
     const selectAll = () => {
       if (!allSelected.value) {
-        itemsPaginated.value.forEach(each => {
+        filterClients().forEach(each => {
           checkedRows.value.push(each);
         });
       } else {
         checkedRows.value = [];
       }
-      // for (item in itemsPaginated.value) {
-      // }
     };
 
-    const checkAll = isChecked => {
-      // console.log(isChecked);
-      if (isChecked) {
-        checked(isChecked, itemsPaginated.value);
-        // checkedRows.value.push(items.value);
-        console.log(itemsPaginated.value);
+    const filterClients = () => {
+      if (store.state.clients.length) {
+        const filterBySearch = store.state.clients.filter(filtered => {
+          return (
+            filtered.user
+              .toUpperCase()
+              .includes(store.state.search.toUpperCase()) ||
+            filtered.restaurant
+              .toUpperCase()
+              .includes(store.state.search.toUpperCase()) ||
+            filtered.country
+              .toUpperCase()
+              .includes(store.state.search.toUpperCase())
+          );
+        });
+
+        const filter = filterBySearch.filter(filtered => {
+          return filtered.status
+            .toUpperCase()
+            .includes(store.state.filter.toUpperCase());
+        });
+        return filter;
+      } else {
+        console.log("no data");
       }
     };
 
@@ -266,14 +275,14 @@ export default {
       itemsPaginated,
       pagesList,
       checked,
-      checkAll,
       mdiEye,
       mdiTrashCan,
       mdiDotsVerticalCircle,
       mdiAccountDetails,
       mdiAccountConvert,
       selectAll,
-      allSelected
+      allSelected,
+      filterClients
     };
   }
 };

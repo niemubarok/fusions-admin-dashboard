@@ -4,7 +4,7 @@
       "id": 1,
       "logo": "https://dummyimage.com/250x250/000/fff",
       "user": "Enjel",
-      "name": "Abuba",
+      "restaurant": "Abuba",
       "email": "johntos@test.com",
       "phone": "08555555",
       "country": "Korea",
@@ -18,7 +18,7 @@
       "id": 2,
       "logo": "https://dummyimage.com/250x250/000/fff",
       "user": "Rigsto",
-      "name": "Shirokuma",
+      "restaurant": "Shirokuma",
       "email": "johntos@test.com",
       "phone": "08555555",
       "country": "Japan",
@@ -32,7 +32,7 @@
       "id": 3,
       "logo": "https://dummyimage.com/250x250/000/fff",
       "user": "Tim",
-      "name": "apaagituh",
+      "restaurant": "apaagituh",
       "email": "johntos@test.com",
       "phone": "08555555",
       "country": "Indonesia",
@@ -41,6 +41,48 @@
         "amount": 5000000
       },
       "status": "Banned"
+    },
+    {
+      "id": 4,
+      "logo": "https://dummyimage.com/250x250/000/fff",
+      "user": "Husni",
+      "restaurant": "Pizza",
+      "email": "johntos@test.com",
+      "phone": "085555554546",
+      "country": "Indonesia",
+      "subscription": "8 months",
+      "invoices": {
+        "amount": 5000000
+      },
+      "status": "Banned"
+    },
+    {
+      "id": 5,
+      "logo": "https://dummyimage.com/250x250/000/fff",
+      "user": "Maulana",
+      "restaurant": "MCD",
+      "email": "johntos@test.com",
+      "phone": "0855555554654",
+      "country": "Indonesia",
+      "subscription": "8 months",
+      "invoices": {
+        "amount": 5000000
+      },
+      "status": "active"
+    },
+     {
+      "id": 6,
+      "logo": "https://dummyimage.com/250x250/000/fff",
+      "user": "fulan",
+      "restaurant": "MCD",
+      "email": "johntos@test.com",
+      "phone": "0855555554654",
+      "country": "Indonesia",
+      "subscription": "8 months",
+      "invoices": {
+        "amount": 5000000
+      },
+      "status": "active"
     }
   ]
 }

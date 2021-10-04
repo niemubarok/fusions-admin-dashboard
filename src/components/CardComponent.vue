@@ -5,7 +5,7 @@
     :class="[mb, form ? 'block' : '']"
     @submit="submit"
   >
-    <header v-if="title" class="flex items-stretch border-b border-gray-100 ">
+    <header v-if="title" class="flex border-b border-gray-100 ">
       <p
         class="flex items-center py-3 flex-grow font-bold"
         :class="[icon ? 'px-4' : 'px-6']"
@@ -13,19 +13,9 @@
         <feather-icon v-if="icon" :path="icon" class="mr-3"></feather-icon>
         {{ title }}
       </p>
-      <a
-        v-if="headerIcon"
-        href="#"
-        class="flex items-center py-3 px-4 justify-center"
-        aria-label="more options"
-        @click.prevent="headerIconClick"
-      >
-        <icon :path="headerIcon" />
-      </a>
-      <span class="flex items-center"
-        >filter:
-        <feather-icon v-if="icon" path="filter" class="mr-3 "></feather-icon>
-      </span>
+      <div class="flex flex-wrap content-center">
+        <slot name="header" />
+      </div>
     </header>
     <div v-if="empty" class="text-center py-24 text-gray-500">
       <p>Nothing's here…</p>

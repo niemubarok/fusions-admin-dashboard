@@ -1,115 +1,125 @@
 <template>
-  <title-bar :title-stack="titleStack" />
-  <hero-bar>Dashboard</hero-bar>
-  <!-- <main-section>
+  <main-section>
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
       <card-widget
-        class="tile"
+        class="tile cursor-pointer hover:bg-green-100"
+        :class="{ 'bg-green-100': store.state.filter == 'active' }"
         color="text-green-500"
         :icon="mdiAccountMultiple"
-        :number="512"
-        label="Clients"
+        :number="activeClients().length"
+        label="Active Users"
+        @click="setFilterActive"
       />
       <card-widget
-        class="tile"
+        class="tile cursor-pointer hover:bg-red-100"
+        :class="{ 'bg-red-100': store.state.filter == 'banned' }"
+        color="text-red-400"
+        :icon="mdiAccountMultipleRemove"
+        :number="bannedClients().length"
+        label="Banned Users"
+        @click="setFilterBanned"
+      />
+      <card-widget
+        class="tile cursor-pointer hover:bg-gray-200"
         color="text-blue-500"
-        :icon="mdiCartOutline"
-        :number="7770"
-        prefix="$"
-        label="Sales"
-      />
-      <card-widget
-        class="tile"
-        color="text-red-500"
         :icon="mdiChartTimelineVariant"
         :number="256"
-        suffix="%"
-        label="Performance"
+        suffix=" Visits"
+        label="Google Analytics"
       />
     </div>
 
-    <card-component
-      title="Performance"
-      :icon="mdiFinance"
-      :header-icon="mdiReload"
-      class="mb-6"
-      @header-icon-click="fillChartData"
-    >
-      <div v-if="chartData">
-        <line-chart :data="chartData" class="h-96"/>
-      </div>
-    </card-component>
+    <card-component title="List of Users" icon="list" has-table>
+      <template #header>
+        <small class="mr-3">Filter :</small>
+        <div
+          class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg h-6 px-5 mr-3 bg-green-200 text-green-500"
+        >
+          <small @click="setFilterActive">
+            Active
+          </small>
+        </div>
+        <div
+          class="cursor-pointer hover:bg-red-500 hover:text-red-50 rounded-lg h-6 px-5 mr-4 bg-red-200 text-red-500"
+        >
+          <small @click="setFilterBanned">
+            Banned
+          </small>
+        </div>
+      </template>
 
-    <notification color="info" :icon="mdiMonitorCellphone">
-      <b>Responsive table.</b> Collapses on mobile
-    </notification>
-
-    <card-component :icon="mdiMonitorCellphone" title="Responsive table" has-table>
-      <clients-table />
+      <clients-table checkable />
     </card-component>
-  </main-section> -->
+  </main-section>
 </template>
 
 <script>
-// @ is an alias to /src
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import {
-  mdiAccountMultiple,
-  mdiCartOutline,
-  mdiChartTimelineVariant,
-  mdiFinance,
   mdiMonitorCellphone,
-  mdiReload,
-  mdiGithub
+  mdiAccountMultiple,
+  mdiAccountMultipleRemove,
+  mdiChartTimelineVariant,
+  mdiTableBorder,
+  mdiTableOff
 } from "@mdi/js";
-import * as chartConfig from "@/components/Charts/chart.config";
-import LineChart from "@/components/Charts/LineChart";
 import MainSection from "@/components/MainSection";
-import TitleBar from "@/components/TitleBar";
-import HeroBar from "@/components/HeroBar";
-import CardWidget from "@/components/CardWidget";
-import CardComponent from "@/components/CardComponent";
 import ClientsTable from "@/components/ClientsTable";
-import Notification from "@/components/Notification";
-// import JbButton from '@/components/JbButton'
+import CardComponent from "@/components/CardComponent";
+import CardWidget from "@/components/CardWidget";
+import { useStore } from "vuex";
 
 export default {
-  name: "Home",
+  name: "Tables",
   components: {
-    // MainSection,
-    // ClientsTable,
-    // LineChart,
-    // CardComponent,
-    // CardWidget,
-    // HeroBar,
-    // TitleBar,
-    // Notification
-    // JbButton
+    MainSection,
+    CardWidget,
+    CardComponent,
+    ClientsTable
   },
   setup() {
-    const titleStack = ref(["Admin", "Dashboard"]);
+    const titleStack = ref(["Admin", "Tables"]);
+    const store = useStore();
 
-    const chartData = ref(null);
-
-    const fillChartData = () => {
-      chartData.value = chartConfig.sampleChartData();
+    const setStatus = status => {
+      store.state.filter == status
+        ? (store.state.filter = "")
+        : (store.state.filter = status);
     };
 
-    onMounted(() => {
-      fillChartData();
-    });
+    const setFilterActive = () => {
+      setStatus("active");
+    };
+
+    const setFilterBanned = () => {
+      setStatus("banned");
+    };
+
+    const activeClients = () => {
+      return store.state.clients.filter(client => {
+        return client.status.toUpperCase().includes("ACTIVE");
+      });
+    };
+
+    const bannedClients = () => {
+      return store.state.clients.filter(client => {
+        return client.status.toUpperCase().includes("BANNED");
+      });
+    };
 
     return {
       titleStack,
-      chartData,
-      fillChartData,
-      mdiAccountMultiple,
-      mdiCartOutline,
-      mdiChartTimelineVariant,
-      mdiFinance,
       mdiMonitorCellphone,
-      mdiReload,
-      mdiGithub
+      mdiAccountMultiple,
+      mdiChartTimelineVariant,
+      mdiTableBorder,
+      mdiAccountMultipleRemove,
+      mdiTableOff,
+      store,
+      setFilterActive,
+      setFilterBanned,
+      activeClients,
+      bannedClients
     };
   }
 };

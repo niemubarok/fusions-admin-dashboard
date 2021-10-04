@@ -4,15 +4,15 @@
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md "
+      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md  "
       :class="{
         'py-2': !isSubmenuList,
-        'p-3 text-sm': isSubmenuList,
-        'bg-gray-200': item.label == 'Menu'
+        'p-3 text-sm bg-gray-200': isSubmenuList
       }"
       exact-active-class="bg-blue-500 text-gray-50 "
       @click="menuClick"
     >
+      <!-- 'bg-gray-200': item.label == 'Dashboard' -->
       <feather-icon
         v-if="item.icon"
         :path="item.icon"
@@ -20,26 +20,22 @@
         w="w-9"
       ></feather-icon>
       <span class="flex-grow">{{ item.label }}</span>
-      <!-- <vue-feather v-if="hasDropdown" :type="dropdownIcon" class="flex-none" w="w-12" ></vue-feather> -->
       <icon
         v-if="hasDropdown"
         :path="dropdownIcon"
         class="flex-none"
         w="w-12"
       />
-      <!-- <vue-feather type="star"></vue-feather> -->
     </component>
     <aside-menu-list
       v-if="hasDropdown"
       :menu="item.menu"
-      :class="{
-        hidden: !isDropdownActive,
-        'block bg-gray-600': isDropdownActive
-      }"
+      :class="{ hidden: !isDropdownActive }"
       is-submenu-list
       :color="color"
     />
   </li>
+  <!-- 'block bg-gray-100': isDropdownActive -->
 </template>
 
 <script>

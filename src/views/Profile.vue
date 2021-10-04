@@ -1,3 +1,3 @@
 <template>
-  <h2>restaurant</h2>
+  <h3>Profile</h3>
 </template>

@@ -19,7 +19,7 @@
     "
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',
-      isAsideLgActive ? 'flex' : 'lg:hidden md:hidden'
+      isAsideLgActive ? 'block' : 'lg:block xl:flex'
     ]"
   >
     <div>

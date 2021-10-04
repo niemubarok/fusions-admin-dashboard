@@ -1,5 +1,5 @@
-import { createStore } from 'vuex'
-import axios from 'axios'
+import { createStore } from "vuex";
+import axios from "axios";
 
 export default createStore({
   state: {
@@ -16,67 +16,77 @@ export default createStore({
     isAsideLgActive: false,
 
     /* Sample data (commonly used) */
+    search: "",
+    filter: "",
     clients: [],
-    restaurants:[]
+    restaurants: []
   },
   mutations: {
     /* A fit-them-all commit */
-    basic (state, payload) {
-      state[payload.key] = payload.value
+    basic(state, payload) {
+      state[payload.key] = payload.value;
     },
 
     /* User */
-    user (state, payload) {
+    user(state, payload) {
       if (payload.name) {
-        state.userName = payload.name
+        state.userName = payload.name;
       }
       if (payload.email) {
-        state.userEmail = payload.email
+        state.userEmail = payload.email;
       }
       if (payload.avatar) {
-        state.userAvatar = payload.avatar
+        state.userAvatar = payload.avatar;
       }
     }
   },
   actions: {
-    asideMobileToggle ({ commit, state }, payload = null) {
-      const isShow = payload !== null ? payload : !state.isAsideMobileExpanded
+    asideMobileToggle({ commit, state }, payload = null) {
+      const isShow = payload !== null ? payload : !state.isAsideMobileExpanded;
 
-      document.getElementById('app').classList[isShow ? 'add' : 'remove']('ml-60')
+      document
+        .getElementById("app")
+        .classList[isShow ? "add" : "remove"]("ml-60");
 
-      document.documentElement.classList[isShow ? 'add' : 'remove']('m-clipped')
+      document.documentElement.classList[isShow ? "add" : "remove"](
+        "m-clipped"
+      );
 
-      commit('basic', {
-        key: 'isAsideMobileExpanded',
+      commit("basic", {
+        key: "isAsideMobileExpanded",
         value: isShow
-      })
+      });
     },
-    asideLgToggle ({ commit, state }, payload = null) {
-      commit('basic', { key: 'isAsideLgActive', value: payload !== null ? payload : !state.isAsideLgActive })
+    asideLgToggle({ commit, state }, payload = null) {
+      commit("basic", {
+        key: "isAsideLgActive",
+        value: payload !== null ? payload : !state.isAsideLgActive
+      });
     },
-    formScreenToggle ({ commit, state }, value) {
-      commit('basic', { key: 'isFormScreen', value })
+    formScreenToggle({ commit, state }, value) {
+      commit("basic", { key: "isFormScreen", value });
 
-      document.documentElement.classList[value ? 'add' : 'remove']('form-screen')
+      document.documentElement.classList[value ? "add" : "remove"](
+        "form-screen"
+      );
     },
-    fetchClients ({ commit }) {
+    fetchClients({ commit }) {
       axios
-        .get('data-sources/restaurants.json')
+        .get("data-sources/restaurants.json")
         .then(r => {
           if (r.data) {
             if (r.data.data) {
-              commit('basic', {
-                key: 'clients',
+              commit("basic", {
+                key: "clients",
                 value: r.data.data
-              })
+              });
             }
           }
         })
         .catch(error => {
-          alert(error.message)
-        })
+          alert(error.message);
+        });
     }
   },
-  modules: {
-  }
-})
+  modules: {}
+});
