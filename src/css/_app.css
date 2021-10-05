@@ -18,7 +18,17 @@ body {
 .form-screen body {
   @apply p-0;
 }
-
-input:focus-within ~ label {
-  @apply transform scale-75 -translate-y-8 text-blue-500;
+.floating-input>input::placeholder {
+    color: transparent;
 }
+
+.floating-input>input:focus,
+.floating-input>input:not(:placeholder-shown) { 
+@apply pt-8
+}
+
+.floating-input>input:focus~label, 
+.floating-input>input:not(:placeholder-shown)~label {
+  @apply opacity-75 scale-75 -translate-y-5 translate-x-1; 
+}
+

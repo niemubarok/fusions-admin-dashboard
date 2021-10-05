@@ -19,7 +19,18 @@ export default createStore({
     search: "",
     filter: "",
     clients: [],
-    restaurants: []
+    restaurants: [],
+
+    form: {
+      user: "",
+      password: "",
+      passwordRepeat: "",
+      remember: true,
+      forgotPassword: ""
+    },
+
+    // modal
+    forgotPasswordModal: true
   },
   mutations: {
     /* A fit-them-all commit */

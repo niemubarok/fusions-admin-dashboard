@@ -135,29 +135,15 @@
     </tbody>
   </table>
   <div class="table-pagination align-middle">
-    {{ pagesList.length }}
-    <div v-if="pagesList.length < 6" class="row flex justify-center">
-      <jb-button
-        v-for="page in pagesList"
-        @click="currentPage = page"
-        :active="page === currentPage"
-        :label="page + 1"
-        :key="page"
-        small
-        class="mr-2"
-      />
-    </div>
-    <div v-if="pagesList.length >= 6" class="row flex justify-center">
-      <jb-button
-        v-for="page in pagesList"
-        @click="currentPage = page"
-        :active="page === currentPage"
-        :label="page + 1"
-        :key="page"
-        small
-        class="mr-2"
-      />
-    </div>
+    <pagination
+      :total-pages="pagesList.length"
+      :total="filterClients().length"
+      :per-page="perPage"
+      :current-page="currentPage"
+      @pagechanged="showMore"
+      :maxVisibleButtons="maxVisibleButton"
+    >
+    </pagination>
   </div>
 </template>
 
@@ -174,24 +160,22 @@ import {
 import ModalBox from "@/components/ModalBox";
 import JbButtons from "@/components/JbButtons";
 import JbButton from "@/components/JbButton";
-import CardComponent from "@/components/CardComponent";
-import NavBarItem from "@/components/NavBarItem";
-import NavBarItemLabel from "@/components/NavBarItemLabel";
-import MoreAction from "@/components/MoreAction";
 import FeatherIcon from "./FeatherIcon.vue";
+import CardComponent from "./CardComponent";
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import Pagination from "./Pagination.vue";
 
 export default {
   name: "ClientsTable",
   components: {
     ModalBox,
     JbButtons,
-    JbButton,
+    // JbButton,
     CardComponent,
-    // NavBarItem,
-    // NavBarItemLabel,
-    // MoreAction,
+    // VueTailwindPagination,
     FeatherIcon,
-    ModalBox
+    ModalBox,
+    Pagination
   },
   props: {
     checkable: Boolean
@@ -205,18 +189,24 @@ export default {
     const invoiceModal = ref(false);
 
     const perPage = ref(3);
+    const page = ref(1);
 
     const currentPage = ref(0);
 
     const checkedRows = ref([]);
     const allSelected = ref(false);
+    const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
       if (filterClients().length <= perPage.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        maxVisibleButton.value = 1;
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         currentPage.value = 0;
         return filterClients();
       }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      maxVisibleButton.value = 2;
 
       return filterClients().slice(
         perPage.value * currentPage.value,
@@ -225,7 +215,7 @@ export default {
     });
 
     const numPages = computed(() =>
-      Math.ceil(filterClients().length / perPage.value)
+      Math.ceil(itemsPaginated.value.length / perPage.value)
     );
 
     const currentPageHuman = computed(() => currentPage.value + 1);
@@ -233,7 +223,7 @@ export default {
     const pagesList = computed(() => {
       const pagesList = [];
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < numPages.value; i++) {
         pagesList.push(i);
       }
 
@@ -303,6 +293,11 @@ export default {
       }
     };
 
+    const showMore = p => {
+      // page.value = p;
+      currentPage.value = p;
+    };
+
     return {
       isModalActive,
       currentPage,
@@ -320,7 +315,10 @@ export default {
       selectAll,
       allSelected,
       filterClients,
-      invoiceModal
+      invoiceModal,
+      perPage,
+      showMore,
+      maxVisibleButton
     };
   }
 };

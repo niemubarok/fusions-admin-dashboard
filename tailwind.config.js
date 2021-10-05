@@ -1,8 +1,5 @@
 module.exports = {
-  purge: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
-  ],
+  purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     // screens: {
@@ -18,32 +15,30 @@ module.exports = {
     // },
     extend: {
       zIndex: {
-        '-1': '-1'
+        "-1": "-1"
       },
       flexGrow: {
-        5: '5'
+        5: "5"
       },
       maxHeight: {
-        'screen-menu': 'calc(100vh - 3.5rem)',
-        modal: 'calc(100vh - 160px)'
+        "screen-menu": "calc(100vh - 3.5rem)",
+        modal: "calc(100vh - 160px)"
       },
       transitionProperty: {
-        position: 'right, left, top, bottom, margin, padding'
-      },
-      
+        position: "right, left, top, bottom, margin, padding"
+      }
     },
-    boxShadow:{
-      lg: '2px 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.03)'
+    boxShadow: {
+      lg:
+        "2px 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.03)"
     }
   },
   variants: {
     extend: {
-      margin: ['last'],
-      borderColor:['hover', 'focus','focus-within']
+      margin: ["last"],
+      backgroundColor: ["checked"],
+      borderColor: ["hover", "focus", "focus-within", "checked"]
     }
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('tailwind-scrollbar')
-  ]
-}
+  plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar")]
+};
