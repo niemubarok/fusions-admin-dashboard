@@ -3,8 +3,8 @@
     id="navbar"
     v-show="isNavBarVisible"
     class=" flex bg-white rounded-lg mx-2 h-14 -mt-7 mb-5 shadow-lg z-30 w-screen transition-all lg:w-auto lg:items-stretch"
+    :class="{ 'ml-60': isAsideMobileExpanded }"
   >
-    <!-- :class="{ 'ml-5': isAsideMobileExpanded }" -->
     <div class="flex-1 items-stretch flex h-14">
       <!-- toggle icon -->
       <nav-bar-item type="flex lg:hidden" @click.prevent="menuToggleMobile">

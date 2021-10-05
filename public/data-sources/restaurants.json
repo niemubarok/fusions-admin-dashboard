@@ -10,8 +10,33 @@
       "country": "Korea",
       "subscription": "6 months",
       "invoices": {
-        "amount": 5000000
+        "id": "",
+        "uid": "",
+        "date_start": "",
+        "date_end": "",
+        "plan_type": "",
+        "price": 0,
+        "status": "",
+        "created_at": ""
       },
+      "categories": [
+        {
+          "id": "c1",
+          "uid": "",
+          "texts": {
+            "lang_id": "",
+            "name": "",
+            "description": "",
+            "isShow": true
+          },
+          "image": "",
+          "display_type": "",
+          "num_of_col": "",
+          "is_new": "",
+          "is_signature": "",
+          "is_published": ""
+        }
+      ],
       "status": "active"
     },
     {
@@ -26,6 +51,13 @@
       "invoices": {
         "amount": 5000000
       },
+
+      "categories": [
+        {
+          "id": "c1",
+          "name": "Dessert"
+        }
+      ],
       "status": "active"
     },
     {
@@ -40,6 +72,13 @@
       "invoices": {
         "amount": 5000000
       },
+
+      "categories": [
+        {
+          "id": "c1",
+          "name": "Dessert"
+        }
+      ],
       "status": "Banned"
     },
     {
@@ -54,6 +93,13 @@
       "invoices": {
         "amount": 5000000
       },
+
+      "categories": [
+        {
+          "id": "c1",
+          "name": "Dessert"
+        }
+      ],
       "status": "Banned"
     },
     {
@@ -68,9 +114,16 @@
       "invoices": {
         "amount": 5000000
       },
+
+      "categories": [
+        {
+          "id": "c1",
+          "name": "Dessert"
+        }
+      ],
       "status": "active"
     },
-     {
+    {
       "id": 6,
       "logo": "https://dummyimage.com/250x250/000/fff",
       "user": "fulan",
@@ -82,6 +135,13 @@
       "invoices": {
         "amount": 5000000
       },
+
+      "categories": [
+        {
+          "id": "c1",
+          "name": "Dessert"
+        }
+      ],
       "status": "active"
     }
   ]

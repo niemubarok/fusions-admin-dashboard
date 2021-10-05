@@ -48,7 +48,7 @@
         </div>
       </template>
 
-      <clients-table checkable />
+      <clients-table />
     </card-component>
   </main-section>
 </template>

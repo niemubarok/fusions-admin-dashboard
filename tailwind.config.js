@@ -39,6 +39,7 @@ module.exports = {
   variants: {
     extend: {
       margin: ['last'],
+      borderColor:['hover', 'focus','focus-within']
     }
   },
   plugins: [

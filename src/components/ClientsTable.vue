@@ -4,14 +4,21 @@
     <p>This is sample modal</p>
   </modal-box>
 
-  <div v-if="checkedRows.length" class="bg-gray-50 p-3">
+  <!-- invoices modal -->
+  <modal-box
+    v-model="invoiceModal"
+    title="Invoice Details"
+    has-cancel
+  ></modal-box>
+
+  <!-- <div v-if="checkedRows.length" class="bg-gray-50 p-3">
     <span
       v-for="checkedRow in checkedRows"
       :key="checkedRow.id"
       class="inline-block bg-gray-100 px-2 py-1 rounded-sm mr-2 text-sm"
       >{{ checkedRow.name }}</span
     >
-  </div>
+  </div> -->
 
   <div v-if="filterClients().length == 0">
     <card-component empty />
@@ -20,14 +27,14 @@
   <table v-if="filterClients().length !== 0" class="md:pa-md">
     <thead>
       <tr>
-        <th v-if="checkable" class="text-center">
+        <!-- <th v-if="checkable" class="text-center">
           <input
             type="checkbox"
             @click="selectAll()"
             v-model="allSelected"
             class="rounded"
           />
-        </th>
+        </th> -->
         <th class="text-center">Logo</th>
         <th>User</th>
         <th>Restaurant</th>
@@ -41,17 +48,17 @@
     </thead>
     <tbody>
       <tr v-for="client in itemsPaginated" :key="client.id" class="text-center">
-        <td class="text-center">
+        <!-- <td class="text-center">
           <input
             type="checkbox"
             v-model="checkedRows"
             :value="client"
             class="rounded"
           />
-        </td>
+        </td> -->
         <td>
-          <div class="flex item-center">
-            <img :src="client.logo" class="w-20 rounded-full " />
+          <div class="flex justify-center">
+            <img :src="client.logo" class="w-14 rounded-full " />
           </div>
         </td>
         <td data-label="User">{{ client.user }}</td>
@@ -80,42 +87,56 @@
           <jb-buttons type="justify-start lg:justify-center" no-wrap>
             <span title="click to see invoice's detail">
               <feather-icon
-                size="20px"
+                size="15px"
                 class="rounded-md no-border cursor-pointer text-green-500"
-                path="eye"
+                path="paperclip"
                 small
-                @click="isModalActive = true"
+                @click="invoiceModal = true"
               >
               </feather-icon>
             </span>
           </jb-buttons>
         </td>
         <td>
-          <more-action
-            class="sm:hidden  md:hidden flex justify-start lg:justify-center "
-          >
-            <feather-icon size="20px" path="more-vertical"></feather-icon>
-            <template #dropdown>
-              <nav-bar-item to="/user/profile">
-                <nav-bar-item-label :icon="mdiAccountDetails" label="Detail" />
-              </nav-bar-item>
-              <nav-bar-item>
-                <nav-bar-item-label
-                  :icon="mdiAccountConvert"
-                  label="Change Status"
-                />
-              </nav-bar-item>
-              <nav-bar-item class="text-red-500">
-                <nav-bar-item-label :icon="mdiTrashCan" label="Remove" />
-              </nav-bar-item>
-            </template>
-          </more-action>
+          <jb-buttons type="justify-start lg:justify-center" no-wrap>
+            <span title="User detail">
+              <feather-icon
+                size="15px"
+                class="rounded-md no-border cursor-pointer text-green-500"
+                path="eye"
+                small
+                @click="invoiceModal = true"
+              >
+              </feather-icon>
+            </span>
+            <span title="Ban User">
+              <feather-icon
+                size="15px"
+                class="rounded-md no-border cursor-pointer text-red-600"
+                path="user-x"
+                small
+                @click="invoiceModal = true"
+              >
+              </feather-icon>
+            </span>
+            <span title="Delete User">
+              <feather-icon
+                size="15px"
+                class="rounded-md no-border cursor-pointer text-red-300 ml-1"
+                path="trash"
+                small
+                @click="invoiceModal = true"
+              >
+              </feather-icon>
+            </span>
+          </jb-buttons>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="table-pagination align-middle">
-    <div class="row flex justify-center">
+    {{ pagesList.length }}
+    <div v-if="pagesList.length < 6" class="row flex justify-center">
       <jb-button
         v-for="page in pagesList"
         @click="currentPage = page"
@@ -126,9 +147,17 @@
         class="mr-2"
       />
     </div>
-    <small class="float-right -mt-7"
-      >Page {{ currentPageHuman }} of {{ numPages }}</small
-    >
+    <div v-if="pagesList.length >= 6" class="row flex justify-center">
+      <jb-button
+        v-for="page in pagesList"
+        @click="currentPage = page"
+        :active="page === currentPage"
+        :label="page + 1"
+        :key="page"
+        small
+        class="mr-2"
+      />
+    </div>
   </div>
 </template>
 
@@ -158,10 +187,11 @@ export default {
     JbButtons,
     JbButton,
     CardComponent,
-    NavBarItem,
-    NavBarItemLabel,
-    MoreAction,
-    FeatherIcon
+    // NavBarItem,
+    // NavBarItemLabel,
+    // MoreAction,
+    FeatherIcon,
+    ModalBox
   },
   props: {
     checkable: Boolean
@@ -172,6 +202,7 @@ export default {
     const items = computed(() => store.state.clients);
 
     const isModalActive = ref(false);
+    const invoiceModal = ref(false);
 
     const perPage = ref(3);
 
@@ -180,12 +211,18 @@ export default {
     const checkedRows = ref([]);
     const allSelected = ref(false);
 
-    const itemsPaginated = computed(() =>
-      filterClients().slice(
+    const itemsPaginated = computed(() => {
+      if (filterClients().length <= perPage.value) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        currentPage.value = 0;
+        return filterClients();
+      }
+
+      return filterClients().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
-      )
-    );
+      );
+    });
 
     const numPages = computed(() =>
       Math.ceil(filterClients().length / perPage.value)
@@ -196,7 +233,7 @@ export default {
     const pagesList = computed(() => {
       const pagesList = [];
 
-      for (let i = 0; i < numPages.value; i++) {
+      for (let i = 0; i < 20; i++) {
         pagesList.push(i);
       }
 
@@ -282,7 +319,8 @@ export default {
       mdiAccountConvert,
       selectAll,
       allSelected,
-      filterClients
+      filterClients,
+      invoiceModal
     };
   }
 };
