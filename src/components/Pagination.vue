@@ -39,8 +39,9 @@
           :disabled="isInLastPage"
           aria-label="Go to next page"
           class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
-          :class="{ 'cursor-not-allowed text-gray-200': isInLastPage }"
         >
+          {{ isInLastPage }}
+          <!-- :class="{ 'cursor-not-allowed text-gray-200': isInLastPage }" -->
           <feather-icon
             path="chevron-right"
             :class="{ 'text-gray-200': isInLastPage }"
@@ -117,13 +118,13 @@ export default {
 
   setup(props, { emit }) {
     const startPage = computed(() => {
-      console.log(isInFirstPage.value);
+      // console.log(isInFirstPage.value);
       if (props.currentPage === 0) {
         return 0;
       }
 
       if (props.currentPage === props.totalPages) {
-        return props.totalPages - props.maxVisibleButtons + 1;
+        return props.totalPages - props.maxVisibleButtons + 2;
       }
 
       return props.currentPage;
@@ -136,7 +137,6 @@ export default {
     });
     const pages = computed(() => {
       const range = [];
-      console.log(startPage.value);
 
       for (let i = startPage.value; i <= endPage.value; i += 1) {
         range.push({
@@ -144,6 +144,7 @@ export default {
           isDisabled: i === props.currentPage
         });
       }
+      console.log(range);
 
       return range;
     });

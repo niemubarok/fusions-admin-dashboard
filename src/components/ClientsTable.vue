@@ -159,10 +159,8 @@ import {
 } from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import JbButtons from "@/components/JbButtons";
-import JbButton from "@/components/JbButton";
 import FeatherIcon from "./FeatherIcon.vue";
 import CardComponent from "./CardComponent";
-import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 import Pagination from "./Pagination.vue";
 
 export default {
@@ -170,9 +168,7 @@ export default {
   components: {
     ModalBox,
     JbButtons,
-    // JbButton,
     CardComponent,
-    // VueTailwindPagination,
     FeatherIcon,
     ModalBox,
     Pagination
@@ -200,7 +196,7 @@ export default {
     const itemsPaginated = computed(() => {
       if (filterClients().length <= perPage.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        maxVisibleButton.value = 1;
+        maxVisibleButton.value = numPages.value;
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         currentPage.value = 0;
         return filterClients();

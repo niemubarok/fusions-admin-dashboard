@@ -58,7 +58,7 @@
         <floating-label-input
           label="Password"
           type="password"
-          icon="key"
+          icon="lock"
           :modelValue="form.pass"
         />
       </div>

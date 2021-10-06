@@ -5,6 +5,23 @@ export default [
       icon: "home",
       label: "Dashboard"
     },
+    {
+      to: "/analytics",
+      label: "Google Analytics",
+      icon: "trending-up"
+    },
+    {
+      to: "/change-password",
+      label: "Change Password",
+      icon: "lock"
+    },
+    {
+      to: "/",
+      label: "Log Out",
+      icon: "log-out"
+    }
+  ]
+];
     //   {
     //     label: "User",
     //     subLabel: "",
@@ -30,15 +47,5 @@ export default [
     //     icon: "box",
     //     label: "Restaurant"
     //   }
-    {
-      to: "/analytics",
-      label: "Google Analytics",
-      icon: "trending-up"
-    },
-    {
-      to: "/",
-      label: "Log Out",
-      icon: "log-out"
-    }
-  ]
-];
+ 
+

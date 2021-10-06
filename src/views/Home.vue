@@ -1,6 +1,6 @@
 <template>
   <main-section>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6 mt-7">
       <card-widget
         class="tile cursor-pointer hover:bg-green-100"
         :class="{ 'bg-green-100': store.state.filter == 'active' }"
