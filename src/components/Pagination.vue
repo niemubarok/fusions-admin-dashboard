@@ -112,16 +112,12 @@ export default {
       required: true
     }
 
-    // endPage: {
-    //   type: Number
-    // }
   },
 
   computed: {},
 
   setup(props, { emit }) {
     const startPage = computed(() => {
-      // console.log(isInFirstPage.value);
       if (props.currentPage === 0) {
         return 0;
       }
@@ -142,17 +138,12 @@ export default {
     const pages = computed(() => {
       const range = [];
 
-      console.log(
-        Math.min(startPage.value + props.maxVisibleButtons, props.totalPages)
-      );
-
       for (let i = startPage.value; i <= endPage.value; i += 1) {
         range.push({
           name: i,
           isDisabled: i === props.currentPage
         });
       }
-      // console.log(range);
 
       return range;
     });

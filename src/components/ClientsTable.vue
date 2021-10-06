@@ -195,40 +195,40 @@ export default {
     const allSelected = ref(false);
     const maxVisibleButton = ref(2);
 
-    // const itemsPaginated = computed(() => {
-    //   if (filterClients().length <= perPage.value) {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     maxVisibleButton.value = 1;
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     currentPage.value = 0;
-    //     return filterClients();
-    //   }
-    //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //   // maxVisibleButton.value = 2;
-
-    //   return filterClients().slice(
-    //     perPage.value * currentPage.value,
-    //     perPage.value * (currentPage.value + 1)
-    //   );
-    // });
-
     const itemsPaginated = computed(() => {
-      // if (filterClients().length <= perPage.value) {
-      //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      //   maxVisibleButton.value = 1;
-      //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      //   currentPage.value = 0;
-      //   return filterClients();
-      // }
-      // // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      // // maxVisibleButton.value = 2;
-      const slice = filterClients().slice(
+      if (filterClients().length <= perPage.value) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        maxVisibleButton.value = 1;
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        currentPage.value = 0;
+        return filterClients();
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      maxVisibleButton.value = 2;
+
+      return filterClients().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       );
-      console.log(slice);
-      return slice;
     });
+
+    // const itemsPaginated = computed(() => {
+    //   // if (filterClients().length <= perPage.value) {
+    //   //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   //   maxVisibleButton.value = 1;
+    //   //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   //   currentPage.value = 0;
+    //   //   return filterClients();
+    //   // }
+    //   // // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   // // maxVisibleButton.value = 2;
+    //   const slice = filterClients().slice(
+    //     perPage.value * currentPage.value,
+    //     perPage.value * (currentPage.value + 1)
+    //   );
+    //   console.log(slice);
+    //   return slice;
+    // });
 
     const numPages = computed(() =>
       Math.ceil(filterClients().length / perPage.value)

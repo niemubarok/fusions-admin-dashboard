@@ -39,12 +39,13 @@ const routes = [
   },
   {
     meta: {
-      title: "Banned User"
+      title: "Change Password",
+      formScreen: true
     },
-    path: "/user/banned",
-    name: "banned",
+    path: "/change-password",
+    name: "changePassword",
     component: () =>
-      import(/* webpackChunkName: "banned" */ "../views/BannedUser")
+      import(/* webpackChunkName: "changePassword" */ "../views/ChangePassword")
   },
   {
     meta: {

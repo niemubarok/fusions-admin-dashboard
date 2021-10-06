@@ -4,7 +4,7 @@
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md  "
+      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md w-50 "
       :class="{
         'py-2': !isSubmenuList,
         'p-3 text-sm bg-gray-200': isSubmenuList
