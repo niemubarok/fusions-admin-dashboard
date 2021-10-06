@@ -8,7 +8,7 @@ const routes = [
     },
     path: "/",
     name: "login",
-    component: () => import("../views/Login")
+    component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   },
   {
     // Document title tag
@@ -18,7 +18,8 @@ const routes = [
     },
     path: "/dashboard",
     name: "dashboard",
-    component: () => import("../views/Home.vue")
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue")
   },
   {
     meta: {

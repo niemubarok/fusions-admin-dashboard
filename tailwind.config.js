@@ -13,6 +13,15 @@ module.exports = {
     //   'xl': '1280px',
     //   // => @media (min-width: 1280px) { ... }
     // },
+    backgroundColor: theme => ({
+      ...theme("colors"),
+      primary: "#DC5C4B"
+    }),
+    borderColor: theme => ({
+      ...theme("colors"),
+      DEFAULT: theme("colors.gray.300", "currentColor"),
+      primary: "#DC5C4B"
+    }),
     extend: {
       zIndex: {
         "-1": "-1"
@@ -36,7 +45,7 @@ module.exports = {
   variants: {
     extend: {
       margin: ["last"],
-      backgroundColor: ["checked"],
+      backgroundColor: ["checked", "active", "focus"],
       borderColor: ["hover", "focus", "focus-within", "checked"]
     }
   },

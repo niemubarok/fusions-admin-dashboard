@@ -105,7 +105,7 @@
                 class="rounded-md no-border cursor-pointer text-green-500"
                 path="eye"
                 small
-                @click="invoiceModal = true"
+                @click="$router.push({ name: 'profile' })"
               >
               </feather-icon>
             </span>
@@ -144,7 +144,6 @@
       :maxVisibleButtons="maxVisibleButton"
       :hasMorePages="false"
     >
-      <!-- :endPage="numPages" -->
     </pagination>
   </div>
 </template>
@@ -152,13 +151,6 @@
 <script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
-import {
-  mdiEye,
-  mdiDotsVerticalCircle,
-  mdiAccountDetails,
-  mdiTrashCan,
-  mdiAccountConvert
-} from "@mdi/js";
 import ModalBox from "@/components/ModalBox";
 import JbButtons from "@/components/JbButtons";
 import FeatherIcon from "./FeatherIcon.vue";
@@ -181,18 +173,13 @@ export default {
   setup() {
     const store = useStore();
 
-    const items = computed(() => store.state.clients);
-
     const isModalActive = ref(false);
     const invoiceModal = ref(false);
 
-    const perPage = ref(3);
-    const page = ref(1);
+    const perPage = ref(5);
 
     const currentPage = ref(1);
 
-    const checkedRows = ref([]);
-    const allSelected = ref(false);
     const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
@@ -211,25 +198,6 @@ export default {
         perPage.value * (currentPage.value + 1)
       );
     });
-
-    // const itemsPaginated = computed(() => {
-    //   // if (filterClients().length <= perPage.value) {
-    //   //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //   //   maxVisibleButton.value = 1;
-    //   //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //   //   currentPage.value = 0;
-    //   //   return filterClients();
-    //   // }
-    //   // // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //   // // maxVisibleButton.value = 2;
-    //   const slice = filterClients().slice(
-    //     perPage.value * currentPage.value,
-    //     perPage.value * (currentPage.value + 1)
-    //   );
-    //   console.log(slice);
-    //   return slice;
-    // });
-
     const numPages = computed(() =>
       Math.ceil(filterClients().length / perPage.value)
     );
@@ -244,6 +212,11 @@ export default {
       return pagesList;
     });
 
+    const showMore = p => {
+      // page.value = p;
+      currentPage.value = p;
+    };
+
     const remove = (arr, cb) => {
       const newArr = [];
 
@@ -256,28 +229,8 @@ export default {
       return newArr;
     };
 
-    const checked = (isChecked, client) => {
-      if (isChecked) {
-        if (allSelected.value) {
-          checkedRows.value.push(client);
-        }
-        checkedRows.value.push(client);
-      } else {
-        checkedRows.value = remove(
-          checkedRows.value,
-          row => row.id === client.id
-        );
-      }
-    };
-
-    const selectAll = () => {
-      if (!allSelected.value) {
-        filterClients().forEach(each => {
-          checkedRows.value.push(each);
-        });
-      } else {
-        checkedRows.value = [];
-      }
+    const removeClient = () => {
+      remove();
     };
 
     const filterClients = () => {
@@ -303,36 +256,47 @@ export default {
         });
         return filter;
       } else {
-        console.log("no data");
+        return null;
       }
-    };
-
-    const showMore = p => {
-      // page.value = p;
-      currentPage.value = p;
     };
 
     return {
       isModalActive,
       currentPage,
       numPages,
-      checkedRows,
       itemsPaginated,
       pagesList,
-      checked,
-      mdiEye,
-      mdiTrashCan,
-      mdiDotsVerticalCircle,
-      mdiAccountDetails,
-      mdiAccountConvert,
-      selectAll,
-      allSelected,
       filterClients,
       invoiceModal,
       perPage,
+      remove,
       showMore,
       maxVisibleButton
     };
   }
 };
+
+// const checked = (isChecked, client) => {
+//   if (isChecked) {
+//     if (allSelected.value) {
+//       checkedRows.value.push(client);
+//     }
+//     checkedRows.value.push(client);
+//   } else {
+//     checkedRows.value = remove(
+//       checkedRows.value,
+//       row => row.id === client.id
+//     );
+//   }
+// };
+
+// const selectAll = () => {
+//   if (!allSelected.value) {
+//     filterClients().forEach(each => {
+//       checkedRows.value.push(each);
+//     });
+//   } else {
+//     checkedRows.value = [];
+//   }
+// };
 </script>

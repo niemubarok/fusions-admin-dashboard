@@ -1,5 +1,5 @@
 <template>
-  <card-component mb="">
+  <card-component mb="" v-if="store.state.search == ''">
     <level mobile>
       <div>
         <h3 class="text-lg leading-tight text-gray-500">
@@ -9,19 +9,27 @@
           <growing-number :value="number" :prefix="prefix" :suffix="suffix" />
         </h1>
       </div>
-      <icon v-if="icon" :path="icon" size="48" w="w-20" h="h-20" :class="color" />
+      <icon
+        v-if="icon"
+        :path="icon"
+        size="48"
+        w="w-20"
+        h="h-20"
+        :class="color"
+      />
     </level>
   </card-component>
 </template>
 
 <script>
-import CardComponent from '@/components/CardComponent'
-import GrowingNumber from '@/components/GrowingNumber'
-import Icon from '@/components/Icon'
-import Level from '@/components/Level'
+import CardComponent from "@/components/CardComponent";
+import GrowingNumber from "@/components/GrowingNumber";
+import Icon from "@/components/Icon";
+import Level from "@/components/Level";
+import { useStore } from "vuex";
 
 export default {
-  name: 'CardWidget',
+  name: "CardWidget",
   components: { GrowingNumber, CardComponent, Icon, Level },
   props: {
     icon: {
@@ -48,6 +56,13 @@ export default {
       type: String,
       default: null
     }
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      store
+    };
   }
-}
+};
 </script>

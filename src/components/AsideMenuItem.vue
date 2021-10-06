@@ -4,12 +4,12 @@
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class="flex cursor-pointer hover:bg-blue-300 hover:text-gray-900 rounded-md w-50 "
+      class="flex cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md w-56 "
       :class="{
         'py-2': !isSubmenuList,
         'p-3 text-sm bg-gray-200': isSubmenuList
       }"
-      exact-active-class="bg-blue-500 text-gray-50 "
+      exact-active-class="bg-primary text-gray-50 "
       @click="menuClick"
     >
       <!-- 'bg-gray-200': item.label == 'Dashboard' -->

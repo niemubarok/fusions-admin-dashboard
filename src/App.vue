@@ -2,7 +2,6 @@
   <div class="h-screen">
     <nav-bar />
     <aside-menu :menu="menu" />
-    <sidebar />
     <router-view />
   </div>
 </template>

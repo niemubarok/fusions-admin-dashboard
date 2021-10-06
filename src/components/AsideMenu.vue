@@ -13,10 +13,9 @@
       hover:scrollbar-thumb-blue-900
       bg-white
       py-3
-      px-1
       flow-root
       flex
-      absolute
+      fixed
     "
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',

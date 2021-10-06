@@ -31,9 +31,9 @@
 
     <card-component title="List of Users" icon="list" has-table>
       <template #header>
-        <small class="mr-3">Filter :</small>
+        <small class="mr-3 text-gray-400">filter :</small>
         <div
-          class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg h-6 px-5 mr-3 bg-green-100 text-green-500"
+          class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg  h-6 px-5 mr-3 bg-green-100 text-green-500"
         >
           <small @click="setFilterActive">
             Active

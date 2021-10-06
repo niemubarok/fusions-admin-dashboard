@@ -7,14 +7,14 @@
       v-for="(value, key) in options"
       :key="key"
       :class="type"
-      class="mr-6 mb-3 last:mr-0 ring-0 checked:outline-none checked:border-yellow-600 border-gray-200"
+      class="mr-6 mb-3 last:mr-0 ring-0 checked:outline-none checked:border-primary border-primary"
     >
       <input
         :type="inputType"
         :name="name"
         v-model="computedValue"
         :value="key"
-        class="appearance-none checked:border-transparent checked:outline-none border-gray-200"
+        class="checked:border-primary border-primary"
       />
       <span class="check "></span>
       <span class="control-label">{{ value }}</span>

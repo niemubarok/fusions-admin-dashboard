@@ -7,14 +7,13 @@
     />
     <input
       :type="changeType"
-      :id="inputId"
-      class="border border-gray-200 focus:outline-none rounded-md focus:ring-0 focus:border-yellow-600 pb-7 focus:shadow-sm w-full pl-14  h-16"
+      class="border border-gray-200 focus:outline-none rounded-md focus:ring-0 focus:border-primary pb-7 focus:shadow-sm w-full pl-14  h-16"
       placeholder="name@example.com"
       autocomplete="off"
       v-model="computedValue"
     />
+    <!-- :for="inputId" -->
     <label
-      :for="inputId"
       class="absolute top-0 text-gray-600 left-8 px-3 py-5 h-full pointer-events-none transform origin-left transition-all duration-100 ease-in-out "
       >{{ label }}</label
     >
@@ -41,7 +40,6 @@
 import FeatherIcon from "@/components/FeatherIcon";
 import { computed } from "vue";
 export default {
-  name: "input",
   components: {
     FeatherIcon
   },
@@ -53,10 +51,6 @@ export default {
     type: {
       type: String,
       default: "email"
-    },
-    inputId: {
-      type: String,
-      default: "id"
     },
     icon: {
       type: String,
