@@ -88,7 +88,7 @@
             <span title="click to see invoice's detail">
               <feather-icon
                 size="15px"
-                class="rounded-md no-border cursor-pointer text-green-500"
+                class="rounded-md no-border cursor-pointer text-gray-500"
                 path="paperclip"
                 small
                 @click="invoiceModal = true"
@@ -136,13 +136,15 @@
   </table>
   <div class="table-pagination align-middle">
     <pagination
-      :total-pages="pagesList.length"
+      :total-pages="pagesList.length - 1"
       :total="filterClients().length"
       :per-page="perPage"
       :current-page="currentPage"
       @pagechanged="showMore"
       :maxVisibleButtons="maxVisibleButton"
+      :hasMorePages="false"
     >
+      <!-- :endPage="numPages" -->
     </pagination>
   </div>
 </template>
@@ -187,34 +189,50 @@ export default {
     const perPage = ref(3);
     const page = ref(1);
 
-    const currentPage = ref(0);
+    const currentPage = ref(1);
 
     const checkedRows = ref([]);
     const allSelected = ref(false);
     const maxVisibleButton = ref(2);
 
-    const itemsPaginated = computed(() => {
-      if (filterClients().length <= perPage.value) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        maxVisibleButton.value = numPages.value;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        currentPage.value = 0;
-        return filterClients();
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      maxVisibleButton.value = 2;
+    // const itemsPaginated = computed(() => {
+    //   if (filterClients().length <= perPage.value) {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     maxVisibleButton.value = 1;
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     currentPage.value = 0;
+    //     return filterClients();
+    //   }
+    //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   // maxVisibleButton.value = 2;
 
-      return filterClients().slice(
+    //   return filterClients().slice(
+    //     perPage.value * currentPage.value,
+    //     perPage.value * (currentPage.value + 1)
+    //   );
+    // });
+
+    const itemsPaginated = computed(() => {
+      // if (filterClients().length <= perPage.value) {
+      //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      //   maxVisibleButton.value = 1;
+      //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      //   currentPage.value = 0;
+      //   return filterClients();
+      // }
+      // // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      // // maxVisibleButton.value = 2;
+      const slice = filterClients().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       );
+      console.log(slice);
+      return slice;
     });
 
     const numPages = computed(() =>
-      Math.ceil(itemsPaginated.value.length / perPage.value)
+      Math.ceil(filterClients().length / perPage.value)
     );
-
-    const currentPageHuman = computed(() => currentPage.value + 1);
 
     const pagesList = computed(() => {
       const pagesList = [];
@@ -297,7 +315,6 @@ export default {
     return {
       isModalActive,
       currentPage,
-      currentPageHuman,
       numPages,
       checkedRows,
       itemsPaginated,

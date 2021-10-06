@@ -3,7 +3,6 @@
     v-show="!isFormScreen"
     class="
       w-60
-      fixed
       top-0
       z-40
       h-screen
@@ -17,6 +16,7 @@
       px-1
       flow-root
       flex
+      absolute
     "
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',

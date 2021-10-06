@@ -17,9 +17,9 @@
     <logo has-text class="w-full ml-3" />
 
     <!-- search  -->
-    <div class="flex w-full border-none py-1 ">
+    <div class="flex w-full border-none py-1 -mr-8 ">
       <span
-        class="z-10 absolute border-0 h-10 font-normal text-center text-gray-400 bg-transparent rounded text-base items-center justify-center pl-2 pt-3  "
+        class="z-10 absolute border-0 h-10 font-normal text-center text-gray-400 bg-transparent rounded text-base items-center justify-center pl-2 pt-3   "
       >
         <featherIcon path="search" />
       </span>
@@ -28,7 +28,7 @@
         placeholder="Search User / Restaurant...
               "
         v-model="store.state.search"
-        class="px-2 py-2 w-full border-1 border-gray-300 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
+        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
       />
     </div>
   </nav>
@@ -43,20 +43,9 @@ import {
   mdiClose,
   mdiDotsVertical,
   mdiMenu,
-  mdiClockOutline,
-  mdiCloud,
-  mdiCrop,
-  mdiAccount,
-  mdiCogOutline,
-  mdiEmail,
-  mdiLogout,
-  mdiGithub
+  mdiCogOutline
 } from "@mdi/js";
 import NavBarItem from "@/components/NavBarItem";
-import NavBarItemLabel from "@/components/NavBarItemLabel";
-import NavBarMenu from "@/components/NavBarMenu";
-import NavBarMenuDivider from "@/components/NavBarMenuDivider";
-import UserAvatar from "@/components/UserAvatar";
 import Icon from "@/components/Icon";
 import FeatherIcon from "@/components/FeatherIcon";
 import Logo from "@/components/Logo";
@@ -64,11 +53,7 @@ import Logo from "@/components/Logo";
 export default {
   name: "NavBar",
   components: {
-    // UserAvatar,
-    // NavBarMenu,
     NavBarItem,
-    // NavBarItemLabel,
-    // NavBarMenuDivider,
     Icon,
     FeatherIcon,
     Logo
@@ -116,14 +101,7 @@ export default {
       menuNavBarToggle,
       menuOpenLg,
       mdiMenu,
-      mdiClockOutline,
-      mdiCloud,
-      mdiCrop,
-      mdiAccount,
-      mdiCogOutline,
-      mdiEmail,
-      mdiLogout,
-      mdiGithub
+      mdiCogOutline
     };
   }
 };

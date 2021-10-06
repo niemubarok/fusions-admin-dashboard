@@ -33,14 +33,14 @@
       <template #header>
         <small class="mr-3">Filter :</small>
         <div
-          class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg h-6 px-5 mr-3 bg-green-200 text-green-500"
+          class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg h-6 px-5 mr-3 bg-green-100 text-green-500"
         >
           <small @click="setFilterActive">
             Active
           </small>
         </div>
         <div
-          class="cursor-pointer hover:bg-red-500 hover:text-red-50 rounded-lg h-6 px-5 mr-4 bg-red-200 text-red-500"
+          class="cursor-pointer hover:bg-red-500 hover:text-red-50 rounded-lg h-6 px-5 mr-4 bg-red-100 text-red-500"
         >
           <small @click="setFilterBanned">
             Banned
