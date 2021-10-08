@@ -61,7 +61,7 @@
         </td>
         <td class="text-center" data-label="Price">$580</td>
         <td class="text-center" data-label="Status">
-          <small
+          <!-- <small
             class="rounded-md py-1"
             :class="{
               'bg-green-100 text-green-500 px-4':
@@ -70,8 +70,8 @@
                 client.status.toUpperCase() == 'BANNED'
             }"
             :title="client.status"
-            >{{ client.status }}</small
-          >
+            > -->
+          <small class="bg-green-100 text-green-500 px-4">Paid</small>
         </td>
         <td class="text-center" data-label="Action">
           <jb-buttons type="justify-start lg:justify-center" no-wrap>

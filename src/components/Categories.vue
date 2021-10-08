@@ -1,6 +1,9 @@
 <template>
   <div class="container flex my-5 mx-auto px-4 md:px-12 ">
     <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
+      <!-- empty -->
+
+      <card-component v-if="!categories.length" empty class="w-full" />
       <!-- Column -->
       <div
         class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer "
@@ -12,12 +15,14 @@
         >
           <img
             :alt="category.texts.name"
-            src="https://picsum.photos/600/400/?food"
-            style="min-height:50px; max-height:100px"
-            class="block h-auto w-full"
+            src="https://picsum.photos/700/400/?food"
+            style="min-height:60px; max-height:100px"
+            class="block w-full"
           />
+
+          <!-- action -->
           <div
-            class="-z-20 absolute top-0 h-full w-full text-white opacity-0 bg-gray-100 hover:opacity-100 hover:bg-opacity-10 flex items-center justify-center "
+            class="-z-20 absolute top-0 h-full w-full text-white opacity-0 bg-gray-100 hover:opacity-100 hover:bg-opacity-10 flex items-center justify-center pb-5 "
           >
             <span
               class="rounded-md bg-primary bg-opacity-50 px-2 pb-1 mb-5 hover:bg-opacity-100"
@@ -26,6 +31,7 @@
             </span>
           </div>
 
+          <!-- end action -->
           <header
             class="flex items-center justify-between leading-tight md:p-2 "
           >
@@ -55,25 +61,32 @@ import { computed } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import CardComponent from "./CardComponent.vue";
 export default {
+  components: {
+    CardComponent
+  },
   setup() {
     const store = useStore();
     const route = useRoute();
     const userId = route.params.id;
     const categories = computed(() => {
-      let listCategories = [];
-      const unfilteredCategories = store.state.clients.filter(filtered => {
-        return filtered.id == userId;
-      })[0].categories;
+      if (store.state.clients.length) {
+        let listCategories = [];
 
-      const filtered = unfilteredCategories.filter(element => {
-        return element.texts.name
-          .toUpperCase()
-          .includes(store.state.searchModel.categories.toUpperCase());
-      });
+        const unfilteredCategories = store.state.clients.filter(filtered => {
+          return filtered.id == userId;
+        })[0].categories;
 
-      listCategories.push(filtered);
-      return listCategories[0];
+        const filtered = unfilteredCategories.filter(element => {
+          return element.texts.name
+            .toUpperCase()
+            .includes(store.state.searchModel.categories.toUpperCase());
+        });
+
+        listCategories.push(filtered);
+        return listCategories[0];
+      }
     });
 
     return { categories };

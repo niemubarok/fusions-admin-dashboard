@@ -1,6 +1,9 @@
 <template>
   <main-section>
-    <div @click="$router.go(-1)" class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400">
+    <div
+      @click="$router.go(-1)"
+      class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400"
+    >
       <span class="inline-block align-middle">
         <feather-icon path="chevron-left" size="20px"> </feather-icon>
       </span>
@@ -65,6 +68,19 @@
                   <span class="ml-auto">Indonesia</span>
                 </li>
               </ul>
+              <div class="mt-3 flex justify-end cursor-pointer">
+                <span class="bg-red-500 text-red-200  rounded-md pb-1 px-2 ">
+                  <feather-icon
+                    size="15px"
+                    class="rounded-md no-border cursor-pointer text-red-100 -mr-1 pt-1"
+                    path="trash"
+                    small
+                    @click="invoiceModal = true"
+                  >
+                  </feather-icon>
+                  Delete User
+                </span>
+              </div>
             </div>
             <!-- End of profile card -->
             <div class="my-4"></div>

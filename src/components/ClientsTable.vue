@@ -107,26 +107,26 @@
               >
               </feather-icon>
             </span>
-            <span title="Ban User">
+            <!-- <span title="Ban User">
               <feather-icon
                 size="15px"
-                class="rounded-md no-border cursor-pointer text-red-600"
+                class="rounded-md no-border cursor-pointer ml-2 text-red-600"
                 path="user-x"
                 small
                 @click="invoiceModal = true"
               >
               </feather-icon>
-            </span>
-            <span title="Delete User">
+            </span> -->
+            <!-- <span title="Delete User">
               <feather-icon
                 size="15px"
-                class="rounded-md no-border cursor-pointer text-red-300 ml-1"
+                class="rounded-md no-border cursor-pointer text-red-600 ml-1"
                 path="trash"
                 small
                 @click="invoiceModal = true"
               >
               </feather-icon>
-            </span>
+            </span> -->
           </jb-buttons>
         </td>
       </tr>
@@ -181,20 +181,24 @@ export default {
     const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
-      if (filterClients().length <= perPage.value) {
+      if (filterClients().length) {
+        if (filterClients().length <= perPage.value) {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          maxVisibleButton.value = 1;
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          currentPage.value = 0;
+          return filterClients();
+        }
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        maxVisibleButton.value = 1;
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        currentPage.value = 0;
-        return filterClients();
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      maxVisibleButton.value = 2;
+        maxVisibleButton.value = 2;
 
-      return filterClients().slice(
-        perPage.value * currentPage.value,
-        perPage.value * (currentPage.value + 1)
-      );
+        return filterClients().slice(
+          perPage.value * currentPage.value,
+          perPage.value * (currentPage.value + 1)
+        );
+      } else {
+        return null;
+      }
     });
     const numPages = computed(() =>
       Math.ceil(filterClients().length / perPage.value)
