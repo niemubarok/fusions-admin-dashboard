@@ -1,20 +1,20 @@
 <template>
   <div class="container flex my-5 mx-auto px-4 md:px-12 ">
-    <div class="flex flex-wrap -mx-1 text-gray-700 w-3/4 ">
+    <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
       <!-- Column -->
       <div
-        class="my-1 px-1 w-full md:w-3/4 lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer "
+        class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer "
         v-for="category of categories"
         :key="category"
       >
         <div
-          class="overflow-hidden rounded-lg shadow-lg  transform transition duration-200 hover:scale-110 hover:scale-100"
+          class="overflow-hidden rounded-lg shadow-lg h-60 transform transition duration-200 hover:scale-110 hover:scale-100"
         >
           <img
             :alt="category.texts.name"
             src="https://picsum.photos/600/400/?food"
-            class="block h-auto w-full"
             style="min-height:50px; max-height:100px"
+            class="block h-auto w-full"
           />
           <div
             class="-z-20 absolute top-0 h-full w-full text-white opacity-0 bg-gray-100 hover:opacity-100 hover:bg-opacity-10 flex items-center justify-center "
