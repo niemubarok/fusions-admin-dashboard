@@ -3,7 +3,7 @@
     <div class="flex flex-wrap -mx-1 text-gray-700 w-3/4 ">
       <!-- Column -->
       <div
-        class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer "
+        class="my-1 px-1 w-full md:w-3/4 lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer "
         v-for="category of categories"
         :key="category"
       >
