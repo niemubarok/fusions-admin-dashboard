@@ -46,7 +46,8 @@ module.exports = {
     extend: {
       margin: ["last"],
       backgroundColor: ["checked", "active", "focus"],
-      borderColor: ["hover", "focus", "focus-within", "checked"]
+      borderColor: ["hover", "focus", "focus-within", "checked"],
+      scale: ["group-hover", "active"]
     }
   },
   plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar")]

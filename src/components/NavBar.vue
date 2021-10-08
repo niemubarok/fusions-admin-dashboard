@@ -15,7 +15,6 @@
 
     <!-- logo -->
     <logo has-text class="w-full ml-3" />
-
     <!-- search  -->
     <div class="flex w-full border-none py-1 -mr-8 ">
       <span
@@ -23,19 +22,31 @@
       >
         <featherIcon path="search" />
       </span>
+      <!-- {{$router.name}} -->
+      <!-- search user -->
       <input
+        v-if="searchIf.user"
         type="text"
-        placeholder="Search User / Restaurant...
-              "
-        v-model="store.state.search"
+        :placeholder="searchPlaceHolder()"
+        v-model="store.state.searchModel.user"
+        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
+      />
+
+      <!-- search categories -->
+      <input
+        v-if="searchIf.categories"
+        type="text"
+        :placeholder="searchPlaceHolder()"
+        v-model="store.state.searchModel.categories"
         class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
       />
     </div>
+    <!-- end search -->
   </nav>
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import {
   mdiForwardburger,
@@ -49,6 +60,7 @@ import NavBarItem from "@/components/NavBarItem";
 import Icon from "@/components/Icon";
 import FeatherIcon from "@/components/FeatherIcon";
 import Logo from "@/components/Logo";
+import { useRoute } from "vue-router";
 
 export default {
   name: "NavBar",
@@ -60,7 +72,7 @@ export default {
   },
   setup() {
     const store = useStore();
-
+    const route = useRoute();
     const isNavBarVisible = computed(() => !store.state.isFormScreen);
 
     const isAsideMobileExpanded = computed(
@@ -89,6 +101,22 @@ export default {
       store.dispatch("asideLgToggle", true);
     };
 
+    const searchIf = computed(() => {
+      return {
+        user: route.path.includes("dashboard"),
+        categories: route.path.includes("/profile")
+      };
+    });
+
+    const searchPlaceHolder = () => {
+      if (route.path.includes("dashboard")) {
+        return "Search User / Restaurant";
+      } else if (route.path.includes("/profile")) {
+        return "Search Categories";
+      } else if (route.path.includes("/items")) {
+        return "Search Items";
+      }
+    };
     return {
       store,
       isNavBarVisible,
@@ -101,7 +129,9 @@ export default {
       menuNavBarToggle,
       menuOpenLg,
       mdiMenu,
-      mdiCogOutline
+      mdiCogOutline,
+      searchPlaceHolder,
+      searchIf
     };
   }
 };

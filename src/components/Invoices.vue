@@ -24,7 +24,10 @@
     <card-component empty />
   </div>
 
-  <table v-if="filterClients().length !== 0" class="md:pa-md text-gray-700">
+  <table
+    v-if="filterClients().length !== 0"
+    class="md:pa-md text-gray-700 w-full"
+  >
     <thead>
       <tr>
         <!-- <th v-if="checkable" class="text-center">
@@ -35,37 +38,28 @@
             class="rounded"
           />
         </th> -->
-        <th class="text-center">Logo</th>
-        <th class="text-center">User</th>
-        <th class="text-center">Restaurant</th>
-        <th class="text-center">Phone</th>
-        <th class="text-center">Country</th>
-        <th class="text-center">Subscription</th>
-        <th class="text-center">status</th>
-        <!-- <th class="text-center">Invoices</th> -->
+        <th class="text-center">No.</th>
+        <th class="text-center">Due Date</th>
+        <th class="text-center">Plan</th>
+        <th class="text-center">Price</th>
+        <th class="text-center">Status</th>
         <th class="text-center">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="client in itemsPaginated" :key="client.id" class="text-center">
-        <td>
-          <div class="flex justify-center">
-            <img :src="client.logo" class="w-14 rounded-full " />
-          </div>
+      <tr
+        v-for="(client, index) in itemsPaginated"
+        :key="client.id"
+        class="text-center"
+      >
+        <td class="text-center">
+          {{ index + 1 }}
         </td>
-        <td class="text-center" data-label="User">{{ client.user }}</td>
-        <td class="text-center" data-label="Restaurant">
-          {{ client.restaurant }}
+        <td class="text-center" data-label="Date">May 2021</td>
+        <td class="text-center" data-label="Plan">
+          Pro Plan
         </td>
-        <td class="text-center" data-label="Phone">{{ client.phone }}</td>
-        <td class="text-center" data-label="Country">
-          {{ client.country }}
-        </td>
-        <td class="text-center" data-label="Subscription">
-          <span class="text-gray-500" :title="client.subscription">{{
-            client.subscription
-          }}</span>
-        </td>
+        <td class="text-center" data-label="Price">$580</td>
         <td class="text-center" data-label="Status">
           <small
             class="rounded-md py-1"
@@ -79,21 +73,7 @@
             >{{ client.status }}</small
           >
         </td>
-        <!-- <td class="text-center" data-label="Invoices">
-          <jb-buttons type="justify-start lg:justify-center" no-wrap>
-            <span title="click to see invoice's detail">
-              <feather-icon
-                size="15px"
-                class="rounded-md no-border cursor-pointer text-gray-500"
-                path="paperclip"
-                small
-                @click="invoiceModal = true"
-              >
-              </feather-icon>
-            </span>
-          </jb-buttons>
-        </td> -->
-        <td class="text-center">
+        <td class="text-center" data-label="Action">
           <jb-buttons type="justify-start lg:justify-center" no-wrap>
             <span title="User detail">
               <feather-icon
@@ -101,30 +81,8 @@
                 class="rounded-md no-border cursor-pointer text-green-500"
                 path="eye"
                 small
-                @click="
-                  $router.push({ name: 'profile', params: { id: client.id } })
-                "
               >
-              </feather-icon>
-            </span>
-            <span title="Ban User">
-              <feather-icon
-                size="15px"
-                class="rounded-md no-border cursor-pointer text-red-600"
-                path="user-x"
-                small
-                @click="invoiceModal = true"
-              >
-              </feather-icon>
-            </span>
-            <span title="Delete User">
-              <feather-icon
-                size="15px"
-                class="rounded-md no-border cursor-pointer text-red-300 ml-1"
-                path="trash"
-                small
-                @click="invoiceModal = true"
-              >
+                <!-- @click="$router.push({ name: 'profile' })" -->
               </feather-icon>
             </span>
           </jb-buttons>
@@ -237,13 +195,13 @@ export default {
           return (
             filtered.user
               .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase()) ||
+              .includes(store.state.search.toUpperCase()) ||
             filtered.restaurant
               .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase()) ||
+              .includes(store.state.search.toUpperCase()) ||
             filtered.country
               .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase())
+              .includes(store.state.search.toUpperCase())
           );
         });
 

@@ -19,7 +19,8 @@ export default createStore({
     search: "",
     filter: "",
     clients: [],
-    restaurants: [],
+    categories: [],
+    items: [],
 
     form: {
       user: "",
@@ -27,6 +28,12 @@ export default createStore({
       passwordRepeat: "",
       remember: true,
       forgotPassword: ""
+    },
+
+    searchModel: {
+      user: "",
+      categories: "",
+      items: ""
     },
 
     // modal
@@ -97,6 +104,18 @@ export default createStore({
         .catch(error => {
           alert(error.message);
         });
+    },
+    fetchItems({ commit }) {
+      axios.get("data-sources/items.json").then(r => {
+        if (r.data) {
+          if (r.data.data) {
+            commit("basic", {
+              key: "items",
+              value: r.data.data
+            });
+          }
+        }
+      });
     }
   },
   modules: {}

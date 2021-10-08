@@ -32,3 +32,12 @@ body {
   @apply opacity-75 scale-75 -translate-y-5 translate-x-1; 
 }
 
+img:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    background-image: url("https://via.placeholder.com/200");
+}
+

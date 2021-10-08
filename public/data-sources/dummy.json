@@ -1,0 +1,104 @@
+ {
+      "id": 1,
+      "logo": "https://placeimg.com/150/150/tech",
+      "user": "vincent",
+      "restaurant": "Abuba",
+      "email": "johntos@test.com",
+      "phone": "08555555",
+      "country": "Korea",
+      "subscription": "6 months",
+      "categories": [
+        {
+          "id": "c1",
+          "uid": "",
+          "texts": {
+            "lang_id": "",
+            "name": "Main Course",
+            "description": "",
+            "isShow": true
+          },
+          "image": "https://placeimg.com/150/150/tech",
+          "display_type": "",
+          "num_of_col": "",
+          "is_new": "",
+          "is_signature": "",
+          "is_published": "",
+          "items":[{
+            "id":"",	
+            "uid":"",		
+            "category_id":"",		
+            "texts":{		
+              "lang_id":"",	
+              "name":"",	
+              "description":"",	
+              "is_show":""
+            },	
+            "image":"",		
+            "video":"",		
+            "prices":{		
+              "price":"",	
+              "descriptions":"",	
+                "lang_id":"",
+                "desc":""
+            },
+            "modifiers":{		
+              "modifier_id":"",	
+              "min":"",	
+              "max":"",	
+              "is_required":""
+            },	
+            "prep_time":"",		
+            "is_new":"",		
+            "is_signature":"",		
+            "is_published":"",		
+            "deleted_at":"",		
+            "created_at":"",		
+            "updated_at":""		
+          }]
+        },
+        {
+          "id": "c1.2",
+          "uid": "",
+          "texts": {
+            "lang_id": "",
+            "name": "Dessert",
+            "description": "",
+            "isShow": true
+          },
+          "image": "",
+          "display_type": "",
+          "num_of_col": "",
+          "is_new": "",
+          "is_signature": "",
+          "is_published": ""
+        },
+         {
+          "id": "c1.3",
+          "uid": "",
+          "texts": {
+            "lang_id": "",
+            "name": "Beverages",
+            "description": "",
+            "isShow": true
+          },
+          "image": "",
+          "display_type": "",
+          "num_of_col": "",
+          "is_new": "",
+          "is_signature": "",
+          "is_published": ""
+        }
+      ],
+      "invoices": [{
+        "id": "",
+        "uid": "",
+        "date_start": "",
+        "date_end": "",
+        "plan_type": "",
+        "price": 0,
+        "status": "",
+        "created_at": ""
+      }],
+      
+      "status": "active"
+    }

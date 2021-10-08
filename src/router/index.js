@@ -33,7 +33,7 @@ const routes = [
     meta: {
       title: "Profile"
     },
-    path: "/user/profile",
+    path: "/user/profile/:id",
     name: "profile",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile")

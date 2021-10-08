@@ -1,6 +1,6 @@
 <template>
   <main-section>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6 mt-7">
+    <div v-if="store.state.searchModel.user == ''" class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6 mt-7">
       <card-widget
         class="tile cursor-pointer hover:bg-green-100"
         :class="{ 'bg-green-100': store.state.filter == 'active' }"
@@ -35,7 +35,7 @@
         <div
           class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg  h-6 px-5 mr-3 bg-green-100 text-green-500"
         >
-          <small @click="setFilterActive">
+          <small @click="setFilterActive" class=" mb-2">
             Active
           </small>
         </div>

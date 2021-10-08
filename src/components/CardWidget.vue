@@ -1,5 +1,5 @@
 <template>
-  <card-component mb="" v-if="store.state.search == ''">
+  <card-component mb="" >
     <level mobile>
       <div>
         <h3 class="text-lg leading-tight text-gray-500">
