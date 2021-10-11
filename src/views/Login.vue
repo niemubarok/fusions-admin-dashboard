@@ -1,6 +1,6 @@
 <template>
   <main-section>
-    <modal-box v-model="isModalActive" button-label="Send reset link">
+    <modal-box v-model="isModalActive">
       <div class="flex justify-center w-full ">
         <logo />
       </div>
@@ -17,13 +17,30 @@
       </div>
 
       <floating-label-input icon="mail" label="Your email" />
-
+      <jb-buttons class="float-right mt-12">
+        <jb-button
+          :class="{
+            'cursor-not-allowed bg-red':
+              form.newPassword !== form.repeatNewPassword
+          }"
+          :isDisabled="form.newPassword !== form.repeatNewPassword"
+          type="submit"
+          color="info"
+          label="Send reset link"
+        />
+      </jb-buttons>
       <template #bottom>
-        <a
+        <div
           @click="isModalActive = false"
-          class="float-right mb-4 cursor-pointer text-blue-400"
-          >Back to login</a
+          class="float-left  pb-4 cursor-pointer text-blue-400 mt-16"
         >
+          <span class="inline-block align-middle ">
+            <feather-icon path="chevron-left"> </feather-icon>
+          </span>
+          <small class="-ml-2 ">
+            back to login
+          </small>
+        </div>
       </template>
     </modal-box>
     <card-component
@@ -113,7 +130,8 @@ export default {
     JbButtons,
     ModalBox,
     Logo,
-    FloatingLabelInput
+    FloatingLabelInput,
+    FeatherIcon
   },
   setup() {
     const form = reactive({

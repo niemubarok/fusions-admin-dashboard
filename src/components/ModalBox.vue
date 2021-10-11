@@ -19,9 +19,9 @@
         <slot />
       </div>
 
-      <divider />
+      <!-- <divider /> -->
 
-      <jb-buttons>
+      <jb-buttons v-if="hasButton">
         <jb-button :label="buttonLabel" :color="button" @click="confirm" />
         <jb-button
           v-if="hasCancel"
@@ -42,7 +42,7 @@ import { mdiClose } from "@mdi/js";
 import JbButton from "@/components/JbButton";
 import JbButtons from "@/components/JbButtons";
 import CardComponent from "@/components/CardComponent";
-import Divider from "@/components/Divider";
+// import Divider from "@/components/Divider";
 
 export default {
   name: "ModalBox",
@@ -50,7 +50,7 @@ export default {
     JbButton,
     JbButtons,
     CardComponent,
-    Divider
+    // Divider
   },
   props: {
     title: String,
@@ -63,6 +63,7 @@ export default {
       default: "Confirm"
     },
     hasCancel: Boolean,
+    hasButton: Boolean,
     modelValue: [String, Number, Boolean]
   },
   emits: ["update:modelValue", "cancel", "confirm"],

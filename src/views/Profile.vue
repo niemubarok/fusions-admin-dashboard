@@ -43,10 +43,10 @@
           <!-- Left Side -->
           <div class="w-full md:w-4/12 md:mx-2">
             <!-- Profile Card -->
-            <div class="bg-white p-3 border-t-4 border-primary">
+            <div class="bg-white p-2 border-t-4 border-primary">
               <div class="image overflow-hidden">
                 <img
-                  class="h-auto w-200 mx-auto rounded-full"
+                  class="h-auto w-1/2 mx-auto rounded-xl"
                   src="https://placeimg.com/150/150/tech"
                   alt=""
                 />
@@ -65,36 +65,42 @@
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
               >
                 <li class="flex items-center py-3">
-                  <span>Status</span>
+                  <small>Status</small>
                   <span class="ml-auto"
                     ><span
-                      class="bg-green-100 py-1 px-2 rounded text-green-500 text-sm"
+                      class="py-1 px-2 rounded text-sm"
+                      :class="{
+                        'bg-green-100 text-green-500 px-4':
+                          user.status.toUpperCase() == 'ACTIVE',
+                        'bg-red-100 text-red-500 px-3':
+                          user.status.toUpperCase() == 'BANNED'
+                      }"
                       >{{ user.status }}</span
                     ></span
                   >
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Bussiness Type</span>
+                  <small>Bussiness Type</small>
                   <span class="ml-auto">Restaurant</span>
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Subscription</span>
+                  <small>Subscription</small>
                   <span class="ml-auto">Pro Plan</span>
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Subscription Price</span>
+                  <small>Subscription Price</small>
                   <span class="ml-auto">$580</span>
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Valid Until</span>
+                  <small>Valid Until</small>
                   <span class="ml-auto">May 2022</span>
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Phone</span>
+                  <small>Phone</small>
                   <span class="ml-auto">{{ user.phone }}</span>
                 </li>
                 <li class="flex items-center py-3">
-                  <span>Country</span>
+                  <small>Country</small>
                   <span class="ml-auto">{{ user.country }}</span>
                 </li>
               </ul>
@@ -166,7 +172,7 @@
                   </div>
                 </div>
               </div>
-              <!-- End of Experience and education grid -->
+              <!-- End of invoices -->
             </div>
             <!-- End of profile tab -->
           </div>
@@ -199,7 +205,7 @@ export default {
     const route = useRoute();
     const userId = route.params.id;
     const user = ref("");
-    const isModalActive = ref(true);
+    const isModalActive = ref(false);
 
     onBeforeMount(() => {
       store.dispatch("filterClientsById", userId);

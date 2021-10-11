@@ -23,7 +23,7 @@
         @click="setFilterBanned"
       />
       <card-widget
-        class="tile cursor-pointer hover:bg-gray-200"
+        class="tile"
         color="text-blue-500"
         :icon="mdiChartTimelineVariant"
         :number="256"
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   mdiMonitorCellphone,
   mdiAccountMultiple,
@@ -113,6 +113,10 @@ export default {
         return client.status.toUpperCase().includes("BANNED");
       });
     };
+
+    onMounted(()=>{
+      store.state.filter = ""
+    })
 
     return {
       titleStack,
