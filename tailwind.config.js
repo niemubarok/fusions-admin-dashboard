@@ -22,6 +22,16 @@ module.exports = {
       DEFAULT: theme("colors.gray.300", "currentColor"),
       primary: "#DC5C4B"
     }),
+    ringColor: theme => ({
+      ...theme("colors"),
+      DEFAULT: theme("colors.gray.300", "currentColor"),
+      primary: "#DC5C4B"
+    }),
+    textColor: theme => ({
+      ...theme("colors"),
+      DEFAULT: theme("colors.gray.300", "currentColor"),
+      primary: "#DC5C4B"
+    }),
     extend: {
       zIndex: {
         "-1": "-1"

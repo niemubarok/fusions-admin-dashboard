@@ -19,7 +19,7 @@
     >
     <div
       v-if="isPassword"
-      class="absolute top-0 text-gray-600 right-3 z-50 cursor-pointer px-3 py-5 h-full transform origin-left transition-all duration-100 ease-in-out "
+      class="absolute top-0 text-gray-600 right-3 z-20 cursor-pointer px-3 py-5 h-full transform origin-left transition-all duration-100 ease-in-out "
     >
       <!-- <feather-icon
         v-if="repeatPassType !== 'password'"

@@ -2,7 +2,7 @@
   <nav
     v-show="isNavBarVisible"
     id="navbar"
-    class=" flex flex-nowrap fixed bg-white rounded-lg mx-2 h-14 ml-5 -mt-10 mb-10 pr-10 shadow-lg z-30 w-4/5 transition-all  "
+    class=" flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-11/12 md:w-4/5  transition-all  "
   >
     <!-- :class="{ 'ml-60': isAsideMobileExpanded }" -->
     <!-- toggle icon -->
@@ -14,13 +14,17 @@
     </nav-bar-item>
 
     <!-- logo -->
-    <logo has-text class="w-full ml-3" />
+    <!-- <logo
+      has-text
+      class="w-full ml-3"
+      :class="{ 'hidden': !isAsideMobileExpanded }"
+    /> -->
     <!-- search  -->
-    <div class="flex w-full border-none py-1 -mr-8 ">
+    <div class="flex w-full border-none bg-white rounded-xl">
       <span
-        class="z-10 absolute border-0 h-10 font-normal text-center text-gray-400 bg-transparent rounded text-base items-center justify-center pl-2 pt-3   "
+        class="z-10 absolute border-0 h-10 text-primary font-normal text-center text-gray-400 rounded text-base items-center justify-center pt-4 ml-2  "
       >
-        <featherIcon path="search" />
+        <featherIcon path="search" size="25px" />
       </span>
       <!-- {{$router.name}} -->
       <!-- search user -->
@@ -29,7 +33,7 @@
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.user"
-        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
+        class="px-2 font-lg w-full border-0 text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
       />
 
       <!-- search categories -->
@@ -38,7 +42,7 @@
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.categories"
-        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative bg-white bg-white rounded text-sm focus:ring-gray-300 focus:ring-1  pl-10"
+        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
       />
     </div>
     <!-- end search -->
@@ -67,8 +71,8 @@ export default {
   components: {
     NavBarItem,
     Icon,
-    FeatherIcon,
-    Logo
+    FeatherIcon
+    // Logo
   },
   setup() {
     const store = useStore();

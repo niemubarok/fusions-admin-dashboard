@@ -1,18 +1,26 @@
 <template>
-  <component :is="is" :class="componentClass" :href="href" :type="computedType" :to="to" :target="target">
+  <component
+    :is="is"
+    :class="componentClass"
+    :href="href"
+    :type="computedType"
+    :to="to"
+    :target="target"
+    :disabled="isDisabled"
+  >
     <icon v-if="icon" :path="icon" />
     <span v-if="label" :class="labelClass">{{ label }}</span>
   </component>
 </template>
 
 <script>
-import { mdiMenuUp } from '@mdi/js'
-import { computed } from 'vue'
-import { colorsButtons, colorsButtonsOutline } from '@/colors.js'
-import Icon from '@/components/Icon'
+import { mdiMenuUp } from "@mdi/js";
+import { computed } from "vue";
+import { colorsButtons, colorsButtonsOutline } from "@/colors.js";
+import Icon from "@/components/Icon";
 
 export default {
-  name: 'JbButton',
+  name: "JbButton",
   components: {
     Icon
   },
@@ -25,65 +33,70 @@ export default {
     type: String,
     color: {
       type: String,
-      default: 'white'
+      default: "white"
     },
+    isDisabled: Boolean,
     small: Boolean,
     outline: Boolean,
     active: Boolean,
     as: String
   },
-  setup (props) {
+  setup(props) {
     const is = computed(() => {
       if (props.as) {
-        return props.as
+        return props.as;
       }
 
       if (props.to) {
-        return 'router-link'
+        return "router-link";
       }
 
       if (props.href) {
-        return 'a'
+        return "a";
       }
 
-      return 'button'
-    })
+      return "button";
+    });
 
     const computedType = computed(() => {
-      if (is.value === 'button') {
-        return props.type ?? 'button'
+      if (is.value === "button") {
+        return props.type ?? "button";
       }
 
-      return null
-    })
+      return null;
+    });
 
-    const iconOnly = computed(() => props.icon && !props.label)
+    const iconOnly = computed(() => props.icon && !props.label);
 
-    const labelClass = computed(() => props.small && props.icon ? 'px-1' : 'px-2')
+    const labelClass = computed(() =>
+      props.small && props.icon ? "px-1" : "px-2"
+    );
 
     const componentClass = computed(() => {
       const base = [
-        'inline-flex',
-        'cursor-pointer',
-        'justify-center',
-        'items-center',
-        'whitespace-nowrap',
-        'ring-blue-700',
-        'focus:outline-none',
-        'transition-colors',
-        'duration-150',
-        'border',
-        'rounded',
-        props.small ? 'p-1' : 'p-2',
-        props.outline ? colorsButtonsOutline[props.color] : colorsButtons[props.color]
-      ]
+        "inline-flex",
+        "cursor-pointer",
+        "justify-center",
+        "items-center",
+        "whitespace-nowrap",
+        "ring-blue-700",
+        "focus:outline-none",
+        "transition-colors",
+        "duration-150",
+        "border",
+        "rounded",
+        props.small ? "p-1" : "p-2",
+        props.outline
+          ? colorsButtonsOutline[props.color]
+          : colorsButtons[props.color]
+      ];
 
       if (props.active) {
-        base.push('ring')
+        base.push("ring");
       }
 
-      return base
-    })
+      return base;
+    });
 
     return {
       is,
@@ -92,7 +105,7 @@ export default {
       computedType,
       componentClass,
       mdiMenuUp
-    }
+    };
   }
-}
+};
 </script>

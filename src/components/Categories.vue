@@ -33,7 +33,7 @@
 
           <!-- end action -->
           <header
-            class="flex items-center justify-between leading-tight md:p-2 "
+            class="flex items-center justify-between leading-tight p-2 md:p-2 "
           >
             <h1 class="text-lg text-gray-700 font-bold">
               {{ category.texts.name }}

@@ -18,6 +18,7 @@ export default createStore({
     /* Sample data (commonly used) */
     search: "",
     filter: "",
+    filtered: "",
     clients: [],
     categories: [],
     items: [],
@@ -116,6 +117,47 @@ export default createStore({
           }
         }
       });
+    },
+    filterClientsById({ commit, state }, userId = null) {
+      if (state.clients.length) {
+        const filterById = state.clients.filter(filtered => {
+          return filtered.id == userId;
+        });
+        
+
+        commit("basic", {
+          key: "filtered",
+          value: filterById
+        });
+        //   console.log(filtered.id == userId);
+
+        //   return (
+        //     filtered.user
+        //       .toUpperCase()
+        //       .includes(state.searchModel.user.toUpperCase()) ||
+        //     filtered.restaurant
+        //       .toUpperCase()
+        //       .includes(state.searchModel.user.toUpperCase()) ||
+        //     filtered.country
+        //       .toUpperCase()
+        //       .includes(state.searchModel.user.toUpperCase())
+        //   );
+        // });
+
+        // const filter = filterBySearch.filter(filtered => {
+        //   return filtered.status
+        //     .toUpperCase()
+        //     .includes(state.filter.toUpperCase());
+        // });
+
+        // console.log(filter);
+        // commit("basic", {
+        //   key: "filtered",
+        //   value: filter
+        // });
+      } else {
+        return null;
+      }
     }
   },
   modules: {}

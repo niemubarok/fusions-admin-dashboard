@@ -23,6 +23,10 @@
     ]"
   >
     <div>
+      <!-- logo -->
+      <logo has-text class="w-full ml-5 mb-11 mt-6" />
+
+      <hr class="mb-4" />
       <template v-for="(menuGroup, index) in menu">
         <p
           v-if="typeof menuGroup === 'string'"
@@ -52,11 +56,13 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import AsideMenuList from "@/components/AsideMenuList";
+import Logo from "@/components/Logo";
 
 export default {
   name: "AsideMenu",
   components: {
-    AsideMenuList
+    AsideMenuList,
+    Logo
   },
   props: {
     menu: {

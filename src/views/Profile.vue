@@ -1,5 +1,31 @@
 <template>
   <main-section>
+    <modal-box v-model="isModalActive" button-label="Yes" has-cancel>
+      <feather-icon
+        path="alert-triangle"
+        w="50"
+        h="50"
+        size="50px"
+        class="flex justify-center w-full text-red-400"
+      />
+      <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md ">
+        <span
+          class="flex justify-center w-full text-gray-900 text-center font-lg"
+        >
+          You are deleting user with name
+        </span>
+
+        <strong
+          class="flex justify-center w-full text-gray-900 text-center font-lg mt-3"
+        >
+          {{ user.user }}
+        </strong>
+      </div>
+      <div class="pt-5 flex justify-center">
+        Are you sure to continue ?
+      </div>
+    </modal-box>
+
     <div
       @click="$router.go(-1)"
       class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400"
@@ -28,12 +54,12 @@
               <h1
                 class="text-gray-900 text-center font-bold text-xl leading-8 my-1"
               >
-                Geprek Bensu
+                {{ user.restaurant }}
               </h1>
               <h2
                 class="text-gray-600 font-lg text-center text-semibold leading-6"
               >
-                Ruben Onsu
+                {{ user.user }}
               </h2>
               <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
@@ -43,9 +69,13 @@
                   <span class="ml-auto"
                     ><span
                       class="bg-green-100 py-1 px-2 rounded text-green-500 text-sm"
-                      >Active</span
+                      >{{ user.status }}</span
                     ></span
                   >
+                </li>
+                <li class="flex items-center py-3">
+                  <span>Bussiness Type</span>
+                  <span class="ml-auto">Restaurant</span>
                 </li>
                 <li class="flex items-center py-3">
                   <span>Subscription</span>
@@ -61,25 +91,27 @@
                 </li>
                 <li class="flex items-center py-3">
                   <span>Phone</span>
-                  <span class="ml-auto">085451616464</span>
+                  <span class="ml-auto">{{ user.phone }}</span>
                 </li>
                 <li class="flex items-center py-3">
                   <span>Country</span>
-                  <span class="ml-auto">Indonesia</span>
+                  <span class="ml-auto">{{ user.country }}</span>
                 </li>
               </ul>
-              <div class="mt-3 flex justify-end cursor-pointer">
-                <span class="bg-red-500 text-red-200  rounded-md pb-1 px-2 ">
-                  <feather-icon
-                    size="15px"
-                    class="rounded-md no-border cursor-pointer text-red-100 -mr-1 pt-1"
-                    path="trash"
-                    small
-                    @click="invoiceModal = true"
-                  >
-                  </feather-icon>
+              <div
+                @click="isModalActive = true"
+                class="mt-3 flex justify-end cursor-pointer pb-2"
+              >
+                <feather-icon
+                  size="15px"
+                  class="rounded-md no-border cursor-pointer text-red-400 -mr-1 "
+                  path="trash"
+                  small
+                >
+                </feather-icon>
+                <small class="text-red-400  rounded-md px-1 ">
                   Delete User
-                </span>
+                </small>
               </div>
             </div>
             <!-- End of profile card -->
@@ -149,14 +181,34 @@ import MainSection from "../components/MainSection.vue";
 import Categories from "@/components/Categories";
 import Invoices from "../components/Invoices.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
+import { useStore } from "vuex";
+import { onBeforeMount, ref } from "@vue/runtime-core";
+import { useRoute } from "vue-router";
+import ModalBox from "@/components/ModalBox.vue";
 export default {
   components: {
     MainSection,
+    ModalBox,
     //  CardComponent
     Categories,
     Invoices,
     FeatherIcon
   },
-  setup() {}
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+    const userId = route.params.id;
+    const user = ref("");
+    const isModalActive = ref(true);
+
+    onBeforeMount(() => {
+      store.dispatch("filterClientsById", userId);
+
+      user.value = store.state.filtered[0];
+      // console.log(store.state.filtered[0]);
+    });
+
+    return { store, user, isModalActive };
+  }
 };
 </script>
