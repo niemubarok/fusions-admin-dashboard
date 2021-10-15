@@ -20,7 +20,7 @@
       :class="{ 'hidden': !isAsideMobileExpanded }"
     /> -->
     <!-- search  -->
-    <div class="flex w-full border-none bg-white rounded-xl">
+    <div class="flex w-full border-primary bg-white rounded-xl">
       <span
         class="z-10 absolute border-0 h-10 text-primary font-normal text-center text-gray-400 rounded text-base items-center justify-center pt-4 ml-2  "
       >
@@ -42,7 +42,7 @@
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.categories"
-        class="px-2 py-2 w-full border-0 bg-gray-100 text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
+        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
       />
     </div>
     <!-- end search -->

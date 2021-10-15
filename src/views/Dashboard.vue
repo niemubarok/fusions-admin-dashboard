@@ -9,7 +9,7 @@
         :class="{ 'bg-green-100': store.state.filter == 'active' }"
         color="text-green-500"
         :icon="mdiAccountMultiple"
-        :number="activeClients().length"
+        :number="activeUsers().length"
         label="Active Users"
         @click="setFilterActive"
       />
@@ -18,7 +18,7 @@
         :class="{ 'bg-red-100': store.state.filter == 'banned' }"
         color="text-red-400"
         :icon="mdiAccountMultipleRemove"
-        :number="bannedClients().length"
+        :number="bannedUsers().length"
         label="Banned Users"
         @click="setFilterBanned"
       />
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import {
   mdiMonitorCellphone,
   mdiAccountMultiple,
@@ -102,21 +102,25 @@ export default {
       setStatus("banned");
     };
 
-    const activeClients = () => {
-      return store.state.clients.filter(client => {
+    const activeUsers = () => {
+      return store.state.users.filter(client => {
         return client.status.toUpperCase().includes("ACTIVE");
       });
     };
 
-    const bannedClients = () => {
-      return store.state.clients.filter(client => {
+    const bannedUsers = () => {
+      return store.state.users.filter(client => {
         return client.status.toUpperCase().includes("BANNED");
       });
     };
 
-    onMounted(()=>{
-      store.state.filter = ""
+    onBeforeMount(()=>{
+      // store.dispatch("fetchUsers")
     })
+
+    onMounted(() => {
+      store.state.filter = "";
+    });
 
     return {
       titleStack,
@@ -129,8 +133,8 @@ export default {
       store,
       setFilterActive,
       setFilterBanned,
-      activeClients,
-      bannedClients
+      activeUsers,
+      bannedUsers
     };
   }
 };

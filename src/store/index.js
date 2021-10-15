@@ -18,9 +18,10 @@ export default createStore({
     /* Sample data (commonly used) */
     search: "",
     filter: "",
-    filtered: "",
-    clients: [],
+    filteredUser: "",
+    users: [],
     categories: [],
+    category: [],
     items: [],
 
     form: {
@@ -89,14 +90,14 @@ export default createStore({
         "form-screen"
       );
     },
-    fetchClients({ commit }) {
+    fetchUsers({ commit }) {
       axios
         .get("data-sources/restaurants.json")
         .then(r => {
           if (r.data) {
             if (r.data.data) {
               commit("basic", {
-                key: "clients",
+                key: "users",
                 value: r.data.data
               });
             }
@@ -118,15 +119,14 @@ export default createStore({
         }
       });
     },
-    filterClientsById({ commit, state }, userId = null) {
-      if (state.clients.length) {
-        const filterById = state.clients.filter(filtered => {
+    filterUsersById({ commit, state }, userId = null) {
+      if (state.users.length) {
+        const filterById = state.users.filter(filtered => {
           return filtered.id == userId;
         });
-        
 
         commit("basic", {
-          key: "filtered",
+          key: "filteredUser",
           value: filterById
         });
         //   console.log(filtered.id == userId);
@@ -157,6 +157,33 @@ export default createStore({
         // });
       } else {
         return null;
+      }
+    },
+    fetchCategories({ commit }) {
+      // console.log("fetched");
+      axios.get("data-sources/categories.json").then(r => {
+        if (r.data) {
+         
+            commit("basic", {
+              key: "categories",
+              value: r.data.categories
+            });
+        }
+      });
+    },
+    filterCategoryById({ commit, state }, catId = null) {
+      if (catId !== null) {
+        // console.log(state.categories.length);
+        if (state.categories.length) {
+          const filter = state.categories.filter(f => {
+            return f.id.toUpperCase() === catId.toUpperCase()
+          });
+
+          commit("basic", {
+            key: "category",
+            value: filter
+          });
+        }
       }
     }
   },

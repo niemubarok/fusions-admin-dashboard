@@ -7,7 +7,7 @@
     />
     <input
       :type="changeType"
-      class="border border-gray-200 focus:outline-none rounded-md focus:ring-0 focus:border-primary pb-7 focus:shadow-sm w-full pl-14  h-16"
+      class="border border-gray-200 shadow shadow-inner  focus:outline-none rounded-md focus:ring-0 focus:border-primary pb-7 focus:shadow-sm w-full pl-14  h-16"
       placeholder="name@example.com"
       autocomplete="off"
       v-model="computedValue"

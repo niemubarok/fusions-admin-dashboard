@@ -12,7 +12,6 @@ const routes = [
   },
   {
     // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Dashboard"
     },
@@ -23,11 +22,11 @@ const routes = [
   },
   {
     meta: {
-      title: "All User"
+      title: "Category"
     },
-    path: "/user/all",
-    name: "user",
-    component: () => import(/* webpackChunkName: "user" */ "../views/Users")
+    path: "/user/category/:catId",
+    name: "category",
+    component: () => import(/* webpackChunkName: "category" */ "../views/Category")
   },
   {
     meta: {
@@ -48,15 +47,15 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "changePassword" */ "../views/ChangePassword")
   },
-  {
-    meta: {
-      title: "Restaurant List"
-    },
-    path: "/restaurant/all",
-    name: "restaurant",
-    component: () =>
-      import(/* webpackChunkName: "restaurant" */ "../views/Restaurants")
-  },
+  // {
+  //   meta: {
+  //     title: "Restaurant List"
+  //   },
+  //   path: "/restaurant/all",
+  //   name: "restaurant",
+  //   component: () =>
+  //     import(/* webpackChunkName: "restaurant" */ "../views/Restaurants")
+  // },
   {
     meta: {
       title: "Google Analytics"

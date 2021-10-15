@@ -11,7 +11,7 @@
     <card-component
       v-show="value"
       :title="title"
-      class="shadow-lg w-full max-h-modal md:w-3/5 lg:w-2/5 z-50"
+      class="shadow-lg w-full max-h-modal md:w-3/5 lg:w-2/5 z-50 pb-3"
       :header-icon="mdiClose"
       @header-icon-click="cancel"
     >
@@ -19,9 +19,9 @@
         <slot />
       </div>
 
-      <!-- <divider /> -->
+      <divider v-if="hasDivider" />
 
-      <jb-buttons v-if="hasButton">
+      <jb-buttons v-if="hasButton" class="float-right">
         <jb-button :label="buttonLabel" :color="button" @click="confirm" />
         <jb-button
           v-if="hasCancel"
@@ -42,7 +42,7 @@ import { mdiClose } from "@mdi/js";
 import JbButton from "@/components/JbButton";
 import JbButtons from "@/components/JbButtons";
 import CardComponent from "@/components/CardComponent";
-// import Divider from "@/components/Divider";
+import Divider from "@/components/Divider";
 
 export default {
   name: "ModalBox",
@@ -50,7 +50,7 @@ export default {
     JbButton,
     JbButtons,
     CardComponent,
-    // Divider
+    Divider
   },
   props: {
     title: String,
@@ -64,6 +64,7 @@ export default {
     },
     hasCancel: Boolean,
     hasButton: Boolean,
+    hasDivider: Boolean,
     modelValue: [String, Number, Boolean]
   },
   emits: ["update:modelValue", "cancel", "confirm"],

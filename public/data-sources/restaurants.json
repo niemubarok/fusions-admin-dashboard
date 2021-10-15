@@ -9,6 +9,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "categories": [
         {
           "id": "c1",

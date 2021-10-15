@@ -1,6 +1,12 @@
 <template>
   <main-section class="flex justify-center pt-20">
-    <modal-box v-model="isModalActive" button-label="Yes" has-cancel>
+    <modal-box
+      v-model="isModalActive"
+      button-label="Yes"
+      has-cancel
+      has-button
+      has-divider
+    >
       <feather-icon
         path="alert-triangle"
         w="50"

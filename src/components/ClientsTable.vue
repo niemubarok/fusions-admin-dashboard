@@ -20,11 +20,11 @@
     >
   </div> -->
 
-  <div v-if="filterClients().length == 0">
+  <div v-if="filterUsers().length == 0">
     <card-component empty />
   </div>
 
-  <table v-if="filterClients().length !== 0" class="md:pa-md text-gray-700">
+  <table v-if="filterUsers().length !== 0" class="md:pa-md text-gray-700">
     <thead>
       <tr>
         <!-- <th v-if="checkable" class="text-center">
@@ -47,23 +47,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="client in itemsPaginated" :key="client.id" class="text-center">
+      <tr v-for="user in itemsPaginated" :key="user.id" class="text-center">
         <td>
           <div class="flex justify-center">
-            <img :src="client.logo" class="w-14 rounded-full " />
+            <img :src="user.logo" class="w-14 rounded-full " />
           </div>
         </td>
-        <td class="text-center" data-label="User">{{ client.user }}</td>
+        <td class="text-center" data-label="User">{{ user.user }}</td>
         <td class="text-center" data-label="Restaurant">
-          {{ client.restaurant }}
+          {{ user.restaurant }}
         </td>
-        <td class="text-center" data-label="Phone">{{ client.phone }}</td>
+        <td class="text-center" data-label="Phone">{{ user.phone }}</td>
         <td class="text-center" data-label="Country">
-          {{ client.country }}
+          {{ user.country }}
         </td>
         <td class="text-center" data-label="Subscription">
-          <span class="text-gray-500" :title="client.subscription">{{
-            client.subscription
+          <span class="text-gray-500" :title="user.subscription">{{
+            user.subscription
           }}</span>
         </td>
         <td class="text-center" data-label="Status">
@@ -71,12 +71,12 @@
             class="rounded-md py-1"
             :class="{
               'bg-green-100 text-green-500 px-4':
-                client.status.toUpperCase() == 'ACTIVE',
+                user.status.toUpperCase() == 'ACTIVE',
               'bg-red-100 text-red-500 px-3':
-                client.status.toUpperCase() == 'BANNED'
+                user.status.toUpperCase() == 'BANNED'
             }"
-            :title="client.status"
-            >{{ client.status }}</small
+            :title="user.status"
+            >{{ user.status }}</small
           >
         </td>
         <!-- <td class="text-center" data-label="Invoices">
@@ -102,7 +102,7 @@
                 path="eye"
                 small
                 @click="
-                  $router.push({ name: 'profile', params: { id: client.id } })
+                  $router.push({ name: 'profile', params: { id: user.id } })
                 "
               >
               </feather-icon>
@@ -135,7 +135,7 @@
   <div class="table-pagination align-middle">
     <pagination
       :total-pages="pagesList.length - 1"
-      :total="filterClients().length"
+      :total="filterUsers().length"
       :per-page="perPage"
       :current-page="currentPage"
       @pagechanged="showMore"
@@ -156,7 +156,7 @@ import CardComponent from "./CardComponent";
 import Pagination from "./Pagination.vue";
 
 export default {
-  name: "ClientsTable",
+  name: "UsersTable",
   components: {
     ModalBox,
     JbButtons,
@@ -181,18 +181,18 @@ export default {
     const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
-      if (filterClients().length) {
-        if (filterClients().length <= perPage.value) {
+      if (filterUsers().length) {
+        if (filterUsers().length <= perPage.value) {
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           maxVisibleButton.value = 1;
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           currentPage.value = 0;
-          return filterClients();
+          return filterUsers();
         }
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         maxVisibleButton.value = 2;
 
-        return filterClients().slice(
+        return filterUsers().slice(
           perPage.value * currentPage.value,
           perPage.value * (currentPage.value + 1)
         );
@@ -201,7 +201,7 @@ export default {
       }
     });
     const numPages = computed(() =>
-      Math.ceil(filterClients().length / perPage.value)
+      Math.ceil(filterUsers().length / perPage.value)
     );
 
     const pagesList = computed(() => {
@@ -231,13 +231,13 @@ export default {
       return newArr;
     };
 
-    const removeClient = () => {
+    const removeUsers = () => {
       remove();
     };
 
-    const filterClients = () => {
-      if (store.state.clients.length) {
-        const filterBySearch = store.state.clients.filter(filtered => {
+    const filterUsers = () => {
+      if (store.state.users.length) {
+        const filterBySearch = store.state.users.filter(filtered => {
           return (
             filtered.user
               .toUpperCase()
@@ -268,7 +268,7 @@ export default {
       numPages,
       itemsPaginated,
       pagesList,
-      filterClients,
+      filterUsers,
       invoiceModal,
       perPage,
       remove,

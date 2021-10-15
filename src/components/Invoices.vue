@@ -20,12 +20,12 @@
     >
   </div> -->
 
-  <div v-if="filterClients().length == 0">
+  <div v-if="filterUsers().length == 0">
     <card-component empty />
   </div>
 
   <table
-    v-if="filterClients().length !== 0"
+    v-if="filterUsers().length !== 0"
     class="md:pa-md text-gray-700 w-full"
   >
     <thead>
@@ -48,8 +48,8 @@
     </thead>
     <tbody>
       <tr
-        v-for="(client, index) in itemsPaginated"
-        :key="client.id"
+        v-for="(user, index) in itemsPaginated"
+        :key="user.id"
         class="text-center"
       >
         <td class="text-center">
@@ -65,11 +65,11 @@
             class="rounded-md py-1"
             :class="{
               'bg-green-100 text-green-500 px-4':
-                client.status.toUpperCase() == 'ACTIVE',
+                user.status.toUpperCase() == 'ACTIVE',
               'bg-red-100 text-red-500 px-3':
-                client.status.toUpperCase() == 'BANNED'
+                user.status.toUpperCase() == 'BANNED'
             }"
-            :title="client.status"
+            :title="user.status"
             > -->
           <small class="bg-green-100 text-green-500 px-4">Paid</small>
         </td>
@@ -93,7 +93,7 @@
   <div class="table-pagination align-middle">
     <pagination
       :total-pages="pagesList.length - 1"
-      :total="filterClients().length"
+      :total="filterUsers().length"
       :per-page="perPage"
       :current-page="currentPage"
       @pagechanged="showMore"
@@ -114,7 +114,7 @@ import CardComponent from "./CardComponent";
 import Pagination from "./Pagination.vue";
 
 export default {
-  name: "ClientsTable",
+  name: "UsersTable",
   components: {
     ModalBox,
     JbButtons,
@@ -139,23 +139,23 @@ export default {
     const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
-      if (filterClients().length <= perPage.value) {
+      if (filterUsers().length <= perPage.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         maxVisibleButton.value = 1;
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         currentPage.value = 0;
-        return filterClients();
+        return filterUsers();
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       maxVisibleButton.value = 2;
 
-      return filterClients().slice(
+      return filterUsers().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       );
     });
     const numPages = computed(() =>
-      Math.ceil(filterClients().length / perPage.value)
+      Math.ceil(filterUsers().length / perPage.value)
     );
 
     const pagesList = computed(() => {
@@ -189,9 +189,9 @@ export default {
       remove();
     };
 
-    const filterClients = () => {
-      if (store.state.clients.length) {
-        const filterBySearch = store.state.clients.filter(filtered => {
+    const filterUsers = () => {
+      if (store.state.users.length) {
+        const filterBySearch = store.state.users.filter(filtered => {
           return (
             filtered.user
               .toUpperCase()
@@ -222,7 +222,7 @@ export default {
       numPages,
       itemsPaginated,
       pagesList,
-      filterClients,
+      filterUsers,
       invoiceModal,
       perPage,
       remove,

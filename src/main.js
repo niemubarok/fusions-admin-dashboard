@@ -8,7 +8,8 @@ import "./css/main.css";
 
 import VueFeather from "vue-feather";
 /* Fetch sample data */
-store.dispatch("fetchClients");
+store.dispatch("fetchUsers");
+store.dispatch("fetchCategories");
 
 /* Default title tag */
 const defaultDocumentTitle = "Cloud Menu";
@@ -30,7 +31,7 @@ router.afterEach(to => {
 });
 
 const app = createApp(App);
-app.component(VueFeather.name, VueFeather)
+app.component(VueFeather.name, VueFeather);
 app
   .use(store)
   .use(router)

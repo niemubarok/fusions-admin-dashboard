@@ -1,6 +1,12 @@
 <template>
   <main-section>
-    <modal-box v-model="isModalActive" button-label="Yes" has-cancel>
+    <modal-box
+      v-model="isModalActive"
+      button-label="Yes"
+      has-cancel
+      has-button
+      has-divider
+    >
       <feather-icon
         path="alert-triangle"
         w="50"
@@ -12,7 +18,7 @@
         <span
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
-          You are deleting user with name
+          You are deleting a user with name
         </span>
 
         <strong
@@ -26,7 +32,7 @@
       </div>
     </modal-box>
 
-    <div
+    <!-- <div
       @click="$router.go(-1)"
       class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400"
     >
@@ -36,14 +42,17 @@
       <span class="-ml-2">
         back
       </span>
-    </div>
+    </div> -->
     <div class="w-full text-white bg-main-color">
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
           <!-- Left Side -->
           <div class="w-full md:w-4/12 md:mx-2">
             <!-- Profile Card -->
-            <div class="bg-white p-2 border-t-4 border-primary">
+
+            <div class="bg-white p-2 ">
+              <back-button hasText text="Details" class="text-gray-800 mb-5 "/>
+
               <div class="image overflow-hidden">
                 <img
                   class="h-auto w-1/2 mx-auto rounded-xl"
@@ -191,6 +200,8 @@ import { useStore } from "vuex";
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
+import BackButton from "@/components/BackButton.vue";
+
 export default {
   components: {
     MainSection,
@@ -198,7 +209,8 @@ export default {
     //  CardComponent
     Categories,
     Invoices,
-    FeatherIcon
+    FeatherIcon,
+    BackButton
   },
   setup() {
     const store = useStore();
@@ -208,9 +220,9 @@ export default {
     const isModalActive = ref(false);
 
     onBeforeMount(() => {
-      store.dispatch("filterClientsById", userId);
+      store.dispatch("filterUsersById", userId);
 
-      user.value = store.state.filtered[0];
+      user.value = store.state.filteredUser[0];
       // console.log(store.state.filtered[0]);
     });
 

@@ -1,3 +1,0 @@
-<template>
-  <h2>restaurant</h2>
-</template>
