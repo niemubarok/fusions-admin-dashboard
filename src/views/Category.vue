@@ -32,46 +32,40 @@
       </div>
     </modal-box>
 
-    <!-- <div
-      @click="$router.go(-1)"
-      class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400"
-    >
-      <span class="inline-block align-middle">
-        <feather-icon path="chevron-left" size="20px"> </feather-icon>
-      </span>
-      <span class="-ml-2">
-        back
-      </span>
-    </div> -->
-
     <div class="w-full text-white bg-main-color">
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
           <div class="w-full  h-64">
-            <!-- Categories -->
+            <!-- items -->
             <div class="bg-white p-1 shadow-sm rounded-sm">
               <div
                 class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-1"
               >
                 <span clas="text-green-500">
-                  <feather-icon @click="$router.go(-1)" path="chevron-left" size="25px" class="cursor-pointer"/>
+                  <feather-icon
+                    @click="$router.go(-1)"
+                    path="chevron-left"
+                    size="25px"
+                    class="cursor-pointer"
+                  />
                 </span>
-                <span class="pb-3 tracking-wide">{{ category.texts.name }}</span>
+                <span class="pb-3 tracking-wide">{{ category.name }}</span>
               </div>
 
-              <!-- <categories /> -->
-            <div class="container flex my-5 mx-auto px-2 md:px-12">
-              <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
-                <!-- empty -->
-                <!-- <card-component empty class="w-full" /> -->
-
-                <div
-                  class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer flex justify-center "
-                >
-                  <item-card />
+              <!-- <items /> -->
+              <div class="container flex my-5 mx-auto px-2 md:px-12">
+                <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
+                  <!-- empty -->
+                  <!-- <card-component empty class="w-full" /> -->
+                  <div
+                    v-for="item in store.state.items"
+                    :key="item.id"
+                    class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer flex justify-center "
+                  >
+                    <item-card :name="item.name" :price="item.prices[0]"/>
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
@@ -109,6 +103,7 @@ export default {
 
     onBeforeMount(() => {
       store.dispatch("filterCategoryById", catId);
+      store.dispatch("fetchItems");
       category.value = store.state.category[0];
     });
 

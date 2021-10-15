@@ -28,7 +28,7 @@ export default createStore({
       user: "",
       password: "",
       passwordRepeat: "",
-      remember: true,
+      remember: false,
       forgotPassword: ""
     },
 
@@ -38,8 +38,6 @@ export default createStore({
       items: ""
     },
 
-    // modal
-    forgotPasswordModal: true
   },
   mutations: {
     /* A fit-them-all commit */
@@ -113,7 +111,7 @@ export default createStore({
           if (r.data.data) {
             commit("basic", {
               key: "items",
-              value: r.data.data
+              value: r.data.data.items
             });
           }
         }
@@ -160,23 +158,33 @@ export default createStore({
       }
     },
     fetchCategories({ commit }) {
-      // console.log("fetched");
       axios.get("data-sources/categories.json").then(r => {
         if (r.data) {
-         
-            commit("basic", {
-              key: "categories",
-              value: r.data.categories
-            });
+          commit("basic", {
+            key: "categories",
+            value: r.data.data.categories
+          });
         }
       });
     },
+    // filterCategories({ commit, state }) {
+    //   const filtered = state.categories.filter(element => {
+    //     return element.name
+    //       .toUpperCase()
+    //       .includes(state.searchModel.categories.toUpperCase());
+    //   });
+
+    //   commit("basic", {
+    //     key: "filteredCategories",
+    //     value: filtered
+    //   });
+    // },
     filterCategoryById({ commit, state }, catId = null) {
       if (catId !== null) {
         // console.log(state.categories.length);
         if (state.categories.length) {
           const filter = state.categories.filter(f => {
-            return f.id.toUpperCase() === catId.toUpperCase()
+            return f.id.toUpperCase() === catId.toUpperCase();
           });
 
           commit("basic", {

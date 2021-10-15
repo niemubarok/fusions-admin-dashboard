@@ -28,7 +28,7 @@
         {{ name }}
       </h3>
       <p class="text-gray-500 text-sm">
-        $20
+        {{currency}}&nbsp;{{ price }}
       </p>
     </header>
     <hr />
@@ -55,6 +55,14 @@ export default {
     name: {
       type: String,
       default: "item Name"
+    },
+    price: {
+      type: String,
+      default: "0"
+    },
+    currency: {
+      type: String,
+      default: "usd"
     }
   },
   setup() {

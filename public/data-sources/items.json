@@ -1,36 +1,41 @@
 {
+  "status": "Success",
+  "statuscode": 0,
+  "message": "Successfully fetch 1 items",
+  "data": {
+    "name": "Dessert",
+    "description": "Yummy dessert for you",
     "items": [
-        {
-            "id": "i1",
-            "uid": "1",
-            "category_id": "c1",
-            "texts": {
-                "lang_id": "",
-                "name": "Ruz billaban",
-                "description": "",
-                "is_show": ""
-            },
-            "image": "https://placeimg.com/150/150/tech",
-            "video": "",
-            "prices": {
-                "price": "50000",
-                "descriptions": "Rice with milk",
-                "lang_id": "",
-                "desc": ""
-            },
-            "modifiers": {
-                "modifier_id": "",
-                "min": "",
-                "max": "",
-                "is_required": ""
-            },
-            "prep_time": "",
-            "is_new": "",
-            "is_signature": "",
-            "is_published": "",
-            "deleted_at": "",
-            "created_at": "",
-            "updated_at": ""
-        }
+      {
+        "id": "61631b7f3486c85399e39f27",
+        "name": "Ice Cream",
+        "image": "https://picsum.photos/200",
+        "currency": "usd",
+        "prices": [
+          2
+        ],
+        "is_published": true
+      },
+      {
+        "id": "61631b7f3486c85399e39f28",
+        "name": "Waffle",
+        "image": "https://picsum.photos/200",
+        "currency": "usd",
+        "prices": [
+          2
+        ],
+        "is_published": true
+      },
+      {
+        "id": "61631b7f3486c85399e39f29",
+        "name": "Others",
+        "image": "https://picsum.photos/200",
+        "currency": "usd",
+        "prices": [
+          2
+        ],
+        "is_published": true
+      }
     ]
+  }
 }

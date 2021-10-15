@@ -44,6 +44,15 @@
         v-model="store.state.searchModel.categories"
         class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
       />
+
+      <!-- search items -->
+      <input
+        v-if="searchIf.items"
+        type="text"
+        :placeholder="searchPlaceHolder()"
+        v-model="store.state.searchModel.items"
+        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
+      />
     </div>
     <!-- end search -->
   </nav>
@@ -108,7 +117,8 @@ export default {
     const searchIf = computed(() => {
       return {
         user: route.path.includes("dashboard"),
-        categories: route.path.includes("/profile")
+        categories: route.path.includes("/profile"),
+        items: route.path.includes("/category")
       };
     });
 
@@ -117,7 +127,7 @@ export default {
         return "Search User / Restaurant";
       } else if (route.path.includes("/profile")) {
         return "Search Categories";
-      } else if (route.path.includes("/items")) {
+      } else if (route.path.includes("/category")) {
         return "Search Items";
       }
     };
