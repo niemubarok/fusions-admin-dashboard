@@ -42,7 +42,7 @@
         {{ store.state.searchModel.categories }}
       </div>
       <div
-        class="my-1 px-1 w-full  lg:my-2 md:px-3 lg:w-2/6 cursor-pointer flex justify-center "
+        class="my-1 px-1 w-full  lg:my-2 md:px-3 lg:w-2/6 flex justify-center "
         v-for="category of categories"
         :key="category"
       >
@@ -62,7 +62,9 @@
           <div
             class="flex-col -z-20 absolute top-0 h-full w-full text-white opacity-0 bg-gray-200 hover:opacity-100 hover:bg-opacity-20 flex items-center justify-center pb-5 "
           >
-            <div class="transform transition duration-200 hover:scale-110">
+            <div
+              class="transform transition duration-200 hover:scale-110 cursor-pointer"
+            >
               <span
                 @click="
                   $router.push({
@@ -78,9 +80,9 @@
             <div>
               <small
                 @click="deleteButton(category.name)"
-                class="absolute top-1 right-2 rounded-md bg-red-500 bg-opacity-50  hover:bg-opacity-100"
+                class="absolute top-1 right-2 rounded-md bg-red-500 bg-opacity-50  hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
               >
-                <feather-icon path="trash" class="text-gray-200" />
+                <feather-icon path="trash" size="14px" class="text-gray-200" />
               </small>
             </div>
           </div>
