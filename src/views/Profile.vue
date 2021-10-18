@@ -47,11 +47,16 @@
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
           <!-- Left Side -->
-          <div class="w-full md:w-4/12 md:mx-2">
+          <div class="w-full md:w-4/12 md:mx-2  shadow-lg">
             <!-- Profile Card -->
 
             <div class="bg-white p-2 ">
-              <back-button hasText text="Details" class="text-gray-800 mb-5 "/>
+              <back-button
+                hasText
+                to="dashboard"
+                text="Details"
+                class="text-gray-800 mb-5 "
+              />
 
               <div class="image overflow-hidden">
                 <img
@@ -135,7 +140,7 @@
           <!-- Right Side -->
           <div class="w-full  h-64">
             <!-- Categories -->
-            <div class="bg-white p-1 shadow-sm rounded-sm">
+            <div class="bg-white p-1 shadow-sm rounded-sm  shadow-lg">
               <div
                 class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-1"
               >

@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <feather-icon
-      @click="$router.go(-1)"
+      @click="atClick"
       path="chevron-left"
       size="25px"
       class="cursor-pointer"
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 import FeatherIcon from "./FeatherIcon.vue";
 export default {
   components: {
@@ -23,8 +24,22 @@ export default {
     text: {
       type: String,
       default: "back"
+    },
+    to: {
+      type: String,
+      default: null
     }
   },
-  setup() {}
+  setup(props) {
+    const router = useRouter();
+    const atClick = () => {
+      if (props.to) {
+        router.push({ name: props.to });
+      } else {
+        router.go(-1);
+      }
+    };
+    return { atClick };
+  }
 };
 </script>

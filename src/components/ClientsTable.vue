@@ -38,7 +38,7 @@
         <th class="text-center">Logo</th>
         <th class="text-center">User</th>
         <th class="text-center">Restaurant</th>
-        <th class="text-center">Phone</th>
+        <th class="text-center">Bussiness Type</th>
         <th class="text-center">Country</th>
         <th class="text-center">Subscription</th>
         <th class="text-center">status</th>
@@ -57,7 +57,9 @@
         <td class="text-center" data-label="Restaurant">
           {{ user.restaurant }}
         </td>
-        <td class="text-center" data-label="Phone">{{ user.phone }}</td>
+        <td class="text-center" data-label="Phone">
+          {{ user.bussiness_type }}
+        </td>
         <td class="text-center" data-label="Country">
           {{ user.country }}
         </td>
@@ -101,9 +103,7 @@
                 class="rounded-md no-border cursor-pointer text-green-500"
                 path="eye"
                 small
-                @click="
-                  $router.push({ name: 'profile', params: { id: user.id } })
-                "
+                @click="actionHandler(user.id)"
               >
               </feather-icon>
             </span>
@@ -154,6 +154,7 @@ import JbButtons from "@/components/JbButtons";
 import FeatherIcon from "./FeatherIcon.vue";
 import CardComponent from "./CardComponent";
 import Pagination from "./Pagination.vue";
+import { useRouter } from "vue-router";
 
 export default {
   name: "UsersTable",
@@ -170,6 +171,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const isModalActive = ref(false);
     const invoiceModal = ref(false);
@@ -179,6 +181,15 @@ export default {
     const currentPage = ref(0);
 
     const maxVisibleButton = ref(2);
+    const actionHandler = userId => {
+      router.push({ name: "profile", params: { id: userId } });
+      // store.commit("basic", {
+      //   key: "selectedUserId",
+      //   value: userId
+      // });
+
+      localStorage.setItem("selectedUserId", userId);
+    };
 
     const itemsPaginated = computed(() => {
       if (filterUsers().length) {
@@ -245,6 +256,9 @@ export default {
             filtered.restaurant
               .toUpperCase()
               .includes(store.state.searchModel.user.toUpperCase()) ||
+            filtered.bussiness_type
+              .toUpperCase()
+              .includes(store.state.searchModel.user.toUpperCase()) ||
             filtered.country
               .toUpperCase()
               .includes(store.state.searchModel.user.toUpperCase())
@@ -258,7 +272,7 @@ export default {
         });
         return filter;
       } else {
-        return null;
+        return [];
       }
     };
 
@@ -269,11 +283,13 @@ export default {
       itemsPaginated,
       pagesList,
       filterUsers,
+      actionHandler,
       invoiceModal,
       perPage,
       remove,
       showMore,
-      maxVisibleButton
+      maxVisibleButton,
+      store
     };
   }
 };

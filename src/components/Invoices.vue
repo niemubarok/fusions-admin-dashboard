@@ -43,7 +43,7 @@
         <th class="text-center">Plan</th>
         <th class="text-center">Price</th>
         <th class="text-center">Status</th>
-        <th class="text-center">Action</th>
+        <!-- <th class="text-center">Action</th> -->
       </tr>
     </thead>
     <tbody>
@@ -61,19 +61,9 @@
         </td>
         <td class="text-center" data-label="Price">$580</td>
         <td class="text-center" data-label="Status">
-          <!-- <small
-            class="rounded-md py-1"
-            :class="{
-              'bg-green-100 text-green-500 px-4':
-                user.status.toUpperCase() == 'ACTIVE',
-              'bg-red-100 text-red-500 px-3':
-                user.status.toUpperCase() == 'BANNED'
-            }"
-            :title="user.status"
-            > -->
           <small class="bg-green-100 text-green-500 px-4">Paid</small>
         </td>
-        <td class="text-center" data-label="Action">
+        <!-- <td class="text-center" data-label="Action">
           <jb-buttons type="justify-start lg:justify-center" no-wrap>
             <span title="User detail">
               <feather-icon
@@ -82,11 +72,10 @@
                 path="eye"
                 small
               >
-                <!-- @click="$router.push({ name: 'profile' })" -->
               </feather-icon>
             </span>
           </jb-buttons>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
@@ -117,9 +106,9 @@ export default {
   name: "UsersTable",
   components: {
     ModalBox,
-    JbButtons,
+    // JbButtons,
     CardComponent,
-    FeatherIcon,
+    // FeatherIcon,
     ModalBox,
     Pagination
   },

@@ -47,7 +47,7 @@
         :key="category"
       >
         <div
-          class="overflow-hidden rounded-lg shadow-lg h-60 w-11/12 transform transition duration-200 
+          class="overflow-hidden rounded-lg shadow-lg h-60 w-11/12 transform transition-all duration-500 
             "
         >
           <!-- hover:scale-105 -->

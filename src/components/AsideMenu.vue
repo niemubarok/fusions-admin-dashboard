@@ -14,7 +14,6 @@
       bg-white
       py-3
       flow-root
-      flex
       fixed
     "
     :class="[
@@ -35,19 +34,9 @@
         >
           {{ menuGroup }}
         </p>
-        <aside-menu-list
-          v-else
-          :key="`b-${index}`"
-          :menu="menuGroup"
-          @menu-click="menuClick"
-        />
-        <!-- style="background-color:#F8F8F8" -->
+        <aside-menu-list v-else :key="`b-${index}`" :menu="menuGroup" />
+        <!-- @menu-click="menuClick" -->
       </template>
-      <!-- <div>
-        <divider />
-
-        <bussiness-detail />
-      </div> -->
     </div>
   </aside>
 </template>
@@ -85,16 +74,16 @@ export default {
       store.dispatch("asideLgToggle", false);
     };
 
-    const menuClick = (event, item) => {
-      //
-    };
+    // const menuClick = (event, item) => {
+    //   //
+    // };
 
     return {
       isFormScreen,
       isAsideMobileExpanded,
       isAsideLgActive,
-      asideLgClose,
-      menuClick
+      asideLgClose
+      // menuClick
     };
   }
 };

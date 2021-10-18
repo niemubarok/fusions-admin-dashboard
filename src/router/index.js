@@ -26,7 +26,8 @@ const routes = [
     },
     path: "/user/category/:catId",
     name: "category",
-    component: () => import(/* webpackChunkName: "category" */ "../views/Category")
+    component: () =>
+      import(/* webpackChunkName: "category" */ "../views/Category")
   },
   {
     meta: {

@@ -10,73 +10,7 @@
       "country": "Korea",
       "subscription": "Pro Plan",
       "bussiness_type":"Restaurant",
-      "categories": [
-        {
-          "id": "c1",
-          "uid": "",
-          "texts": {
-            "lang_id": "",
-            "name": "Main Course",
-            "description": "",
-            "isShow": true
-          },
-          "image": "",
-          "display_type": "",
-          "num_of_col": "",
-          "is_new": "",
-          "is_signature": "",
-          "is_published": "",
-          "items":10
-        },
-        {
-          "id": "c1.2",
-          "uid": "",
-          "texts": {
-            "lang_id": "",
-            "name": "Dessert",
-            "description": "",
-            "isShow": true
-          },
-          "image": "",
-          "display_type": "",
-          "num_of_col": "",
-          "is_new": "",
-          "is_signature": "",
-          "is_published": ""
-        },
-         {
-          "id": "c1.3",
-          "uid": "",
-          "texts": {
-            "lang_id": "",
-            "name": "Beverages",
-            "description": "",
-            "isShow": true
-          },
-          "image": "",
-          "display_type": "",
-          "num_of_col": "",
-          "is_new": "",
-          "is_signature": "",
-          "is_published": ""
-        },
-         {
-          "id": "c1.4",
-          "uid": "",
-          "texts": {
-            "lang_id": "",
-            "name": "Beverages",
-            "description": "",
-            "isShow": true
-          },
-          "image": "",
-          "display_type": "",
-          "num_of_col": "",
-          "is_new": "",
-          "is_signature": "",
-          "is_published": ""
-        }
-      ],
+      "bussiness_type":"Restaurant",
       "invoices": [{
         "id": "in.1",
         "uid": "1",
@@ -99,6 +33,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Cafe",
       "invoices": {
         "id": "",
         "uid": "",
@@ -138,6 +73,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -177,6 +113,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -216,6 +153,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -255,6 +193,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -294,6 +233,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -333,6 +273,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -372,6 +313,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",
@@ -411,6 +353,7 @@
       "phone": "08555555",
       "country": "Korea",
       "subscription": "Pro Plan",
+      "bussiness_type":"Restaurant",
       "invoices": {
         "id": "",
         "uid": "",

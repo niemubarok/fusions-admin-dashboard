@@ -1,6 +1,6 @@
 <template>
   <div
-    class="overflow-hidden rounded-lg shadow-lg h-60 transform transition duration-200 hover:z-20 hover:scale-110 w-11/12 "
+    class="overflow-hidden rounded-sm shadow-lg h-60 transform transition duration-200 hover:z-20 hover:scale-110 w-11/12 "
   >
     <img
       src="https://picsum.photos/700/400/?food"
@@ -27,9 +27,7 @@
       <h3 class="text-gray-700 font-bold">
         {{ name }}
       </h3>
-      <p class="text-gray-500 text-sm">
-        {{currency}}&nbsp;{{ price }}
-      </p>
+      <p class="text-gray-500 text-sm">{{ currency }}&nbsp;{{ price }}</p>
     </header>
     <hr />
     <footer class="flex items-center justify-between leading-none md:p-2">
@@ -38,27 +36,18 @@
       </p>
     </footer>
   </div>
-  <!-- END Article -->
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-// import CardComponent from "./CardComponent.vue";
 export default {
-  components: {
-    // CardComponent
-  },
   props: {
     name: {
       type: String,
       default: "item Name"
     },
     price: {
-      type: String,
-      default: "0"
+      type: Number,
+      default: 0
     },
     currency: {
       type: String,

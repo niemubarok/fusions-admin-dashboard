@@ -36,14 +36,13 @@
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
           <div class="w-full  h-64">
-            <!-- items -->
-            <div class="bg-white p-1 shadow-sm rounded-sm">
+            <div class="bg-white p-1 shadow-lg rounded-md">
               <div
-                class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-1"
+                class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mt-2"
               >
                 <span clas="text-green-500">
                   <feather-icon
-                    @click="$router.go(-1)"
+                    @click="backButtonAction"
                     path="chevron-left"
                     size="25px"
                     class="cursor-pointer"
@@ -51,19 +50,77 @@
                 </span>
                 <span class="pb-3 tracking-wide">{{ category.name }}</span>
               </div>
+              <hr />
 
-              <!-- <items /> -->
+              <!-- items -->
               <div class="container flex my-5 mx-auto px-2 md:px-12">
                 <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
                   <!-- empty -->
-                  <!-- <card-component empty class="w-full" /> -->
+                  <card-component
+                    v-if="store.state.items.length == 0"
+                    empty
+                    class="w-full"
+                  />
                   <div
-                    v-for="item in store.state.items"
+                    v-for="item in store.state.items.items"
                     :key="item.id"
-                    class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 cursor-pointer flex justify-center "
+                    class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 flex justify-center "
                   >
-                    <item-card :name="item.name" :price="item.prices[0]"/>
+                    <item-card :name="item.name" :price="item.prices[0]" />
                   </div>
+                </div>
+              </div>
+              <!-- end items  -->
+              <hr />
+              <!-- another categories -->
+              <div class="container p-5">
+                <div class="md:flex no-wrap md:-mx-2 ">
+                  <div class="w-full">
+                    <div class="p-1 shadow-sm rounded-sm">
+                      <div
+                        class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mt-1"
+                      >
+                        <small class="tracking-wide">Another Categories</small>
+                      </div>
+                      <div class="container flex ">
+                        <div class="flex -mx-1 text-gray-700 w-full ">
+                          <!-- empty -->
+                          <card-component
+                            v-if="category === ''"
+                            empty
+                            class="w-full"
+                          />
+                          <div
+                            v-for="category in anotherCategories"
+                            :key="category.id"
+                            class="px-1 cursor-pointer flex justify-start "
+                          >
+                            <a
+                              @click="
+                                [
+                                  $router.push({
+                                    name: 'category',
+                                    params: { catId: category.id }
+                                  }),
+                                  store.dispatch(
+                                    'filterCategoryById',
+                                    category.id
+                                  )
+                                ]
+                              "
+                            >
+                              <div
+                                class="flex-row rounded-md px-2 bg-gray-500 text-gray-100"
+                              >
+                                {{ category.name }}
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -76,19 +133,17 @@
 <script>
 import CardComponent from "../components/CardComponent.vue";
 import MainSection from "../components/MainSection.vue";
-// import Categories from "@/components/Categories";
-// import Invoices from "../components/Invoices.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import { useStore } from "vuex";
-import { onBeforeMount, onMounted, ref } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
+import { onBeforeMount, ref, computed, onUpdated } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import ItemCard from "../components/ItemCard.vue";
 export default {
   components: {
     MainSection,
     ModalBox,
-    //  CardComponent
+    CardComponent,
     // Categories,
     // Invoices,
     FeatherIcon,
@@ -97,21 +152,45 @@ export default {
   setup() {
     const store = useStore();
     const route = useRoute();
-    const catId = route.params.catId;
-    const category = ref("");
+    const router = useRouter();
+    const catId = computed({
+      get: () => route.params.catId
+    });
+    const category = computed(() => store.state.category[0]);
+    const items = computed({
+      get: () => store.state.items
+    });
     const isModalActive = ref(false);
 
-    onBeforeMount(() => {
-      store.dispatch("filterCategoryById", catId);
-      store.dispatch("fetchItems");
-      category.value = store.state.category[0];
+    const backButtonAction = () => {
+      const selectedUserId = localStorage.getItem("selectedUserId");
+      router.push({
+        name: "profile",
+        params: { id: selectedUserId }
+      });
+    };
+    const anotherCategories = computed(() => {
+      return store.state.categories.filter(category => {
+        return category.id !== catId.value;
+      });
     });
 
-    // onMounted(() => {
-    //   console.log(store.state.categories[0]);
-    // });
+    onUpdated(() => {
+      console.log("updated");
+    });
 
-    return { store, category, isModalActive };
+    onBeforeMount(() => {
+      store.dispatch("filterCategoryById", catId.value);
+      store.dispatch("fetchItems");
+    });
+
+    return {
+      store,
+      category,
+      isModalActive,
+      anotherCategories,
+      backButtonAction
+    };
   }
 };
 </script>

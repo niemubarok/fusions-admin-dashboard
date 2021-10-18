@@ -22,6 +22,7 @@ export default createStore({
     users: [],
     categories: [],
     category: [],
+    categoryId: "",
     items: [],
 
     form: {
@@ -36,8 +37,7 @@ export default createStore({
       user: "",
       categories: "",
       items: ""
-    },
-
+    }
   },
   mutations: {
     /* A fit-them-all commit */
@@ -107,11 +107,12 @@ export default createStore({
     },
     fetchItems({ commit }) {
       axios.get("data-sources/items.json").then(r => {
+        // console.log(r.data.data.items);
         if (r.data) {
           if (r.data.data) {
             commit("basic", {
               key: "items",
-              value: r.data.data.items
+              value: r.data.data
             });
           }
         }
@@ -181,10 +182,9 @@ export default createStore({
     // },
     filterCategoryById({ commit, state }, catId = null) {
       if (catId !== null) {
-        // console.log(state.categories.length);
         if (state.categories.length) {
           const filter = state.categories.filter(f => {
-            return f.id.toUpperCase() === catId.toUpperCase();
+            return f.id === catId;
           });
 
           commit("basic", {
