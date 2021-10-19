@@ -205,7 +205,7 @@ export default {
     });
 
     //pagination
-    const perPage = ref(5);
+    const perPage = ref(6);
     const currentPage = ref(0);
     const maxVisibleButton = ref(2);
     const itemsPaginated = computed(() => {

@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, onMounted } from "vue";
 
 import App from "./App.vue";
 import router from "./router";
@@ -15,11 +15,11 @@ store.dispatch("fetchCategories");
 const defaultDocumentTitle = "Cloud Menu";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
-router.beforeEach(to => {
+router.beforeEach((to, from, next) => {
   store.dispatch("asideMobileToggle", false);
   store.dispatch("asideLgToggle", false);
-
   store.dispatch("formScreenToggle", !!to.meta.formScreen);
+  return next();
 });
 
 router.afterEach(to => {

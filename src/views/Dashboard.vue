@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   mdiMonitorCellphone,
   mdiAccountMultiple,

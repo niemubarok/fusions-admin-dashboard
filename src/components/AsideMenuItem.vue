@@ -84,6 +84,10 @@ export default {
     const itemHref = computed(() => props.item.href || null);
 
     const menuClick = event => {
+      if (props.item.action()) {
+        emit("menu-click", event, props.item.action());
+      }
+      // console.log(props.item.action());
       emit("menu-click", event, props.item);
 
       if (hasDropdown.value) {

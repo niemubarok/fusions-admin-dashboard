@@ -1,19 +1,22 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import auth from "./middleware/auth";
 
 const routes = [
   {
     meta: {
       title: "Login",
-      formScreen: true
+      formScreen: true,
+      middleware: auth
     },
-    path: "/",
+    path: "/login",
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   },
   {
     // Document title tag
     meta: {
-      title: "Dashboard"
+      title: "Dashboard",
+      middleware: auth
     },
     path: "/dashboard",
     name: "dashboard",
@@ -22,7 +25,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Category"
+      title: "Category",
+      middleware: auth
     },
     path: "/user/category/:catId",
     name: "category",
@@ -31,7 +35,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Profile"
+      title: "Profile",
+      middleware: auth
     },
     path: "/user/profile/:id",
     name: "profile",
@@ -41,7 +46,8 @@ const routes = [
   {
     meta: {
       title: "Change Password",
-      formScreen: true
+      formScreen: true,
+      middleware: auth
     },
     path: "/change-password",
     name: "changePassword",
@@ -59,7 +65,8 @@ const routes = [
   // },
   {
     meta: {
-      title: "Google Analytics"
+      title: "Google Analytics",
+      middleware: auth
     },
     path: "/analytics",
     name: "googleAnalytics",
@@ -67,16 +74,25 @@ const routes = [
       import(
         /* webpackChunkName: "googleAnalytics" */ "../views/GoogleAnalytics"
       )
+  },
+  {
+    meta: {
+      title: "Page Not Found",
+      formScreen: true
+    },
+    path: "/:pathMatch(.*)*",
+    name: "notfound",
+    component: () => import(/* webpackChunkName: "notfound" */ "../views/404")
   }
 ];
 
 const router = createRouter({
   mode: history,
   history: createWebHashHistory(),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { top: 0 };
-  }
+  routes
+  // scrollBehavior(to, from, savedPosition) {
+  //   return savedPosition || { top: 0 };
+  // }
 });
 
 export default router;

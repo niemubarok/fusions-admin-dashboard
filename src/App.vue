@@ -9,9 +9,11 @@
 <script>
 // @ is an alias to /src
 import { useStore } from "vuex";
+import { defineAsyncComponent, onMounted } from "vue";
 import menu from "@/menu.js";
-import NavBar from "@/components/NavBar";
-import AsideMenu from "@/components/AsideMenu";
+import { useRouter, useRoute } from "vue-router";
+const NavBar = defineAsyncComponent(() => import("@/components/NavBar"));
+const AsideMenu = defineAsyncComponent(() => import("@/components/AsideMenu"));
 
 export default {
   name: "Home",

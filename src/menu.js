@@ -16,9 +16,12 @@ export default [
       icon: "lock"
     },
     {
-      to: "/",
+      to: "/login",
       label: "Log Out",
-      icon: "log-out"
+      icon: "log-out",
+      action: () => {
+        localStorage.removeItem("jwt");
+      }
     }
   ]
 ];

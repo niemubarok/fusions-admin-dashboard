@@ -2,7 +2,7 @@
   <nav
     v-show="isNavBarVisible"
     id="navbar"
-    class=" flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-11/12 md:w-4/5  transition-all  "
+    class=" flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-11/12  md:w-4/5  transition-all  "
   >
     <!-- :class="{ 'ml-60': isAsideMobileExpanded }" -->
     <!-- toggle icon -->

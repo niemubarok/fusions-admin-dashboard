@@ -43,8 +43,9 @@
         </div>
       </template>
     </modal-box>
+    <!-- <div class="flex items-center justify-center"> -->
     <card-component
-      class="w-11/12 md:w-5/12 bg-transparent rounded-lg"
+      class="w-11/12 md:w-5/12 bg-transparent rounded-lg "
       @submit.prevent="submit"
       form
     >
@@ -65,9 +66,9 @@
       <div>
         <floating-label-input
           label="User Name"
-          type="email"
+          type="text"
           icon="user"
-          :modelValue="form.login"
+          v-model="form.login"
         />
       </div>
 
@@ -76,7 +77,7 @@
           label="Password"
           type="password"
           icon="lock"
-          :modelValue="form.pass"
+          v-model="form.pass"
         />
       </div>
 
@@ -99,6 +100,7 @@
         >Forgot password?</a
       >
     </card-component>
+    <!-- </div> -->
   </main-section>
 </template>
 
@@ -144,7 +146,12 @@ export default {
     const router = useRouter();
 
     const submit = () => {
-      router.push("/dashboard");
+      if (form.login == "admin" && form.pass == "admin") {
+        localStorage.setItem("jwt", "token");
+        router.push("/dashboard");
+      } else {
+        router.push("/login");
+      }
     };
 
     return {
