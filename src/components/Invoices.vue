@@ -20,14 +20,11 @@
     >
   </div> -->
 
-  <div v-if="filterUsers().length == 0">
+  <div v-if="invoices().length == 0">
     <card-component empty />
   </div>
 
-  <table
-    v-if="filterUsers().length !== 0"
-    class="md:pa-md text-gray-700 w-full"
-  >
+  <table v-if="invoices().length" class="md:pa-md text-gray-700 w-full">
     <thead>
       <tr>
         <!-- <th v-if="checkable" class="text-center">
@@ -48,20 +45,22 @@
     </thead>
     <tbody>
       <tr
-        v-for="(user, index) in itemsPaginated"
-        :key="user.id"
+        v-for="(invoice, index) in itemsPaginated"
+        :key="invoice.id"
         class="text-center"
       >
         <td class="text-center">
-          {{ index + 1 }}
+          {{ lineNumber(index) }}
         </td>
-        <td class="text-center" data-label="Date">May 2021</td>
+        <td class="text-center" data-label="Date">{{ invoice.date_end }}</td>
         <td class="text-center" data-label="Plan">
           Pro Plan
         </td>
-        <td class="text-center" data-label="Price">$580</td>
+        <td class="text-center" data-label="Price">${{ invoice.price }}</td>
         <td class="text-center" data-label="Status">
-          <small class="bg-green-100 text-green-500 px-4">Paid</small>
+          <small class="bg-green-100 text-green-500 px-4 rounded-md"
+            >Paid</small
+          >
         </td>
         <!-- <td class="text-center" data-label="Action">
           <jb-buttons type="justify-start lg:justify-center" no-wrap>
@@ -82,7 +81,7 @@
   <div class="table-pagination align-middle">
     <pagination
       :total-pages="pagesList.length - 1"
-      :total="filterUsers().length"
+      :total="invoices().length"
       :per-page="perPage"
       :current-page="currentPage"
       @pagechanged="showMore"
@@ -97,8 +96,6 @@
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import ModalBox from "@/components/ModalBox";
-import JbButtons from "@/components/JbButtons";
-import FeatherIcon from "./FeatherIcon.vue";
 import CardComponent from "./CardComponent";
 import Pagination from "./Pagination.vue";
 
@@ -106,9 +103,7 @@ export default {
   name: "UsersTable",
   components: {
     ModalBox,
-    // JbButtons,
     CardComponent,
-    // FeatherIcon,
     ModalBox,
     Pagination
   },
@@ -123,28 +118,35 @@ export default {
 
     const perPage = ref(5);
 
+    const lineNumber = index => {
+      for (let i = 0; i <= currentPage.value; i++) {
+        if (currentPage.value == 0) return index + 1;
+        else if (currentPage.value == i) return index + i * 5;
+      }
+    };
+
     const currentPage = ref(0);
 
     const maxVisibleButton = ref(2);
 
     const itemsPaginated = computed(() => {
-      if (filterUsers().length <= perPage.value) {
+      if (invoices().length <= perPage.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         maxVisibleButton.value = 1;
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         currentPage.value = 0;
-        return filterUsers();
+        return invoices();
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       maxVisibleButton.value = 2;
 
-      return filterUsers().slice(
+      return invoices().slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       );
     });
     const numPages = computed(() =>
-      Math.ceil(filterUsers().length / perPage.value)
+      Math.ceil(invoices().length / perPage.value)
     );
 
     const pagesList = computed(() => {
@@ -178,30 +180,11 @@ export default {
       remove();
     };
 
-    const filterUsers = () => {
-      if (store.state.users.length) {
-        const filterBySearch = store.state.users.filter(filtered => {
-          return (
-            filtered.user
-              .toUpperCase()
-              .includes(store.state.search.toUpperCase()) ||
-            filtered.restaurant
-              .toUpperCase()
-              .includes(store.state.search.toUpperCase()) ||
-            filtered.country
-              .toUpperCase()
-              .includes(store.state.search.toUpperCase())
-          );
-        });
-
-        const filter = filterBySearch.filter(filtered => {
-          return filtered.status
-            .toUpperCase()
-            .includes(store.state.filter.toUpperCase());
-        });
-        return filter;
+    const invoices = () => {
+      if (store.state.filteredUser.length) {
+        return store.state.filteredUser[0].invoices;
       } else {
-        return null;
+        return [];
       }
     };
 
@@ -211,12 +194,13 @@ export default {
       numPages,
       itemsPaginated,
       pagesList,
-      filterUsers,
+      invoices,
       invoiceModal,
       perPage,
       remove,
       showMore,
-      maxVisibleButton
+      maxVisibleButton,
+      lineNumber
     };
   }
 };

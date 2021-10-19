@@ -62,7 +62,7 @@
                     class="w-full"
                   />
                   <div
-                    v-for="item in store.state.items.items"
+                    v-for="item in itemsPaginated"
                     :key="item.id"
                     class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 flex justify-center "
                   >
@@ -70,11 +70,24 @@
                   </div>
                 </div>
               </div>
+
               <!-- end items  -->
               <hr />
+              <!-- <div class="table-pagination align-middle"> -->
+              <pagination
+                :total-pages="pagesList.length - 1"
+                :total="items().length"
+                :per-page="perPage"
+                :current-page="currentPage"
+                @pagechanged="showMore"
+                :maxVisibleButtons="maxVisibleButton"
+                :hasMorePages="false"
+              >
+              </pagination>
+              <!-- </div> -->
               <!-- another categories -->
               <div class="container p-5">
-                <div class="md:flex no-wrap md:-mx-2 ">
+                <div class="md:flex no-wrap md:-mx-2 -mt-10 ">
                   <div class="w-full">
                     <div class="p-1 shadow-sm rounded-sm">
                       <div
@@ -120,8 +133,11 @@
                       </div>
                     </div>
                   </div>
+
                   <!-- </div> -->
                 </div>
+
+                <!-- pagination -->
               </div>
             </div>
           </div>
@@ -139,11 +155,13 @@ import { onBeforeMount, ref, computed, onUpdated } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import ItemCard from "../components/ItemCard.vue";
+import Pagination from "@/components/Pagination.vue";
 export default {
   components: {
     MainSection,
     ModalBox,
     CardComponent,
+    Pagination,
     // Categories,
     // Invoices,
     FeatherIcon,
@@ -157,9 +175,11 @@ export default {
       get: () => route.params.catId
     });
     const category = computed(() => store.state.category[0]);
-    const items = computed({
-      get: () => store.state.items
+
+    const getItems = computed({
+      get: () => store.state.items.items
     });
+
     const isModalActive = ref(false);
 
     const backButtonAction = () => {
@@ -184,12 +204,65 @@ export default {
       store.dispatch("fetchItems");
     });
 
+    //pagination
+    const perPage = ref(5);
+    const currentPage = ref(0);
+    const maxVisibleButton = ref(2);
+    const itemsPaginated = computed(() => {
+      if (items().length <= perPage.value) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        maxVisibleButton.value = 1;
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        currentPage.value = 0;
+        return items();
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      maxVisibleButton.value = 2;
+
+      return items().slice(
+        perPage.value * currentPage.value,
+        perPage.value * (currentPage.value + 1)
+      );
+    });
+    const numPages = computed(() => Math.ceil(items().length / perPage.value));
+
+    const pagesList = computed(() => {
+      const pagesList = [];
+
+      for (let i = 0; i < numPages.value; i++) {
+        pagesList.push(i);
+      }
+
+      return pagesList;
+    });
+
+    const showMore = p => {
+      // page.value = p;
+      currentPage.value = p;
+    };
+
+    const items = () => {
+      if (getItems.value.length) {
+        return getItems.value;
+      } else {
+        return [];
+      }
+    };
+
     return {
       store,
       category,
       isModalActive,
       anotherCategories,
-      backButtonAction
+      backButtonAction,
+      currentPage,
+      numPages,
+      itemsPaginated,
+      pagesList,
+      items,
+      perPage,
+      showMore,
+      maxVisibleButton
     };
   }
 };

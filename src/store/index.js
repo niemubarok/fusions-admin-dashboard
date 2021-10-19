@@ -3,20 +3,19 @@ import axios from "axios";
 
 export default createStore({
   state: {
-    /* User */
+    // User
     userName: null,
     userEmail: null,
     userAvatar: null,
 
-    /* FormScreen - fullscreen form layout (e.g. login page) */
+    // hide header and sidebar if true
     isFormScreen: false,
 
-    /* Aside */
+    // sidebar
     isAsideMobileExpanded: false,
     isAsideLgActive: false,
 
-    /* Sample data (commonly used) */
-    search: "",
+    // data
     filter: "",
     filteredUser: "",
     users: [],
@@ -25,6 +24,7 @@ export default createStore({
     categoryId: "",
     items: [],
 
+    // form model
     form: {
       user: "",
       password: "",
@@ -33,14 +33,17 @@ export default createStore({
       forgotPassword: ""
     },
 
+    // search model
     searchModel: {
       user: "",
       categories: "",
-      items: ""
+      items: "",
+      invoices: ""
     }
   },
+
   mutations: {
-    /* A fit-them-all commit */
+    // all commit
     basic(state, payload) {
       state[payload.key] = payload.value;
     },

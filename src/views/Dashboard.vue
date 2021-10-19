@@ -39,14 +39,14 @@
           <div>
             <small
               @click="setFilterActive"
-              class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-lg  h-6 px-5 mr-3 bg-green-100 text-green-500"
+              class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-md  h-6 px-5 mr-3 bg-green-100 text-green-500"
             >
               Active
             </small>
           </div>
           <div>
             <small
-              class="cursor-pointer hover:bg-red-500 hover:text-red-50 rounded-lg h-6 px-5 mr-4 bg-red-100 text-red-500"
+              class="cursor-pointer hover:bg-red-400 hover:text-red-50 rounded-md h-6 px-5 mr-4 bg-red-100 text-red-500"
               @click="setFilterBanned"
             >
               Banned
@@ -113,10 +113,6 @@ export default {
         return client.status.toUpperCase().includes("BANNED");
       });
     };
-
-    onBeforeMount(()=>{
-      // store.dispatch("fetchUsers")
-    })
 
     onMounted(() => {
       store.state.filter = "";

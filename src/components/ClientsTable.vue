@@ -41,7 +41,7 @@
         <th class="text-center">Bussiness Type</th>
         <th class="text-center">Country</th>
         <th class="text-center">Subscription</th>
-        <th class="text-center">status</th>
+        <th class="text-center">Status</th>
         <!-- <th class="text-center">Invoices</th> -->
         <th class="text-center">Action</th>
       </tr>
@@ -74,7 +74,7 @@
             :class="{
               'bg-green-100 text-green-500 px-4':
                 user.status.toUpperCase() == 'ACTIVE',
-              'bg-red-100 text-red-500 px-3':
+              'bg-red-100 text-red-400 px-3':
                 user.status.toUpperCase() == 'BANNED'
             }"
             :title="user.status"
