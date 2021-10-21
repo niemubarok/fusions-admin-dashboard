@@ -16,11 +16,11 @@ export default [
       icon: "lock"
     },
     {
-      to: "/login",
+      to: "/",
       label: "Log Out",
       icon: "log-out",
       action: () => {
-        localStorage.removeItem("jwt");
+        localStorage.removeItem("token");
       }
     }
   ]

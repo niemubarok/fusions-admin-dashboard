@@ -22,7 +22,7 @@ export default {
     const isFormScreen = computed(() => store.state.isFormScreen);
 
     onMounted(() => {
-      if (route.name !== "login" && !localStorage.getItem("jwt")) {
+      if (route.name !== "login" && !localStorage.getItem("token")) {
         console.log("unauthorized");
         router.push({ name: "login" });
       }

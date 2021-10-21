@@ -38,7 +38,7 @@
             <feather-icon path="chevron-left"> </feather-icon>
           </span>
           <small class="-ml-2 ">
-            back to login
+            back to username
           </small>
         </div>
       </template>
@@ -62,23 +62,46 @@
         <small>
           Please Log-in to your account
         </small>
+
+        <notification
+          v-if="form.errorMessage"
+          :color="notificationColor"
+          class="absolute top-2 right-3 p-2 "
+        >
+          <!-- :outline="true" -->
+          {{ form.errorMessage }}
+        </notification>
       </div>
       <div>
-        <floating-label-input
-          label="User Name"
-          type="text"
-          icon="user"
-          v-model="form.login"
-        />
+        <div
+          :class="{ 'border border-red-200 rounded-md': form.isUserNameError }"
+        >
+          <floating-label-input
+            label="Username"
+            type="text"
+            icon="user"
+            v-model="form.username"
+          />
+        </div>
+        <small v-if="form.isUserNameError" class="text-red-400">{{
+          form.errorMessage
+        }}</small>
       </div>
-
-      <div class="mt-4">
-        <floating-label-input
-          label="Password"
-          type="password"
-          icon="lock"
-          v-model="form.pass"
-        />
+      <div>
+        <div
+          class="mt-4"
+          :class="{ 'border border-red-200 rounded-md': form.isPassError }"
+        >
+          <floating-label-input
+            label="Password"
+            type="password"
+            icon="lock"
+            v-model="form.pass"
+          />
+        </div>
+        <small v-if="form.isPassError" class="text-red-400">{{
+          form.errorMessage
+        }}</small>
       </div>
 
       <div class="mt-5 text-gray-500">
@@ -120,9 +143,11 @@ import ModalBox from "@/components/ModalBox";
 import Logo from "@/components/Logo";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import FloatingLabelInput from "../components/FloatingLabelInput.vue";
+import Notification from "../components/Notification.vue";
+import { useStore } from "vuex";
 
 export default {
-  name: "Login",
+  name: "username",
   components: {
     MainSection,
     CardComponent,
@@ -133,24 +158,45 @@ export default {
     ModalBox,
     Logo,
     FloatingLabelInput,
-    FeatherIcon
+    FeatherIcon,
+    Notification
   },
   setup() {
+    const store = useStore();
     const form = reactive({
-      login: "",
+      username: "",
+      isUserNameError: false,
       pass: "",
-      remember: true
+      isPassError: false,
+      remember: false,
+      errorMessage: ""
     });
     const isModalActive = ref(false);
+    const notificationColor = ref("");
 
     const router = useRouter();
 
     const submit = () => {
-      if (form.login == "admin" && form.pass == "admin") {
-        localStorage.setItem("jwt", "token");
-        router.push("/dashboard");
+      if (form.username == "") {
+        form.isUserNameError = true;
+        form.errorMessage = "Please provide your username";
+        notificationColor.value = "danger";
+      } else if (form.pass == "") {
+        form.isUserNameError = false;
+        form.isPassError = true;
+        form.errorMessage = "Have you typed your password?";
+        notificationColor.value = "danger";
       } else {
-        router.push("/login");
+        form.isUserNameError = false;
+        form.isPassError = false;
+        store.dispatch("login", form);
+        if (localStorage.getItem("token")) {
+          router.push("/dashboard");
+        } else {
+          form.errorMessage = "Incorrect username or password";
+          notificationColor.value = "danger";
+          router.push({ name: "login" });
+        }
       }
     };
 
@@ -159,7 +205,8 @@ export default {
       form,
       submit,
       mdiAccount,
-      mdiAsterisk
+      mdiAsterisk,
+      notificationColor
     };
   }
 };

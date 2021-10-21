@@ -91,6 +91,31 @@ export default createStore({
         "form-screen"
       );
     },
+
+    async login({}, payload = null) {
+      // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+      await axios
+        .post(
+          "http://35.188.119.8/cloud-menu/api/v1/web/user/login",
+          {
+            email: payload.username,
+            password: payload.pass
+          },
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+              Accept: "*/*"
+            }
+          }
+        )
+        .then(res => {
+          if (res) localStorage.setItem("token", res.data.token);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     fetchUsers({ commit }) {
       axios
         .get("data-sources/restaurants.json")

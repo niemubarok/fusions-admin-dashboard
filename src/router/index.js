@@ -8,7 +8,7 @@ const routes = [
       formScreen: true,
       middleware: auth
     },
-    path: "/login",
+    path: "/",
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   },

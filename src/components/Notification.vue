@@ -6,8 +6,15 @@
   >
     <level>
       <div class="flex flex-col md:flex-row items-center">
-        <icon v-if="icon" :path="icon" w="w-10 md:w-5" h="h-10 md:h-5" size="24" class="md:mr-2" />
-        <span class="text-center md:text-left"><slot /></span>
+        <icon
+          v-if="icon"
+          :path="icon"
+          w="w-10 md:w-5"
+          h="h-10 md:h-5"
+          size="24"
+          class="md:mr-2"
+        />
+        <span class="text-center md:text-left p-2"><slot /></span>
       </div>
       <slot v-if="hasRightSlot" name="right" />
       <jb-button v-else :icon="mdiClose" @click="dismiss" small />
@@ -16,15 +23,15 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { mdiClose } from '@mdi/js'
-import { colorsBg, colorsOutline } from '@/colors.js'
-import Level from '@/components/Level'
-import Icon from '@/components/Icon'
-import JbButton from '@/components/JbButton'
+import { ref, computed } from "vue";
+import { mdiClose } from "@mdi/js";
+import { colorsBg, colorsOutline } from "@/colors.js";
+import Level from "@/components/Level";
+import Icon from "@/components/Icon";
+import JbButton from "@/components/JbButton";
 
 export default {
-  name: 'Notification',
+  name: "Notification",
   components: {
     Icon,
     Level,
@@ -38,16 +45,18 @@ export default {
       required: true
     }
   },
-  setup (props, { slots }) {
-    const componentClass = computed(() => props.outline ? colorsOutline[props.color] : colorsBg[props.color])
+  setup(props, { slots }) {
+    const componentClass = computed(() =>
+      props.outline ? colorsOutline[props.color] : colorsBg[props.color]
+    );
 
-    const isDismissed = ref(false)
+    const isDismissed = ref(false);
 
     const dismiss = () => {
-      isDismissed.value = true
-    }
+      isDismissed.value = true;
+    };
 
-    const hasRightSlot = computed(() => slots.right)
+    const hasRightSlot = computed(() => slots.right);
 
     return {
       componentClass,
@@ -55,7 +64,7 @@ export default {
       dismiss,
       hasRightSlot,
       mdiClose
-    }
+    };
   }
-}
+};
 </script>

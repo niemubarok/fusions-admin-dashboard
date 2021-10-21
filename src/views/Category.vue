@@ -48,7 +48,7 @@
                     class="cursor-pointer"
                   />
                 </span>
-                <span class="pb-3 tracking-wide">{{ category.name }}</span>
+                <span class="pb-3 tracking-wide">{{ getItems.name }}</span>
               </div>
               <hr />
 
@@ -151,7 +151,13 @@ import CardComponent from "../components/CardComponent.vue";
 import MainSection from "../components/MainSection.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import { useStore } from "vuex";
-import { onBeforeMount, ref, computed, onUpdated } from "@vue/runtime-core";
+import {
+  onBeforeMount,
+  ref,
+  computed,
+  onUpdated,
+  onMounted
+} from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import ItemCard from "../components/ItemCard.vue";
@@ -177,7 +183,7 @@ export default {
     const category = computed(() => store.state.category[0]);
 
     const getItems = computed({
-      get: () => store.state.items.items
+      get: () => store.state.items
     });
 
     const isModalActive = ref(false);
@@ -196,7 +202,10 @@ export default {
     });
 
     onUpdated(() => {
-      console.log("updated");
+      // console.log("updated");
+      console.log(getItems.value.name);
+      store.dispatch("filterCategoryById", catId.value);
+      store.dispatch("fetchItems");
     });
 
     onBeforeMount(() => {
@@ -242,12 +251,16 @@ export default {
     };
 
     const items = () => {
-      if (getItems.value.length) {
-        return getItems.value;
+      if (store.state.items.items) {
+        return store.state.items.items;
       } else {
         return [];
       }
     };
+
+    // onMounted(() => {
+    //   console.log(items());
+    // });
 
     return {
       store,
@@ -262,7 +275,8 @@ export default {
       items,
       perPage,
       showMore,
-      maxVisibleButton
+      maxVisibleButton,
+      getItems
     };
   }
 };

@@ -1,12 +1,10 @@
 <template>
-  <main-section>
-    <h1>Page Not Found</h1>
-  </main-section>
+  <h1>Page Not Found</h1>
 </template>
 <script>
 import MainSection from "../components/MainSection.vue";
 export default {
-  components: { MainSection },
+  // components: { MainSection },
   setup() {}
 };
 </script>
