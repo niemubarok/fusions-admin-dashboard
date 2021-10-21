@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import MainSection from "@/components/MainSection";
@@ -176,7 +176,7 @@ export default {
 
     const router = useRouter();
 
-    const submit = () => {
+    const submit = async () => {
       if (form.username == "") {
         form.isUserNameError = true;
         form.errorMessage = "Please provide your username";
@@ -189,13 +189,15 @@ export default {
       } else {
         form.isUserNameError = false;
         form.isPassError = false;
-        store.dispatch("login", form);
-        if (localStorage.getItem("token")) {
-          router.push("/dashboard");
-        } else {
+        await store.dispatch("login", form);
+
+        if (!localStorage.getItem("token")) {
           form.errorMessage = "Incorrect username or password";
           notificationColor.value = "danger";
           router.push({ name: "login" });
+        } else {
+          console.log(localStorage.getItem("token"));
+          router.push("/dashboard");
         }
       }
     };

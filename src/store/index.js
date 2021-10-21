@@ -93,24 +93,27 @@ export default createStore({
     },
 
     async login({}, payload = null) {
-      // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-      await axios
-        .post(
-          "https://35.188.119.8/cloud-menu/api/v1/web/user/login",
-          {
-            email: payload.username,
-            password: payload.pass
-          },
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Content-Type": "application/json",
-              Accept: "*/*"
-            }
-          }
-        )
+      await axios({
+        method: "POST",
+        url: "http://35.188.119.8/cloud-menu/api/v1/web/user/login",
+        // withCredentials: true,
+        // crossdomain: true,
+        data: {
+          email: payload.username,
+          password: payload.pass
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
+          // "Access-Control-Allow-Methods":
+          //   "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+          // "Access-Control-Allow-Headers": "Origin, Content-Type"
+        }
+      })
         .then(res => {
-          if (res) localStorage.setItem("token", res.data.token);
+          // console.log(res.data.data);
+          if (res.status == 200)
+            localStorage.setItem("token", res.data.data.token);
         })
         .catch(err => {
           console.log(err);
@@ -133,18 +136,24 @@ export default createStore({
           alert(error.message);
         });
     },
-    fetchItems({ commit }) {
-      axios.get("data-sources/items.json").then(r => {
-        // console.log(r.data.data.items);
-        if (r.data) {
-          if (r.data.data) {
-            commit("basic", {
-              key: "items",
-              value: r.data.data
-            });
+    fetchItems({ commit }, catId = null) {
+      axios
+        .get("http://35.188.119.8/cloud-menu/api/v1/web/item/" + catId, {
+          headers: {
+            Authorization: localStorage.getItem("token")
           }
-        }
-      });
+        })
+        .then(r => {
+          console.log(r.data);
+          if (r.data) {
+            if (r.data.data) {
+              commit("basic", {
+                key: "items",
+                value: r.data.data
+              });
+            }
+          }
+        });
     },
     filterUsersById({ commit, state }, userId = null) {
       if (state.users.length) {
@@ -187,14 +196,21 @@ export default createStore({
       }
     },
     fetchCategories({ commit }) {
-      axios.get("data-sources/categories.json").then(r => {
-        if (r.data) {
-          commit("basic", {
-            key: "categories",
-            value: r.data.data.categories
-          });
-        }
-      });
+      axios
+        .get("http://35.188.119.8/cloud-menu/api/v1/web/category", {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          console.log(r.data);
+          if (r.data) {
+            commit("basic", {
+              key: "categories",
+              value: r.data.data.categories
+            });
+          }
+        });
     },
     // filterCategories({ commit, state }) {
     //   const filtered = state.categories.filter(element => {
