@@ -96,7 +96,7 @@ export default createStore({
       // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       await axios
         .post(
-          "http://35.188.119.8/cloud-menu/api/v1/web/user/login",
+          "https://35.188.119.8/cloud-menu/api/v1/web/user/login",
           {
             email: payload.username,
             password: payload.pass
