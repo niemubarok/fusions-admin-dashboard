@@ -3,7 +3,8 @@ export default [
     {
       to: "/dashboard",
       icon: "home",
-      label: "Dashboard"
+      label: "Dashboard",
+      action: () => false
     },
     // {
     //   to: "/analytics",
@@ -13,7 +14,8 @@ export default [
     {
       to: "/change-password",
       label: "Change Password",
-      icon: "lock"
+      icon: "lock",
+      action: () => false
     },
     {
       to: "/",

@@ -20,11 +20,11 @@
     >
   </div> -->
 
-  <div v-if="filterUsers().length == 0">
+  <div v-if="!filterUsers().length">
     <card-component empty />
   </div>
 
-  <table v-if="filterUsers().length !== 0" class="md:pa-md text-gray-700">
+  <table v-if="filterUsers().length" class="md:pa-md text-gray-700">
     <thead>
       <tr>
         <!-- <th v-if="checkable" class="text-center">
@@ -50,22 +50,25 @@
       <tr v-for="user in itemsPaginated" :key="user.id" class="text-center">
         <td>
           <div class="flex justify-center">
-            <img :src="user.logo" class="w-14 rounded-full " />
+            <img
+              :src="user.logo ? user.logo : 'https://picsum.photos/200'"
+              class="block w-14 rounded-full"
+            />
           </div>
         </td>
-        <td class="text-center" data-label="User">{{ user.user }}</td>
+        <td class="text-center" data-label="User">{{ user.name }}</td>
         <td class="text-center" data-label="Restaurant">
-          {{ user.restaurant }}
+          {{ user.business_name }}
         </td>
         <td class="text-center" data-label="Phone">
-          {{ user.bussiness_type }}
+          {{ user.business_type }}
         </td>
         <td class="text-center" data-label="Country">
           {{ user.country }}
         </td>
         <td class="text-center" data-label="Subscription">
-          <span class="text-gray-500" :title="user.subscription">{{
-            user.subscription
+          <span class="text-gray-500" :title="user.subscription_plan">{{
+            user.subscription_plan
           }}</span>
         </td>
         <td class="text-center" data-label="Status">
@@ -78,7 +81,7 @@
                 user.status.toUpperCase() == 'BANNED'
             }"
             :title="user.status"
-            >{{ user.status }}</small
+            >{{ user.status?.toUpperCase() }}</small
           >
         </td>
         <!-- <td class="text-center" data-label="Invoices">
@@ -103,7 +106,7 @@
                 class="rounded-md no-border cursor-pointer text-green-500"
                 path="eye"
                 small
-                @click="actionHandler(user.id)"
+                @click.prevent="actionHandler(user.uid)"
               >
               </feather-icon>
             </span>
@@ -250,25 +253,25 @@ export default {
       if (store.state.users.length) {
         const filterBySearch = store.state.users.filter(filtered => {
           return (
-            filtered.user
-              .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase()) ||
-            filtered.restaurant
-              .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase()) ||
-            filtered.bussiness_type
-              .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase()) ||
+            filtered.name
+              ?.toUpperCase()
+              .includes(store.state.searchModel.user?.toUpperCase()) ||
+            filtered.business_name
+              ?.toUpperCase()
+              .includes(store.state.searchModel.user?.toUpperCase()) ||
+            filtered.business_type
+              ?.toUpperCase()
+              .includes(store.state.searchModel.user?.toUpperCase()) ||
             filtered.country
-              .toUpperCase()
-              .includes(store.state.searchModel.user.toUpperCase())
+              ?.toUpperCase()
+              .includes(store.state.searchModel.user?.toUpperCase())
           );
         });
 
         const filter = filterBySearch.filter(filtered => {
-          return filtered.status
-            .toUpperCase()
-            .includes(store.state.filter.toUpperCase());
+          return filtered?.status
+            ?.toUpperCase()
+            .includes(store.state.filter?.toUpperCase());
         });
         return filter;
       } else {

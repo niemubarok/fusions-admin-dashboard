@@ -202,8 +202,6 @@ export default {
     });
 
     onUpdated(() => {
-      // console.log("updated");
-      console.log(getItems.value.name);
       store.dispatch("filterCategoryById", catId.value);
       store.dispatch("fetchItems", catId.value);
     });

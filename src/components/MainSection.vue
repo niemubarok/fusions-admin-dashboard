@@ -21,10 +21,14 @@ export default {
 
     const isFormScreen = computed(() => store.state.isFormScreen);
 
-    onMounted(() => {
+    onMounted(async () => {
       if (route.name !== "login" && !localStorage.getItem("token")) {
         console.log("unauthorized");
         router.push({ name: "login" });
+      } else if (localStorage.getItem("token")) {
+        // store.dispatch("fetchUsers");
+        store.dispatch("fetchCategories");
+        await store.dispatch("fetchDashboard");
       }
     });
 

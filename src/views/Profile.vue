@@ -68,12 +68,12 @@
               <h1
                 class="text-gray-900 text-center font-bold text-xl leading-8 my-1"
               >
-                {{ user.restaurant }}
+                {{ user.business_name }}
               </h1>
               <h2
                 class="text-gray-600 font-lg text-center text-semibold leading-6"
               >
-                {{ user.user }}
+                {{ user.name }}
               </h2>
               <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
@@ -85,9 +85,9 @@
                       class="py-1 px-2 rounded text-sm"
                       :class="{
                         'bg-green-100 text-green-500 px-4':
-                          user.status.toUpperCase() == 'ACTIVE',
+                          user.status?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          user.status.toUpperCase() == 'BANNED'
+                          user.status?.toUpperCase() == 'BANNED'
                       }"
                       >{{ user.status }}</span
                     ></span
@@ -95,11 +95,11 @@
                 </li>
                 <li class="flex items-center py-3">
                   <small>Bussiness Type</small>
-                  <span class="ml-auto">Restaurant</span>
+                  <span class="ml-auto">{{ user.business_type }}</span>
                 </li>
                 <li class="flex items-center py-3">
                   <small>Subscription</small>
-                  <span class="ml-auto">Pro Plan</span>
+                  <span class="ml-auto">{{ user.subscription_plan }}</span>
                 </li>
                 <li class="flex items-center py-3">
                   <small>Subscription Price</small>
@@ -115,7 +115,9 @@
                 </li>
                 <li class="flex items-center py-3">
                   <small>Country</small>
-                  <span class="ml-auto">{{ user.country }}</span>
+                  <span class="ml-auto w-1/2 overflow-ellipsis">{{
+                    user.country
+                  }}</span>
                 </li>
               </ul>
               <div
@@ -202,7 +204,7 @@ import Categories from "@/components/Categories";
 import Invoices from "../components/Invoices.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import { useStore } from "vuex";
-import { onBeforeMount, ref } from "@vue/runtime-core";
+import { onMounted, ref } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import BackButton from "@/components/BackButton.vue";
@@ -224,11 +226,12 @@ export default {
     const user = ref("");
     const isModalActive = ref(false);
 
-    onBeforeMount(() => {
-      store.dispatch("filterUsersById", userId);
+    onMounted(async () => {
+      await store.dispatch("fetchDashboard");
+      await store.dispatch("filterUsersById", userId);
 
       user.value = store.state.filteredUser[0];
-      // console.log(store.state.filtered[0]);
+      // console.log(store.state.users);
     });
 
     return { store, user, isModalActive };

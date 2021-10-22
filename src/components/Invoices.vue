@@ -20,27 +20,18 @@
     >
   </div> -->
 
-  <div v-if="invoices().length == 0">
+  <div>
     <card-component empty />
   </div>
 
-  <table v-if="invoices().length" class="md:pa-md text-gray-700 w-full">
+  <!-- <table v-if="invoices().length" class="md:pa-md text-gray-700 w-full">
     <thead>
       <tr>
-        <!-- <th v-if="checkable" class="text-center">
-          <input
-            type="checkbox"
-            @click="selectAll()"
-            v-model="allSelected"
-            class="rounded"
-          />
-        </th> -->
         <th class="text-center">No.</th>
         <th class="text-center">Due Date</th>
         <th class="text-center">Plan</th>
         <th class="text-center">Price</th>
         <th class="text-center">Status</th>
-        <!-- <th class="text-center">Action</th> -->
       </tr>
     </thead>
     <tbody>
@@ -62,19 +53,6 @@
             >Paid</small
           >
         </td>
-        <!-- <td class="text-center" data-label="Action">
-          <jb-buttons type="justify-start lg:justify-center" no-wrap>
-            <span title="User detail">
-              <feather-icon
-                size="15px"
-                class="rounded-md no-border cursor-pointer text-green-500"
-                path="eye"
-                small
-              >
-              </feather-icon>
-            </span>
-          </jb-buttons>
-        </td> -->
       </tr>
     </tbody>
   </table>
@@ -89,7 +67,7 @@
       :hasMorePages="false"
     >
     </pagination>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -104,8 +82,8 @@ export default {
   components: {
     ModalBox,
     CardComponent,
-    ModalBox,
-    Pagination
+    ModalBox
+    // Pagination
   },
   props: {
     checkable: Boolean

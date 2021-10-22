@@ -23,6 +23,9 @@ export default createStore({
     category: [],
     categoryId: "",
     items: [],
+    activeUserCount: "",
+    bannedUserCount: "",
+    allUsers: [],
 
     // form model
     form: {
@@ -95,11 +98,11 @@ export default createStore({
     async login({}, payload = null) {
       await axios({
         method: "POST",
-        url: "http://35.188.119.8/cloud-menu/api/v1/web/user/login",
+        url: "http://35.188.119.8/cloud-menu/api/v1/admin/login",
         // withCredentials: true,
         // crossdomain: true,
         data: {
-          email: payload.username,
+          username: payload.username,
           password: payload.pass
         },
         headers: {
@@ -155,10 +158,11 @@ export default createStore({
           }
         });
     },
-    filterUsersById({ commit, state }, userId = null) {
-      if (state.users.length) {
+    async filterUsersById({ commit, state }, userId = null) {
+      if (localStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
-          return filtered.id == userId;
+          console.log("filtered.uid", filtered);
+          return filtered.uid == userId;
         });
 
         commit("basic", {
@@ -197,13 +201,13 @@ export default createStore({
     },
     fetchCategories({ commit }) {
       axios
-        .get("http://35.188.119.8/cloud-menu/api/v1/web/category", {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
+        // .get("http://35.188.119.8/cloud-menu/api/v1/web/category", {
+        //   headers: {
+        //     Authorization: localStorage.getItem("token")
+        //   }
+        .get("data-sources/categories.json")
+
         .then(r => {
-          console.log(r.data);
           if (r.data) {
             commit("basic", {
               key: "categories",
@@ -237,6 +241,30 @@ export default createStore({
           });
         }
       }
+    },
+    async fetchDashboard({ commit }) {
+      await axios({
+        url: "http://35.188.119.8/cloud-menu/api/v1/admin/dashboard",
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          "Access-Control-Allow-Headers": "*"
+        }
+      }).then(r => {
+        commit("basic", {
+          key: "activeUserCount",
+          value: r.data.data.active_users_total
+        });
+        commit("basic", {
+          key: "bannerUserCount",
+          value: r.data.data.banned_users_total
+        });
+        commit("basic", {
+          key: "users",
+          value: r.data.data.users
+        });
+        localStorage.setItem("users", r.data.data.users);
+      });
     }
   },
   modules: {}

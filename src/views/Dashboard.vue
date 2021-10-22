@@ -9,7 +9,7 @@
         :class="{ 'bg-green-100': store.state.filter == 'active' }"
         color="text-green-500"
         :icon="mdiAccountMultiple"
-        :number="activeUsers().length"
+        :number="Number(store.state.activeUserCount)"
         label="Active Users"
         @click="setFilterActive"
       />
@@ -18,7 +18,7 @@
         :class="{ 'bg-red-100': store.state.filter == 'banned' }"
         color="text-red-400"
         :icon="mdiAccountMultipleRemove"
-        :number="bannedUsers().length"
+        :number="Number(store.state.bannedUserCount)"
         label="Banned Users"
         @click="setFilterBanned"
       />

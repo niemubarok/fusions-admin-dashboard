@@ -38,7 +38,7 @@
             <feather-icon path="chevron-left"> </feather-icon>
           </span>
           <small class="-ml-2 ">
-            back to username
+            back to login
           </small>
         </div>
       </template>
@@ -134,8 +134,6 @@ import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import CardComponent from "@/components/CardComponent";
 import CheckRadioPicker from "@/components/CheckRadioPicker";
-import Field from "@/components/Field";
-import Control from "@/components/Control";
 import Divider from "@/components/Divider.vue";
 import JbButton from "@/components/JbButton";
 import JbButtons from "@/components/JbButtons";
@@ -196,7 +194,6 @@ export default {
           notificationColor.value = "danger";
           router.push({ name: "login" });
         } else {
-          console.log(localStorage.getItem("token"));
           router.push("/dashboard");
         }
       }
@@ -206,8 +203,6 @@ export default {
       isModalActive,
       form,
       submit,
-      mdiAccount,
-      mdiAsterisk,
       notificationColor
     };
   }
