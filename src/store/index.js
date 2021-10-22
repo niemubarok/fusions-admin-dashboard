@@ -19,13 +19,13 @@ export default createStore({
     filter: "",
     filteredUser: "",
     users: [],
+    user:"",
     categories: [],
     category: [],
     categoryId: "",
     items: [],
     activeUserCount: "",
     bannedUserCount: "",
-    allUsers: [],
 
     // form model
     form: {
@@ -139,25 +139,18 @@ export default createStore({
           alert(error.message);
         });
     },
-    fetchItems({ commit }, catId = null) {
-      axios
-        .get("http://35.188.119.8/cloud-menu/api/v1/web/item/" + catId, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
-        .then(r => {
-          console.log(r.data);
-          if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "items",
-                value: r.data.data
-              });
-            }
-          }
-        });
+    async fetchUserById({commit}, uid= null){
+      await axios({
+        url:"http://35.188.119.8/cloud-menu/api/v1/admin/user/" + uid,
+        method:"GET",
+        headers:{
+          Authorization:localStorage.getItem("token")
+        }
+      }).then(r=>{
+        console.log(r.data.data);
+      })
     },
+    
     async filterUsersById({ commit, state }, userId = null) {
       if (localStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
@@ -241,6 +234,25 @@ export default createStore({
           });
         }
       }
+    },
+    fetchItems({ commit }, catId = null) {
+      axios
+        .get("http://35.188.119.8/cloud-menu/api/v1/web/item/" + catId, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(r => {
+          console.log(r.data);
+          if (r.data) {
+            if (r.data.data) {
+              commit("basic", {
+                key: "items",
+                value: r.data.data
+              });
+            }
+          }
+        });
     },
     async fetchDashboard({ commit }) {
       await axios({

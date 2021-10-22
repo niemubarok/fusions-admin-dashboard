@@ -229,6 +229,7 @@ export default {
     onMounted(async () => {
       await store.dispatch("fetchDashboard");
       await store.dispatch("filterUsersById", userId);
+      await store.dispatch("fetchUserById", userId);
 
       user.value = store.state.filteredUser[0];
       // console.log(store.state.users);
