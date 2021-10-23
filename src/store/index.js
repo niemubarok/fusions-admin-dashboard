@@ -118,7 +118,6 @@ export default createStore({
         }
       })
         .then(res => {
-          console.log(res.data);
           if (res.status == 200)
             localStorage.setItem("token", res.data.data.token);
         })
@@ -138,7 +137,6 @@ export default createStore({
           Authorization:localStorage.getItem('token')
         }
       }).then(r=>{
-        console.log(r.data);
         if(r.data.status == "Success"){
           commit('basic',{
             key:'isPasswordChanged',
@@ -234,7 +232,6 @@ export default createStore({
           "Access-Control-Allow-Headers": "*"
         }
       }).then(r => {
-        console.log(r.data.data);
         commit("basic", {
           key: "activeUserCount",
           value: r.data.data.active_users_total
