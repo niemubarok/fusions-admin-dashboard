@@ -245,10 +245,6 @@ export default {
       return newArr;
     };
 
-    const removeUsers = () => {
-      remove();
-    };
-
     const filterUsers = () => {
       if (store.state.users.length) {
         const filterBySearch = store.state.users.filter(filtered => {

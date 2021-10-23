@@ -48,7 +48,7 @@
                     class="cursor-pointer"
                   />
                 </span>
-                <span class="pb-3 tracking-wide">{{ getItems.name }}</span>
+                <span class="pb-3 tracking-wide">{{ category?.name }}</span>
               </div>
               <hr />
 
@@ -57,7 +57,7 @@
                 <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
                   <!-- empty -->
                   <card-component
-                    v-if="store.state.items.length == 0"
+                    v-if="!itemsPaginated?.length"
                     empty
                     class="w-full"
                   />
@@ -66,7 +66,11 @@
                     :key="item.id"
                     class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 flex justify-center "
                   >
-                    <item-card :name="item.name" :price="item.prices[0]" />
+                    <item-card
+                      :name="item.name"
+                      :price="item.price"
+                      :description="item.description"
+                    />
                   </div>
                 </div>
               </div>
@@ -75,8 +79,8 @@
               <hr />
               <!-- <div class="table-pagination align-middle"> -->
               <pagination
-                :total-pages="pagesList.length - 1"
-                :total="items().length"
+                :total-pages="pagesList?.length - 1"
+                :total="items?.length"
                 :per-page="perPage"
                 :current-page="currentPage"
                 @pagechanged="showMore"
@@ -84,6 +88,9 @@
                 :hasMorePages="false"
               >
               </pagination>
+              <!-- <span class="text-red-500">
+                {{ category }}
+              </span> -->
               <!-- </div> -->
               <!-- another categories -->
               <div class="container p-5">
@@ -181,15 +188,10 @@ export default {
       get: () => route.params.catId
     });
     const category = computed(() => store.state.category[0]);
-
-    const getItems = computed({
-      get: () => store.state.items
-    });
-
     const isModalActive = ref(false);
 
+    const selectedUserId = localStorage.getItem("selectedUserId");
     const backButtonAction = () => {
-      const selectedUserId = localStorage.getItem("selectedUserId");
       router.push({
         name: "profile",
         params: { id: selectedUserId }
@@ -201,37 +203,29 @@ export default {
       });
     });
 
-    onUpdated(() => {
-      store.dispatch("filterCategoryById", catId.value);
-      store.dispatch("fetchItems", catId.value);
-    });
-
-    onBeforeMount(() => {
-      store.dispatch("filterCategoryById", catId.value);
-      store.dispatch("fetchItems", catId.value);
-    });
-
     //pagination
     const perPage = ref(6);
     const currentPage = ref(0);
     const maxVisibleButton = ref(2);
     const itemsPaginated = computed(() => {
-      if (items().length <= perPage.value) {
+      if (items.value?.length <= perPage.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         maxVisibleButton.value = 1;
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         currentPage.value = 0;
-        return items();
+        return items.value;
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       maxVisibleButton.value = 2;
 
-      return items().slice(
+      return items.value?.slice(
         perPage.value * currentPage.value,
         perPage.value * (currentPage.value + 1)
       );
     });
-    const numPages = computed(() => Math.ceil(items().length / perPage.value));
+    const numPages = computed(() =>
+      Math.ceil(items.value?.length / perPage.value)
+    );
 
     const pagesList = computed(() => {
       const pagesList = [];
@@ -248,17 +242,17 @@ export default {
       currentPage.value = p;
     };
 
-    const items = () => {
-      if (store.state.items.items) {
-        return store.state.items.items;
-      } else {
-        return [];
-      }
-    };
+    const items = computed(() => category.value?.items);
 
-    // onMounted(() => {
-    //   console.log(items());
+    // onUpdated(async () => {
+    //   await store.dispatch("fetchCategories", selectedUserId);
+    //   await store.dispatch("filterCategoryById", catId.value);
     // });
+
+    onMounted(async () => {
+      await store.dispatch("fetchCategories", selectedUserId);
+      await store.dispatch("filterCategoryById", catId.value);
+    });
 
     return {
       store,
@@ -273,8 +267,8 @@ export default {
       items,
       perPage,
       showMore,
-      maxVisibleButton,
-      getItems
+      maxVisibleButton
+      // getItems
     };
   }
 };

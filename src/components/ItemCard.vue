@@ -32,7 +32,7 @@
     <hr />
     <footer class="flex items-center justify-between leading-none md:p-2">
       <p class="ml-2 text-sm text-gray-500">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        {{ description }}
       </p>
     </footer>
   </div>
@@ -44,6 +44,10 @@ export default {
     name: {
       type: String,
       default: "item Name"
+    },
+    description: {
+      type: String,
+      default: "item Description"
     },
     price: {
       type: Number,

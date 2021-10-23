@@ -1,12 +1,6 @@
 <template>
   <main-section class="flex justify-center pt-20">
-    <modal-box
-      v-model="isModalActive"
-      button-label="Yes"
-      has-cancel
-      has-button
-      has-divider
-    >
+    <modal-box v-model="isModalActive" has-cancel has-divider>
       <feather-icon
         path="alert-triangle"
         w="50"
@@ -24,10 +18,28 @@
       <div class="pt-5 flex justify-center">
         Are you sure to continue?
       </div>
+
+      <template #bottom>
+        <jb-buttons class="float-right mt-10">
+          <jb-button @click="submit" color="danger" label="Yes" />
+          <jb-button
+            @click="isModalActive = false"
+            color="info"
+            label="Cancel"
+          />
+        </jb-buttons>
+      </template>
     </modal-box>
+
+    <notification
+      v-if="notif.message"
+      :color="notif.color"
+      class="absolute top-2 right-3"
+    >
+      {{ notif.message }}
+    </notification>
     <card-component
       class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3"
-      @submit.prevent="submit"
       form
     >
       <div class="flex justify-center w-full mb-4">
@@ -124,26 +136,14 @@
           >Password doesn't match</small
         >
       </div>
-
-      <!-- <div class="mt-3 float-right text-gray-500">
-        <check-radio-picker
-          name="showPassword"
-          v-model="form.remember"
-          :options="{ show: 'Show Password' }"
-          @change="togglePasswordVisibility"
-        />
-      </div> -->
-
-      <!-- <divider class="mt-10" /> -->
       <jb-buttons class="float-right mt-10">
         <jb-button
           :class="{
-            'cursor-not-allowed bg-red':
-              form.newPassword !== form.repeatNewPassword
+            'cursor-not-allowed bg-red': isNewPasswordMatched
           }"
-          :isDisabled="form.newPassword !== form.repeatNewPassword"
-          type="submit"
-          color="info"
+          :isDisabled="!isNewPasswordMatched"
+          :color="isNewPasswordMatched ? 'info' : 'light'"
+          @click="openModal"
           label="Save new password"
         />
       </jb-buttons>
@@ -169,14 +169,14 @@ import { useRouter } from "vue-router";
 import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import CardComponent from "@/components/CardComponent";
-import CheckRadioPicker from "@/components/CheckRadioPicker";
-import Divider from "@/components/Divider.vue";
 import JbButton from "@/components/JbButton";
 import JbButtons from "@/components/JbButtons";
 import ModalBox from "@/components/ModalBox";
 import FloatingLabelInput from "../components/FloatingLabelInput.vue";
 import Logo from "../components/Logo.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
+import Notification from "../components/Notification.vue";
+import { useStore } from "vuex";
 
 export default {
   name: "Login",
@@ -190,19 +190,40 @@ export default {
     // CheckRadioPicker,
     FloatingLabelInput,
     Logo,
-    FeatherIcon
+    FeatherIcon,
+    Notification
   },
   setup() {
+    const store = useStore();
+    const router = useRouter();
     const form = reactive({
       oldPassword: "",
+      isoldPasswordError: false,
       newPassword: "",
-      repeatNewPassword: ""
+      isNewPasswordError: false,
+      repeatNewPassword: "",
+      isRepeatNewPasswordError: false
     });
     const isModalActive = ref(false);
+    const isNewPasswordMatched = () => {
+      if (
+        form.newPassword !== "" &&
+        form.newPassword !== form.repeatNewPassword
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    };
 
     const oldPassType = ref("password");
     const newPassType = ref("password");
     const repeatPassType = ref("password");
+
+    const notif = reactive({
+      color: "",
+      message: store.state.notification
+    });
 
     const oldPassVisibility = () => {
       oldPassType.value = oldPassType.value == "password" ? "text" : "password";
@@ -215,15 +236,51 @@ export default {
         repeatPassType.value == "password" ? "text" : "password";
     };
 
-    const router = useRouter();
+    const openModal = () => {
+      if (form.oldPassword == "") {
+        form.isoldPasswordError = true;
+        notif.message = "Please provide your old password";
+        notif.color = "danger";
+      } else if (form.newPassword == "") {
+        form.isoldPasswordError = false;
+        form.isNewPasswordError = false;
+        form.isRepeatNewPasswordError = true;
+        notif.message = "Have you typed your new password?";
+        notif.color = "danger";
+      } else if (!isNewPasswordMatched()) {
+        form.isoldPasswordError = false;
+        form.isNewPasswordError = true;
+        notif.message = "your new password doesn't matched";
+        notif.color = "danger";
+      } else {
+        form.isoldPasswordError = false;
+        form.isNewPasswordError = false;
+        notif.message = "";
+        isModalActive.value = true;
+      }
+    };
 
-    const submit = () => {
-      isModalActive.value = true;
+    const submit = async () => {
+      await store.dispatch("changePassword", form);
+
+      if (store.state.isPasswordChanged) {
+        notif.color = "success";
+        isModalActive.value = false;
+        notif.message = "Successfully changed your password";
+        setTimeout(() => {
+          router.push({ name: "dashboard" });
+        }, 1000);
+      } else {
+        isModalActive.value = false;
+        notif.color = "danger";
+        notif.message = "Your old password is wrong";
+      }
     };
 
     return {
       isModalActive,
       form,
+      openModal,
       submit,
       mdiAccount,
       mdiAsterisk,
@@ -232,7 +289,9 @@ export default {
       repeatPassType,
       oldPassVisibility,
       newPassVisibility,
-      repeatPassVisibility
+      repeatPassVisibility,
+      notif,
+      isNewPasswordMatched
     };
   }
 };

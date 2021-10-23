@@ -26,8 +26,6 @@ export default {
         console.log("unauthorized");
         router.push({ name: "login" });
       } else if (localStorage.getItem("token")) {
-        // store.dispatch("fetchUsers");
-        store.dispatch("fetchCategories");
         await store.dispatch("fetchDashboard");
       }
     });

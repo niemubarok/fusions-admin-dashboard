@@ -20,6 +20,7 @@ export default createStore({
     filteredUser: "",
     users: [],
     user:"",
+    allCategories:[],
     categories: [],
     category: [],
     categoryId: "",
@@ -42,7 +43,10 @@ export default createStore({
       categories: "",
       items: "",
       invoices: ""
-    }
+    },
+
+    notification:"",
+    isPasswordChanged:false
   },
 
   mutations: {
@@ -99,8 +103,7 @@ export default createStore({
       await axios({
         method: "POST",
         url: "http://35.188.119.8/cloud-menu/api/v1/admin/login",
-        // withCredentials: true,
-        // crossdomain: true,
+        // url: "http://35.188.119.8/cloud-menu/api/v1/admin/register",
         data: {
           username: payload.username,
           password: payload.pass
@@ -108,13 +111,9 @@ export default createStore({
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json"
-          // "Access-Control-Allow-Methods":
-          //   "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-          // "Access-Control-Allow-Headers": "Origin, Content-Type"
         }
       })
         .then(res => {
-          // console.log(res.data.data);
           if (res.status == 200)
             localStorage.setItem("token", res.data.data.token);
         })
@@ -122,6 +121,38 @@ export default createStore({
           console.log(err);
         });
     },
+    async changePassword({commit}, payload = null){
+      await axios({
+        url:"http://35.188.119.8/cloud-menu/api/v1/admin/changepass",
+        method:"POST",
+        data:{
+          old_password:payload.oldPassword,
+          new_password:payload.newPassword
+        },
+        headers:{
+          Authorization:localStorage.getItem('token')
+        }
+      }).then(r=>{
+        console.log(r.data);
+        if(r.data.status == "Success"){
+          commit('basic',{
+            key:'isPasswordChanged',
+            value:true
+          })
+        }else{
+          commit('basic',{
+            key:'isPasswordChanged',
+            value:false
+          })
+        }
+      }).catch((err)=>{
+        console.log("err", err);
+        commit('basic',{
+          key:'isPasswordChanged',
+          value:false
+        })
+      })
+  },
     fetchUsers({ commit }) {
       axios
         .get("data-sources/restaurants.json")
@@ -147,14 +178,24 @@ export default createStore({
           Authorization:localStorage.getItem("token")
         }
       }).then(r=>{
-        console.log(r.data.data);
+
+        localStorage.setItem('user', JSON.stringify(r.data.data.detail))
+        localStorage.setItem('allCategories', JSON.stringify(r.data.data.categories))
+        commit('basic',{
+          key:'user',
+          value:r.data.data.detail
+        })
+        commit('basic',{
+          key:'allCategories',
+          value:r.data.data.categories
+        })
       })
     },
     
     async filterUsersById({ commit, state }, userId = null) {
       if (localStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
-          console.log("filtered.uid", filtered);
+          // console.log("filtered.uid", filtered);
           return filtered.uid == userId;
         });
 
@@ -192,15 +233,17 @@ export default createStore({
         return null;
       }
     },
-    fetchCategories({ commit }) {
-      axios
-        // .get("http://35.188.119.8/cloud-menu/api/v1/web/category", {
-        //   headers: {
-        //     Authorization: localStorage.getItem("token")
-        //   }
-        .get("data-sources/categories.json")
+    async fetchCategories({ commit }, userId= null) {
+      await axios
+        .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/"+ userId, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }})
+        // .get("data-sources/categories.json")
 
         .then(r => {
+          // console.log(r.data.data.categories);
+          localStorage.setItem("categories", JSON.stringify(r.data.data.categories))
           if (r.data) {
             commit("basic", {
               key: "categories",
@@ -209,24 +252,13 @@ export default createStore({
           }
         });
     },
-    // filterCategories({ commit, state }) {
-    //   const filtered = state.categories.filter(element => {
-    //     return element.name
-    //       .toUpperCase()
-    //       .includes(state.searchModel.categories.toUpperCase());
-    //   });
-
-    //   commit("basic", {
-    //     key: "filteredCategories",
-    //     value: filtered
-    //   });
-    // },
-    filterCategoryById({ commit, state }, catId = null) {
+    async filterCategoryById({ commit, state }, catId = null) {
       if (catId !== null) {
         if (state.categories.length) {
           const filter = state.categories.filter(f => {
             return f.id === catId;
           });
+          
 
           commit("basic", {
             key: "category",
@@ -235,25 +267,26 @@ export default createStore({
         }
       }
     },
-    fetchItems({ commit }, catId = null) {
-      axios
-        .get("http://35.188.119.8/cloud-menu/api/v1/web/item/" + catId, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
-        .then(r => {
-          console.log(r.data);
-          if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "items",
-                value: r.data.data
-              });
-            }
-          }
-        });
-    },
+    // async fetchItems({ commit, state }, uid = null) {
+    //   await axios
+    //     .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/" + uid, {
+    //       headers: {
+    //         Authorization: localStorage.getItem("token")
+    //       }
+    //     })
+    //     .then(r => {
+    //       // console.log(r.data);
+    //       if (r.data) {
+    //         if (r.data.data) {
+    //             commit("basic", {
+    //               key: "items",
+    //               value: each.items
+    //             });
+              
+    //         }
+    //       }
+    //     });
+    // },
     async fetchDashboard({ commit }) {
       await axios({
         url: "http://35.188.119.8/cloud-menu/api/v1/admin/dashboard",
@@ -275,7 +308,7 @@ export default createStore({
           key: "users",
           value: r.data.data.users
         });
-        localStorage.setItem("users", r.data.data.users);
+        localStorage.setItem("users", JSON.stringify(r.data.data.users));
       });
     }
   },

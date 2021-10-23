@@ -73,7 +73,7 @@
               <h2
                 class="text-gray-600 font-lg text-center text-semibold leading-6"
               >
-                {{ user.name }}
+                {{ user.user_name }}
               </h2>
               <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
@@ -101,13 +101,13 @@
                   <small>Subscription</small>
                   <span class="ml-auto">{{ user.subscription_plan }}</span>
                 </li>
-                <li class="flex items-center py-3">
+                <!-- <li class="flex items-center py-3">
                   <small>Subscription Price</small>
                   <span class="ml-auto">$580</span>
-                </li>
+                </li> -->
                 <li class="flex items-center py-3">
                   <small>Valid Until</small>
-                  <span class="ml-auto">May 2022</span>
+                  <span class="ml-auto">{{ user.valid_until }}</span>
                 </li>
                 <li class="flex items-center py-3">
                   <small>Phone</small>
@@ -223,7 +223,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const userId = route.params.id;
-    const user = ref("");
+    const user = store.state.user;
     const isModalActive = ref(false);
 
     onMounted(async () => {
@@ -231,7 +231,10 @@ export default {
       await store.dispatch("filterUsersById", userId);
       await store.dispatch("fetchUserById", userId);
 
-      user.value = store.state.filteredUser[0];
+      // await store.dispatch("fetchItems", userId);
+      await store.dispatch("fetchCategories", userId);
+
+      // user.value = store.state.user;
       // console.log(store.state.users);
     });
 

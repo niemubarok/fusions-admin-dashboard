@@ -36,7 +36,7 @@
     <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
       <!-- empty -->
 
-      <!-- <card-component empty class="w-full" /> -->
+      <card-component v-if="!categories" empty class="w-full" />
       <!-- Column -->
       <div>
         {{ store.state.searchModel.categories }}
@@ -52,8 +52,8 @@
         >
           <!-- hover:scale-105 -->
           <img
-            :alt="category.name"
-            :src="category.image"
+            :alt="category.category_name"
+            :src="'http://35.188.119.8/cloud-menu/images/' + category.image"
             style="height:150px"
             class="block w-full"
           />
@@ -79,7 +79,7 @@
             </div>
             <div>
               <small
-                @click="deleteButton(category.name)"
+                @click="deleteButton(category.category_name)"
                 class="absolute top-1 right-2 rounded-md bg-red-500 bg-opacity-50  hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
               >
                 <feather-icon path="trash" size="14px" class="text-gray-200" />
@@ -91,19 +91,19 @@
           <header
             class="flex items-center justify-between leading-tight p-2 md:p-2 "
           >
-            <h3 class="text-gray-700 font-bold">
-              {{ category.name }}
+            <h3 class="text-gray-700 font-bold overflow-ellipsis">
+              {{ category.category_name }}
             </h3>
-            <p class="text-gray-500 text-sm">
-              {{ category.total_items }}
-              <span v-if="category.total_items > 1">items</span>
+            <p class="text-gray-500 text-xs">
+              {{ category.total_item }}
+              <span v-if="category.total_item > 1">items</span>
               <span v-else>item</span>
             </p>
           </header>
           <hr />
           <footer class="flex items-center justify-between leading-none md:p-2">
             <p class="ml-2 text-sm text-gray-500">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              {{ category.description }}
             </p>
           </footer>
         </div>
@@ -118,33 +118,46 @@
 import { computed } from "@vue/reactivity";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import CardComponent from "./CardComponent.vue";
 import FeatherIcon from "./FeatherIcon.vue";
 import ModalBox from "./ModalBox.vue";
 export default {
   components: {
-    // CardComponent,
+    CardComponent,
     FeatherIcon,
     ModalBox
   },
   setup() {
     const store = useStore();
     const route = useRoute();
-    // const userId = route.params.id;
+    const userId = route.params.id;
     const categoryNameToDelete = ref("");
     const isModalActive = ref(false);
     const categories = computed(() => {
       let listCategories = [];
-      const filtered = store.state.categories.filter(element => {
-        return element.name
-          .toUpperCase()
-          .includes(store.state.searchModel.categories.toUpperCase());
-      });
 
-      listCategories.push(filtered);
+      if (categoriesFromLocalStorage()) {
+        const filtered = categoriesFromLocalStorage().filter(element => {
+          return element.category_name
+            .toUpperCase()
+            .includes(store.state.searchModel.categories.toUpperCase());
+        });
+        listCategories.push(filtered);
+      } else {
+        const filtered = store.state.allCategories.filter(element => {
+          return element.category_name
+            .toUpperCase()
+            .includes(store.state.searchModel.categories.toUpperCase());
+        });
+
+        listCategories.push(filtered);
+      }
       return listCategories[0];
     });
+
+    const categoriesFromLocalStorage = () =>
+      JSON.parse(localStorage.getItem("allCategories"));
 
     const deleteButton = name => {
       console.log(name);
@@ -157,7 +170,8 @@ export default {
       categoryNameToDelete,
       isModalActive,
       deleteButton,
-      store
+      store,
+      categoriesFromLocalStorage
     };
   }
 };

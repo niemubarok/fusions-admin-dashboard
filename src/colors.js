@@ -1,7 +1,7 @@
 export const colorsBg = {
   white: ["bg-white text-black"],
   light: ["bg-gray-100 text-black"],
-  success: ["bg-green-500 text-white"],
+  success: ["bg-green-400 text-white"],
   danger: ["bg-red-400 text-white"],
   warning: ["bg-yellow-500 text-white"],
   info: ["bg-blue-500 text-white"]

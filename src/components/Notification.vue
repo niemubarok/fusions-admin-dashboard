@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { mdiClose } from "@mdi/js";
 import { colorsBg, colorsOutline } from "@/colors.js";
 import Level from "@/components/Level";
@@ -57,6 +57,12 @@ export default {
     };
 
     const hasRightSlot = computed(() => slots.right);
+
+    onMounted(() => {
+      setTimeout(() => {
+        isDismissed.value = true;
+      }, 4000);
+    });
 
     return {
       componentClass,
