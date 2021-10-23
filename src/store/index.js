@@ -195,7 +195,6 @@ export default createStore({
     async filterUsersById({ commit, state }, userId = null) {
       if (localStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
-          // console.log("filtered.uid", filtered);
           return filtered.uid == userId;
         });
 
@@ -203,32 +202,6 @@ export default createStore({
           key: "filteredUser",
           value: filterById
         });
-        //   console.log(filtered.id == userId);
-
-        //   return (
-        //     filtered.user
-        //       .toUpperCase()
-        //       .includes(state.searchModel.user.toUpperCase()) ||
-        //     filtered.restaurant
-        //       .toUpperCase()
-        //       .includes(state.searchModel.user.toUpperCase()) ||
-        //     filtered.country
-        //       .toUpperCase()
-        //       .includes(state.searchModel.user.toUpperCase())
-        //   );
-        // });
-
-        // const filter = filterBySearch.filter(filtered => {
-        //   return filtered.status
-        //     .toUpperCase()
-        //     .includes(state.filter.toUpperCase());
-        // });
-
-        // console.log(filter);
-        // commit("basic", {
-        //   key: "filtered",
-        //   value: filter
-        // });
       } else {
         return null;
       }
@@ -267,26 +240,6 @@ export default createStore({
         }
       }
     },
-    // async fetchItems({ commit, state }, uid = null) {
-    //   await axios
-    //     .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/" + uid, {
-    //       headers: {
-    //         Authorization: localStorage.getItem("token")
-    //       }
-    //     })
-    //     .then(r => {
-    //       // console.log(r.data);
-    //       if (r.data) {
-    //         if (r.data.data) {
-    //             commit("basic", {
-    //               key: "items",
-    //               value: each.items
-    //             });
-              
-    //         }
-    //       }
-    //     });
-    // },
     async fetchDashboard({ commit }) {
       await axios({
         url: "http://35.188.119.8/cloud-menu/api/v1/admin/dashboard",

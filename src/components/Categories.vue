@@ -38,9 +38,6 @@
 
       <card-component v-if="!categories" empty class="w-full" />
       <!-- Column -->
-      <div>
-        {{ store.state.searchModel.categories }}
-      </div>
       <div
         class="my-1 px-1 w-full  lg:my-2 md:px-3 lg:w-2/6 flex justify-center "
         v-for="category of categories"
