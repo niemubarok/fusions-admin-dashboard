@@ -46,7 +46,11 @@ export default createStore({
     },
 
     notification:"",
-    isPasswordChanged:false
+    isPasswordChanged:false,
+    base_url:"https://cloudmenu-backend.fusionsgeek.com/api/v1/admin/",
+    end_point:{
+
+    }
   },
 
   mutations: {
@@ -99,11 +103,11 @@ export default createStore({
       );
     },
 
-    async login({}, payload = null) {
+    async login({state}, payload = null) {
       await axios({
         method: "POST",
-        url: "http://35.188.119.8/cloud-menu/api/v1/admin/login",
-        // url: "http://35.188.119.8/cloud-menu/api/v1/admin/register",
+        url: state.base_url+"login",
+        // url: state.base_url+"register",
         data: {
           username: payload.username,
           password: payload.pass
@@ -114,6 +118,7 @@ export default createStore({
         }
       })
         .then(res => {
+          console.log(res.data);
           if (res.status == 200)
             localStorage.setItem("token", res.data.data.token);
         })
@@ -121,9 +126,9 @@ export default createStore({
           console.log(err);
         });
     },
-    async changePassword({commit}, payload = null){
+    async changePassword({commit,state}, payload = null){
       await axios({
-        url:"http://35.188.119.8/cloud-menu/api/v1/admin/changepass",
+        url:state.base_url+"changepass",
         method:"POST",
         data:{
           old_password:payload.oldPassword,
@@ -153,9 +158,9 @@ export default createStore({
         })
       })
   },
-  async fetchUserById({commit}, uid= null){
+  async fetchUserById({commit,state}, uid= null){
     await axios({
-        url:"http://35.188.119.8/cloud-menu/api/v1/admin/user/" + uid,
+        url:state.base_url+"user/" + uid,
         method:"GET",
         headers:{
           Authorization:localStorage.getItem("token")
@@ -189,16 +194,13 @@ export default createStore({
         return null;
       }
     },
-    async fetchCategories({ commit }, userId= null) {
+    async fetchCategories({ commit, state }, userId= null) {
       await axios
-      .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/"+ userId, {
+      .get(state.base_url+"items/user/"+ userId, {
         headers: {
           Authorization: localStorage.getItem("token")
         }})
-        // .get("data-sources/categories.json")
-
         .then(r => {
-          // console.log(r.data.data.categories);
           localStorage.setItem("categories", JSON.stringify(r.data.data.categories))
           if (r.data) {
             commit("basic", {
@@ -223,15 +225,16 @@ export default createStore({
         }
       }
     },
-    async fetchDashboard({ commit }) {
+    async fetchDashboard({ commit, state }) {
       await axios({
-        url: "http://35.188.119.8/cloud-menu/api/v1/admin/dashboard",
+        url: state.base_url+"dashboard",
         method: "GET",
         headers: {
           Authorization: localStorage.getItem("token"),
           "Access-Control-Allow-Headers": "*"
         }
       }).then(r => {
+        console.log(r.data.data);
         commit("basic", {
           key: "activeUserCount",
           value: r.data.data.active_users_total
@@ -251,7 +254,7 @@ export default createStore({
   modules: {}
 });
 
-// fetchUsers({ commit }) {
+// fetchUsers({ commit, state }) {
 //   axios
 //     .get("data-sources/restaurants.json")
 //     .then(r => {

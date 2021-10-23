@@ -11,7 +11,6 @@
 import { useStore } from "vuex";
 import { defineAsyncComponent, onMounted } from "vue";
 import menu from "@/menu.js";
-import { useRouter, useRoute } from "vue-router";
 const NavBar = defineAsyncComponent(() => import("@/components/NavBar"));
 const AsideMenu = defineAsyncComponent(() => import("@/components/AsideMenu"));
 
