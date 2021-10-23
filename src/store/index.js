@@ -153,32 +153,15 @@ export default createStore({
         })
       })
   },
-    fetchUsers({ commit }) {
-      axios
-        .get("data-sources/restaurants.json")
-        .then(r => {
-          if (r.data) {
-            if (r.data.data) {
-              commit("basic", {
-                key: "users",
-                value: r.data.data
-              });
-            }
-          }
-        })
-        .catch(error => {
-          alert(error.message);
-        });
-    },
-    async fetchUserById({commit}, uid= null){
-      await axios({
+  async fetchUserById({commit}, uid= null){
+    await axios({
         url:"http://35.188.119.8/cloud-menu/api/v1/admin/user/" + uid,
         method:"GET",
         headers:{
           Authorization:localStorage.getItem("token")
         }
       }).then(r=>{
-
+        
         localStorage.setItem('user', JSON.stringify(r.data.data.detail))
         localStorage.setItem('allCategories', JSON.stringify(r.data.data.categories))
         commit('basic',{
@@ -197,7 +180,7 @@ export default createStore({
         const filterById = state.users.filter(filtered => {
           return filtered.uid == userId;
         });
-
+        
         commit("basic", {
           key: "filteredUser",
           value: filterById
@@ -208,10 +191,10 @@ export default createStore({
     },
     async fetchCategories({ commit }, userId= null) {
       await axios
-        .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/"+ userId, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }})
+      .get("http://35.188.119.8/cloud-menu/api/v1/admin/items/user/"+ userId, {
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }})
         // .get("data-sources/categories.json")
 
         .then(r => {
@@ -224,7 +207,7 @@ export default createStore({
             });
           }
         });
-    },
+      },
     async filterCategoryById({ commit, state }, catId = null) {
       if (catId !== null) {
         if (state.categories.length) {
@@ -232,7 +215,7 @@ export default createStore({
             return f.id === catId;
           });
           
-
+          
           commit("basic", {
             key: "category",
             value: filter
@@ -267,3 +250,21 @@ export default createStore({
   },
   modules: {}
 });
+
+// fetchUsers({ commit }) {
+//   axios
+//     .get("data-sources/restaurants.json")
+//     .then(r => {
+//       if (r.data) {
+//         if (r.data.data) {
+//           commit("basic", {
+//             key: "users",
+//             value: r.data.data
+//           });
+//         }
+//       }
+//     })
+//     .catch(error => {
+//       alert(error.message);
+//     });
+// },

@@ -18,13 +18,13 @@
         <span
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
-          You are deleting a user with name
+          You are about to &nbsp;<strong> ban </strong> &nbsp; a user with name
         </span>
 
         <strong
           class="flex justify-center w-full text-gray-900 text-center font-lg mt-3"
         >
-          {{ user.user }}
+          {{ user.user_name }}
         </strong>
       </div>
       <div class="pt-5 flex justify-center">
@@ -124,15 +124,24 @@
                 @click="isModalActive = true"
                 class="mt-3 flex justify-end cursor-pointer pb-2"
               >
-                <feather-icon
+                <!-- <feather-icon
                   size="15px"
                   class="rounded-md no-border cursor-pointer text-red-400 -mr-1 "
                   path="trash"
                   small
                 >
-                </feather-icon>
-                <small class="text-red-400  rounded-md px-1 ">
-                  Delete User
+                </feather-icon> -->
+                <small
+                  v-if="user.status?.toUpperCase() == 'ACTIVE'"
+                  class="text-red-50  rounded-md px-2 bg-red-400"
+                >
+                  Ban User
+                </small>
+                <small
+                  v-else
+                  class="text-green-50 bg-green-400 rounded-md px-2 "
+                >
+                  Unban User
                 </small>
               </div>
             </div>
