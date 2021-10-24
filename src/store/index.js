@@ -48,6 +48,7 @@ export default createStore({
     notification:"",
     isPasswordChanged:false,
     base_url:"https://cloudmenu-backend.fusionsgeek.com/api/v1/admin/",
+    base_url_image:"https://cloudmenu-backend.fusionsgeek.com/images/",
     end_point:{
 
     }

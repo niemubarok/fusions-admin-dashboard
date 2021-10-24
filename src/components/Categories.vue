@@ -47,10 +47,9 @@
           class="overflow-hidden rounded-lg shadow-lg h-60 w-11/12 transform transition-all duration-500 
             "
         >
-          <!-- hover:scale-105 -->
           <img
             :alt="category.category_name"
-            :src="'http://35.188.119.8/cloud-menu/images/' + category.image"
+            :src="store.state.base_url_image + category.image"
             style="height:150px"
             class="block w-full"
           />
@@ -113,9 +112,8 @@
 
 <script>
 import { computed } from "@vue/reactivity";
-import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import { onMounted, onUnmounted, ref } from "vue";
+import { ref } from "vue";
 import CardComponent from "./CardComponent.vue";
 import FeatherIcon from "./FeatherIcon.vue";
 import ModalBox from "./ModalBox.vue";
@@ -127,8 +125,6 @@ export default {
   },
   setup() {
     const store = useStore();
-    const route = useRoute();
-    const userId = route.params.id;
     const categoryNameToDelete = ref("");
     const isModalActive = ref(false);
     const categories = computed(() => {
@@ -157,7 +153,6 @@ export default {
       JSON.parse(localStorage.getItem("allCategories"));
 
     const deleteButton = name => {
-      console.log(name);
       categoryNameToDelete.value = name;
       isModalActive.value = true;
     };
@@ -173,10 +168,3 @@ export default {
   }
 };
 </script>
-
-// store.state.filteredCategories // const categories = computed(() => { // if
-(store.state.users.length) { // const unfilteredCategories =
-store.state.users.filter(filtered => { // return filtered.id == userId; //
-})[0].categories; // const filtered = unfilteredCategories.filter(element => {
-// return element.name // .toUpperCase() //
-.includes(store.state.searchModel.categories.toUpperCase()); // });

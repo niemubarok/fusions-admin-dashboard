@@ -101,10 +101,6 @@
                   <small>Subscription</small>
                   <span class="ml-auto">{{ user.subscription_plan }}</span>
                 </li>
-                <!-- <li class="flex items-center py-3">
-                  <small>Subscription Price</small>
-                  <span class="ml-auto">$580</span>
-                </li> -->
                 <li class="flex items-center py-3">
                   <small>Valid Until</small>
                   <span class="ml-auto">{{ user.valid_until }}</span>
@@ -207,7 +203,6 @@
   </main-section>
 </template>
 <script>
-import CardComponent from "../components/CardComponent.vue";
 import MainSection from "../components/MainSection.vue";
 import Categories from "@/components/Categories";
 import Invoices from "../components/Invoices.vue";
@@ -222,7 +217,6 @@ export default {
   components: {
     MainSection,
     ModalBox,
-    //  CardComponent
     Categories,
     Invoices,
     FeatherIcon,
@@ -239,12 +233,9 @@ export default {
       await store.dispatch("fetchDashboard");
       await store.dispatch("filterUsersById", userId);
       await store.dispatch("fetchUserById", userId);
-
-      // await store.dispatch("fetchItems", userId);
       await store.dispatch("fetchCategories", userId);
 
       user.value = store.state.user;
-      // console.log(store.state.users);
     });
 
     return { store, user, isModalActive };

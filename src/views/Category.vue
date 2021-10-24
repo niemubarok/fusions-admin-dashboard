@@ -77,7 +77,6 @@
 
               <!-- end items  -->
               <hr />
-              <!-- <div class="table-pagination align-middle"> -->
               <pagination
                 :total-pages="pagesList?.length - 1"
                 :total="items?.length"
@@ -88,10 +87,6 @@
                 :hasMorePages="false"
               >
               </pagination>
-              <!-- <span class="text-red-500">
-                {{ category }}
-              </span> -->
-              <!-- </div> -->
               <!-- another categories -->
               <div class="container p-5">
                 <div class="md:flex no-wrap md:-mx-2 -mt-10 ">
@@ -244,11 +239,6 @@ export default {
 
     const items = computed(() => category.value?.items);
 
-    // onUpdated(async () => {
-    //   await store.dispatch("fetchCategories", selectedUserId);
-    //   await store.dispatch("filterCategoryById", catId.value);
-    // });
-
     onMounted(async () => {
       await store.dispatch("fetchCategories", selectedUserId);
       await store.dispatch("filterCategoryById", catId.value);
@@ -268,7 +258,6 @@ export default {
       perPage,
       showMore,
       maxVisibleButton
-      // getItems
     };
   }
 };
