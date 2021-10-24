@@ -78,7 +78,7 @@
         >
           <floating-label-input
             label="Username"
-            type="text"
+            type="email"
             icon="user"
             v-model="form.username"
           />
