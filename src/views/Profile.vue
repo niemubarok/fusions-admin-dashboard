@@ -232,7 +232,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const userId = route.params.id;
-    const user = store.state.user;
+    const user = ref("");
     const isModalActive = ref(false);
 
     onMounted(async () => {
@@ -243,7 +243,7 @@ export default {
       // await store.dispatch("fetchItems", userId);
       await store.dispatch("fetchCategories", userId);
 
-      // user.value = store.state.user;
+      user.value = store.state.user;
       // console.log(store.state.users);
     });
 
