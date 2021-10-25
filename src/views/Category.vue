@@ -118,12 +118,12 @@
                                 [
                                   $router.push({
                                     name: 'category',
-                                    params: { catId: category.id },
+                                    params: { catId: category.id }
                                   }),
                                   store.dispatch(
                                     'filterCategoryById',
                                     category.id
-                                  ),
+                                  )
                                 ]
                               "
                             >
@@ -161,7 +161,7 @@ import {
   ref,
   computed,
   onUpdated,
-  onMounted,
+  onMounted
 } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
@@ -176,27 +176,31 @@ export default {
     // Categories,
     // Invoices,
     FeatherIcon,
-    ItemCard,
+    ItemCard
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const catId = computed({
-      get: () => route.params.catId,
+      get: () => route.params.catId
     });
     const category = computed(() => store.state.category[0]);
     const isModalActive = ref(false);
 
-    const selectedUserId = localStorage.getItem("selectedUserId");
+    const selectedUserId = sessionStorage.getItem("selectedUserId");
     const backButtonAction = () => {
-      router.push({
-        name: "profile",
-        params: { id: selectedUserId },
-      });
+      if (selectedUserId) {
+        router.push({
+          name: "profile",
+          params: { id: selectedUserId }
+        });
+      } else {
+        router.go(-1);
+      }
     };
     const anotherCategories = computed(() => {
-      return store.state.categories.filter((category) => {
+      return store.state.categories.filter(category => {
         return category.id !== catId.value;
       });
     });
@@ -235,7 +239,7 @@ export default {
       return pagesList;
     });
 
-    const showMore = (p) => {
+    const showMore = p => {
       // page.value = p;
       currentPage.value = p;
     };
@@ -259,8 +263,8 @@ export default {
       items,
       perPage,
       showMore,
-      maxVisibleButton,
+      maxVisibleButton
     };
-  },
+  }
 };
 </script>

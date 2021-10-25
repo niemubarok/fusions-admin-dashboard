@@ -191,7 +191,7 @@ export default {
       //   value: userId
       // });
 
-      localStorage.setItem("selectedUserId", userId);
+      sessionStorage.setItem("selectedUserId", userId);
     };
 
     const itemsPaginated = computed(() => {

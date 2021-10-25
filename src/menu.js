@@ -22,7 +22,7 @@ export default [
       label: "Log Out",
       icon: "log-out",
       action: () => {
-        localStorage.removeItem("token");
+        sessionStorage.clear();
       }
     }
   ]

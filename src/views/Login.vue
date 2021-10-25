@@ -149,9 +149,8 @@
 </template>
 
 <script>
-import { computed, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { mdiAccount, mdiAsterisk } from "@mdi/js";
+import { computed, reactive, ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import MainSection from "@/components/MainSection";
 import CardComponent from "@/components/CardComponent";
 import CheckRadioPicker from "@/components/CheckRadioPicker";
@@ -182,6 +181,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
     const form = reactive({
       username: "",
       isUserNameError: false,
@@ -217,13 +217,14 @@ export default {
         form.isUserNameError = false;
         form.isPassError = false;
         await store.dispatch("login", form);
-
-        if (!localStorage.getItem("token")) {
+        if (route.path == "/" && !sessionStorage.getItem("token")) {
           form.errorMessage = "Incorrect username or password";
           notificationColor.value = "danger";
           router.push({ name: "login" });
         } else {
-          router.push("/dashboard");
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 2000);
         }
       }
     };
@@ -231,6 +232,12 @@ export default {
     const sendResetLink = async () => {
       await store.dispatch("forgotPassword", useremail);
     };
+
+    onMounted(() => {
+      if (route.path == "/" && sessionStorage.getItem("token")) {
+        router.push({ name: "dashboard" });
+      }
+    });
 
     return {
       isModalActive,

@@ -110,7 +110,8 @@ export default createStore({
 
     async login({ state }, payload = null) {
       state.loading = true;
-      state.loadingMessage = "Contacting server...";
+      state.loadingMessage = "Logging you in...";
+      
       await axios({
         method: "POST",
         url: state.base_url + "login",
@@ -124,22 +125,18 @@ export default createStore({
           "Content-Type": "application/json"
         }
       })
-        .then(res => {
-          state.loadingMessage = "Logging you in...";
-          if (res.status == 200) {
-            localStorage.setItem("token", res.data.data.token);
-            state.loading = false;
-          }
-          // state.loadingMessage = "Apologize! can't contact the server";
-          // setTimeout(() => {
-          //   state.loading = false;
-          // }, 5000);
+      .then(res => {
+
+        if (res.status == 200) {
+          sessionStorage.setItem("token", res.data.data.token);
+              setTimeout(() => {
+                state.loading = false;
+              }, 2000);
+            }
         })
         .catch(err => {
-          state.loadingMessage = "Apologize! can't contact the server";
-          setTimeout(() => {
+          // state.loadingMessage = "Apologize! can't contact the server";
             state.loading = false;
-          }, 5000);
           console.log(err);
         });
     },
@@ -152,7 +149,7 @@ export default createStore({
           new_password: payload.newPassword
         },
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: sessionStorage.getItem("token")
         }
       })
         .then(r => {
@@ -184,7 +181,7 @@ export default createStore({
           username: payload.username
         },
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: sessionStorage.getItem("token")
         }
       })
         .then(r => {
@@ -199,14 +196,14 @@ export default createStore({
         url: state.base_url + "user/" + uid,
         method: "GET",
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: sessionStorage.getItem("token")
         }
       }).then(r => {
-        localStorage.setItem("user", JSON.stringify(r.data.data.detail));
-        localStorage.setItem(
-          "allCategories",
-          JSON.stringify(r.data.data.categories)
-        );
+        // sessionStorage.setItem("user", JSON.stringify(r.data.data.detail));
+        // sessionStorage.setItem(
+        //   "allCategories",
+        //   JSON.stringify(r.data.data.categories)
+        // );
         commit("basic", {
           key: "user",
           value: r.data.data.detail
@@ -219,7 +216,7 @@ export default createStore({
     },
 
     async filterUsersById({ commit, state }, userId = null) {
-      if (localStorage.getItem("users")) {
+      if (sessionStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
           return filtered.uid == userId;
         });
@@ -237,14 +234,14 @@ export default createStore({
       await axios
         .get(state.base_url + "items/user/" + userId, {
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: sessionStorage.getItem("token")
           }
         })
         .then(r => {
-          localStorage.setItem(
-            "categories",
-            JSON.stringify(r.data.data.categories)
-          );
+          // sessionStorage.setItem(
+          //   "categories",
+          //   JSON.stringify(r.data.data.categories)
+          // );
           if (r.data) {
             commit("basic", {
               key: "categories",
@@ -273,7 +270,7 @@ export default createStore({
         url: state.base_url + "dashboard",
         method: "GET",
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: sessionStorage.getItem("token"),
           "Access-Control-Allow-Headers": "*"
         }
       }).then(r => {
@@ -289,7 +286,7 @@ export default createStore({
           key: "users",
           value: r.data.data.users
         });
-        localStorage.setItem("users", JSON.stringify(r.data.data.users));
+        // sessionStorage.setItem("users", JSON.stringify(r.data.data.users));
       });
     }
   },
