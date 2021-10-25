@@ -14,7 +14,7 @@
         size="50px"
         class="flex justify-center w-full text-red-400"
       />
-      <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md ">
+      <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md">
         <span
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
@@ -27,15 +27,13 @@
           <!-- {{ user.user }} -->
         </strong>
       </div>
-      <div class="pt-5 flex justify-center">
-        Are you sure to continue ?
-      </div>
+      <div class="pt-5 flex justify-center">Are you sure to continue ?</div>
     </modal-box>
 
     <div class="w-full text-white bg-main-color">
       <div class="container my-5 p-5">
-        <div class="md:flex no-wrap md:-mx-2 ">
-          <div class="w-full  h-64">
+        <div class="md:flex no-wrap md:-mx-2">
+          <div class="w-full h-64">
             <div class="bg-white p-1 shadow-lg rounded-md">
               <div
                 class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mt-2"
@@ -54,7 +52,7 @@
 
               <!-- items -->
               <div class="container flex my-5 mx-auto px-2 md:px-12">
-                <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
+                <div class="flex flex-wrap -mx-1 text-gray-700 w-full">
                   <!-- empty -->
                   <card-component
                     v-if="!itemsPaginated?.length"
@@ -64,7 +62,7 @@
                   <div
                     v-for="item in itemsPaginated"
                     :key="item.id"
-                    class="my-1 px-1 w-full  lg:my-4 lg:px-4 lg:w-1/3 flex justify-center "
+                    class="my-1 px-1 w-full lg:my-4 lg:px-4 lg:w-1/3 flex justify-center"
                   >
                     <item-card
                       :name="item.name"
@@ -90,7 +88,7 @@
               </pagination>
               <!-- another categories -->
               <div class="container p-5">
-                <div class="md:flex no-wrap md:-mx-2 -mt-10 ">
+                <div class="md:flex no-wrap md:-mx-2 -mt-10">
                   <div class="w-full">
                     <div class="p-1 shadow-sm rounded-sm">
                       <div
@@ -102,8 +100,8 @@
                           >Another Categories</small
                         >
                       </div>
-                      <div class="container flex ">
-                        <div class="flex -mx-1 text-gray-700 w-full ">
+                      <div class="container flex">
+                        <div class="flex -mx-1 text-gray-700 w-full">
                           <!-- empty -->
                           <card-component
                             v-if="category === ''"
@@ -113,19 +111,19 @@
                           <div
                             v-for="category in anotherCategories"
                             :key="category.id"
-                            class="px-1 cursor-pointer flex justify-start "
+                            class="px-1 cursor-pointer flex justify-start"
                           >
                             <a
                               @click="
                                 [
                                   $router.push({
                                     name: 'category',
-                                    params: { catId: category.id }
+                                    params: { catId: category.id },
                                   }),
                                   store.dispatch(
                                     'filterCategoryById',
                                     category.id
-                                  )
+                                  ),
                                 ]
                               "
                             >
@@ -163,7 +161,7 @@ import {
   ref,
   computed,
   onUpdated,
-  onMounted
+  onMounted,
 } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
@@ -178,14 +176,14 @@ export default {
     // Categories,
     // Invoices,
     FeatherIcon,
-    ItemCard
+    ItemCard,
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const catId = computed({
-      get: () => route.params.catId
+      get: () => route.params.catId,
     });
     const category = computed(() => store.state.category[0]);
     const isModalActive = ref(false);
@@ -194,11 +192,11 @@ export default {
     const backButtonAction = () => {
       router.push({
         name: "profile",
-        params: { id: selectedUserId }
+        params: { id: selectedUserId },
       });
     };
     const anotherCategories = computed(() => {
-      return store.state.categories.filter(category => {
+      return store.state.categories.filter((category) => {
         return category.id !== catId.value;
       });
     });
@@ -237,7 +235,7 @@ export default {
       return pagesList;
     });
 
-    const showMore = p => {
+    const showMore = (p) => {
       // page.value = p;
       currentPage.value = p;
     };
@@ -245,7 +243,6 @@ export default {
     const items = computed(() => category.value?.items);
 
     onMounted(async () => {
-      await store.dispatch("fetchCategories", selectedUserId);
       await store.dispatch("filterCategoryById", catId.value);
     });
 
@@ -262,8 +259,8 @@ export default {
       items,
       perPage,
       showMore,
-      maxVisibleButton
+      maxVisibleButton,
     };
-  }
+  },
 };
 </script>

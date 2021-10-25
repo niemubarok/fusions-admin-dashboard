@@ -14,7 +14,7 @@
         size="50px"
         class="flex justify-center w-full text-red-400"
       />
-      <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md ">
+      <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md">
         <span
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
@@ -27,9 +27,7 @@
           {{ user.user_name }}
         </strong>
       </div>
-      <div class="pt-5 flex justify-center">
-        Are you sure to continue ?
-      </div>
+      <div class="pt-5 flex justify-center">Are you sure to continue ?</div>
     </modal-box>
 
     <!-- <div
@@ -45,17 +43,17 @@
     </div> -->
     <div class="w-full text-white bg-main-color">
       <div class="container my-5 p-5">
-        <div class="md:flex no-wrap md:-mx-2 ">
+        <div class="md:flex no-wrap md:-mx-2">
           <!-- Left Side -->
-          <div class="w-full md:w-4/12 md:mx-2  shadow-lg">
+          <div class="w-full md:w-4/12 md:mx-2 shadow-lg">
             <!-- Profile Card -->
 
-            <div class="bg-white p-2 ">
+            <div class="bg-white p-2">
               <back-button
                 hasText
                 to="dashboard"
                 text="Details"
-                class="text-gray-800 mb-5 "
+                class="text-gray-800 mb-5"
               />
 
               <div class="image overflow-hidden">
@@ -87,7 +85,7 @@
                         'bg-green-100 text-green-500 px-4':
                           user.status?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          user.status?.toUpperCase() == 'BANNED'
+                          user.status?.toUpperCase() == 'BANNED',
                       }"
                       >{{ user.status }}</span
                     ></span
@@ -129,13 +127,13 @@
                 </feather-icon> -->
                 <small
                   v-if="user.status?.toUpperCase() == 'ACTIVE'"
-                  class="text-red-50  rounded-md px-2 bg-red-400"
+                  class="text-red-50 rounded-md px-2 bg-red-400"
                 >
                   Ban User
                 </small>
                 <small
                   v-else
-                  class="text-green-50 bg-green-400 rounded-md px-2 "
+                  class="text-green-50 bg-green-400 rounded-md px-2"
                 >
                   Unban User
                 </small>
@@ -145,9 +143,9 @@
             <div class="my-4"></div>
           </div>
           <!-- Right Side -->
-          <div class="w-full  h-64">
+          <div class="w-full h-64">
             <!-- Categories -->
-            <div class="bg-white p-1 shadow-sm rounded-sm  shadow-lg">
+            <div class="bg-white p-1 shadow-sm rounded-sm shadow-lg">
               <div
                 class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-1"
               >
@@ -208,7 +206,7 @@ import Categories from "@/components/Categories";
 import Invoices from "../components/Invoices.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import { useStore } from "vuex";
-import { onMounted, ref } from "@vue/runtime-core";
+import { onMounted, ref, computed } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import BackButton from "@/components/BackButton.vue";
@@ -220,25 +218,28 @@ export default {
     Categories,
     Invoices,
     FeatherIcon,
-    BackButton
+    BackButton,
   },
   setup() {
     const store = useStore();
     const route = useRoute();
-    const userId = route.params.id;
+    const userId = computed({
+      get: () => route.params.id,
+    });
     const user = ref("");
     const isModalActive = ref(false);
 
     onMounted(async () => {
-      await store.dispatch("fetchDashboard");
-      await store.dispatch("filterUsersById", userId);
-      await store.dispatch("fetchUserById", userId);
-      await store.dispatch("fetchCategories", userId);
+      // localStorage.removeItem("allCategories");
+      // await store.dispatch("fetchDashboard");
+      // await store.dispatch("filterUsersById", userId);
+      // await store.dispatch("fetchUserById", userId.value);
+      await store.dispatch("fetchCategories", userId.value);
 
       user.value = store.state.user;
     });
 
     return { store, user, isModalActive };
-  }
+  },
 };
 </script>
