@@ -96,7 +96,11 @@
                       <div
                         class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mt-1"
                       >
-                        <small class="tracking-wide">Another Categories</small>
+                        <small
+                          v-if="anotherCategories?.length"
+                          class="tracking-wide mt-2"
+                          >Another Categories</small
+                        >
                       </div>
                       <div class="container flex ">
                         <div class="flex -mx-1 text-gray-700 w-full ">

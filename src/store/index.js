@@ -38,6 +38,7 @@ export default createStore({
     },
 
     loading: false,
+    loadingMessage: "",
     isSkeleton: {
       category: true
     },
@@ -109,6 +110,7 @@ export default createStore({
 
     async login({ state }, payload = null) {
       state.loading = true;
+      state.loadingMessage = "Contacting server...";
       await axios({
         method: "POST",
         url: state.base_url + "login",
@@ -116,18 +118,28 @@ export default createStore({
         data: {
           username: payload.username,
           password: payload.pass
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
         }
-        // headers: {
-        //   "Access-Control-Allow-Origin": "*",
-        //   "Content-Type": "application/json"
-        // }
       })
         .then(res => {
-          if (res.status == 200)
+          state.loadingMessage = "Logging you in...";
+          if (res.status == 200) {
             localStorage.setItem("token", res.data.data.token);
-          state.loading = false;
+            state.loading = false;
+          }
+          // state.loadingMessage = "Apologize! can't contact the server";
+          // setTimeout(() => {
+          //   state.loading = false;
+          // }, 5000);
         })
         .catch(err => {
+          state.loadingMessage = "Apologize! can't contact the server";
+          setTimeout(() => {
+            state.loading = false;
+          }, 5000);
           console.log(err);
         });
     },

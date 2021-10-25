@@ -36,7 +36,7 @@
     <div class="flex flex-wrap -mx-1 text-gray-700 w-full ">
       <!-- empty -->
 
-      <card-component v-if="!categories" empty class="w-full" />
+      <card-component v-if="!categories?.length" empty class="w-full" />
       <!-- Column -->
       <div
         class="my-1 px-1 w-full  lg:my-2 md:px-3 lg:w-2/6 flex justify-center "

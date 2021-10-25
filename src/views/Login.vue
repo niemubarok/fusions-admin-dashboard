@@ -60,7 +60,7 @@
         <div
           class="mt-5 -ml-10 text-primary opacity-70 animate animate-pulse z-45 absolute top-1/2 left-1/2"
         >
-          Logging you in...
+          {{ loadingMessage }}
         </div>
       </div>
     </div>
@@ -196,6 +196,9 @@ export default {
     const isLoading = computed({
       get: () => store.state.loading
     });
+    const loadingMessage = computed({
+      get: () => store.state.loadingMessage
+    });
     const notificationColor = ref("");
 
     const router = useRouter();
@@ -236,7 +239,8 @@ export default {
       notificationColor,
       useremail,
       sendResetLink,
-      isLoading
+      isLoading,
+      loadingMessage
     };
   }
 };
