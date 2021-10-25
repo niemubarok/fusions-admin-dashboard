@@ -19,8 +19,8 @@ export default createStore({
     filter: "",
     filteredUser: "",
     users: [],
-    user:"",
-    allCategories:[],
+    user: "",
+    allCategories: [],
     categories: [],
     category: [],
     categoryId: "",
@@ -37,6 +37,11 @@ export default createStore({
       forgotPassword: ""
     },
 
+    loading: false,
+    isSkeleton: {
+      category: true
+    },
+
     // search model
     searchModel: {
       user: "",
@@ -45,13 +50,11 @@ export default createStore({
       invoices: ""
     },
 
-    notification:"",
-    isPasswordChanged:false,
-    base_url:"https://cloudmenu-backend.fusionsgeek.com/api/v1/admin/",
-    base_url_image:"https://cloudmenu-backend.fusionsgeek.com/images/",
-    end_point:{
-
-    }
+    notification: "",
+    isPasswordChanged: false,
+    base_url: "https://cloudmenu-backend.fusionsgeek.com/api/v1/admin/",
+    base_url_image: "https://cloudmenu-backend.fusionsgeek.com/images/",
+    end_point: {}
   },
 
   mutations: {
@@ -104,87 +107,111 @@ export default createStore({
       );
     },
 
-    async login({state}, payload = null) {
+    async login({ state }, payload = null) {
+      state.loading = true;
       await axios({
         method: "POST",
-        url: state.base_url+"login",
+        url: state.base_url + "login",
         // url: state.base_url+"register",
         data: {
           username: payload.username,
           password: payload.pass
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json"
         }
+        // headers: {
+        //   "Access-Control-Allow-Origin": "*",
+        //   "Content-Type": "application/json"
+        // }
       })
         .then(res => {
           if (res.status == 200)
             localStorage.setItem("token", res.data.data.token);
+          state.loading = false;
         })
         .catch(err => {
           console.log(err);
         });
     },
-    async changePassword({commit,state}, payload = null){
+    async changePassword({ commit, state }, payload = null) {
       await axios({
-        url:state.base_url+"changepass",
-        method:"POST",
-        data:{
-          old_password:payload.oldPassword,
-          new_password:payload.newPassword
+        url: state.base_url + "changepass",
+        method: "POST",
+        data: {
+          old_password: payload.oldPassword,
+          new_password: payload.newPassword
         },
-        headers:{
-          Authorization:localStorage.getItem('token')
+        headers: {
+          Authorization: localStorage.getItem("token")
         }
-      }).then(r=>{
-        if(r.data.status == "Success"){
-          commit('basic',{
-            key:'isPasswordChanged',
-            value:true
-          })
-        }else{
-          commit('basic',{
-            key:'isPasswordChanged',
-            value:false
-          })
-        }
-      }).catch((err)=>{
-        console.log("err", err);
-        commit('basic',{
-          key:'isPasswordChanged',
-          value:false
-        })
       })
-  },
-  async fetchUserById({commit,state}, uid= null){
-    await axios({
-        url:state.base_url+"user/" + uid,
-        method:"GET",
-        headers:{
-          Authorization:localStorage.getItem("token")
-        }
-      }).then(r=>{
-        
-        localStorage.setItem('user', JSON.stringify(r.data.data.detail))
-        localStorage.setItem('allCategories', JSON.stringify(r.data.data.categories))
-        commit('basic',{
-          key:'user',
-          value:r.data.data.detail
+        .then(r => {
+          if (r.data.status == "Success") {
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: true
+            });
+          } else {
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: false
+            });
+          }
         })
-        commit('basic',{
-          key:'allCategories',
-          value:r.data.data.categories
-        })
-      })
+        .catch(err => {
+          console.log("err", err);
+          commit("basic", {
+            key: "isPasswordChanged",
+            value: false
+          });
+        });
     },
-    
+    async forgotPassword({ state }, payload = null) {
+      await axios({
+        url: state.base_url + "forgotpass",
+        method: "POST",
+        data: {
+          username: payload.username
+        },
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      })
+        .then(r => {
+          console.log(r.data.data);
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    },
+    async fetchUserById({ commit, state }, uid = null) {
+      await axios({
+        url: state.base_url + "user/" + uid,
+        method: "GET",
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      }).then(r => {
+        localStorage.setItem("user", JSON.stringify(r.data.data.detail));
+        localStorage.setItem(
+          "allCategories",
+          JSON.stringify(r.data.data.categories)
+        );
+        commit("basic", {
+          key: "user",
+          value: r.data.data.detail
+        });
+        commit("basic", {
+          key: "allCategories",
+          value: r.data.data.categories
+        });
+      });
+    },
+
     async filterUsersById({ commit, state }, userId = null) {
       if (localStorage.getItem("users")) {
         const filterById = state.users.filter(filtered => {
           return filtered.uid == userId;
         });
-        
+
         commit("basic", {
           key: "filteredUser",
           value: filterById
@@ -193,30 +220,35 @@ export default createStore({
         return null;
       }
     },
-    async fetchCategories({ commit, state }, userId= null) {
+    async fetchCategories({ commit, state }, userId = null) {
+      state.isSkeleton.category = true;
       await axios
-      .get(state.base_url+"items/user/"+ userId, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }})
+        .get(state.base_url + "items/user/" + userId, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
         .then(r => {
-          localStorage.setItem("categories", JSON.stringify(r.data.data.categories))
+          localStorage.setItem(
+            "categories",
+            JSON.stringify(r.data.data.categories)
+          );
           if (r.data) {
             commit("basic", {
               key: "categories",
               value: r.data.data.categories
             });
+            state.isSkeleton.category = false;
           }
         });
-      },
+    },
     async filterCategoryById({ commit, state }, catId = null) {
       if (catId !== null) {
         if (state.categories.length) {
           const filter = state.categories.filter(f => {
             return f.id === catId;
           });
-          
-          
+
           commit("basic", {
             key: "category",
             value: filter
@@ -226,7 +258,7 @@ export default createStore({
     },
     async fetchDashboard({ commit, state }) {
       await axios({
-        url: state.base_url+"dashboard",
+        url: state.base_url + "dashboard",
         method: "GET",
         headers: {
           Authorization: localStorage.getItem("token"),

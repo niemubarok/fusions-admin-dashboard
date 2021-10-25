@@ -78,6 +78,7 @@
               <!-- end items  -->
               <hr />
               <pagination
+                v-if="items?.length"
                 :total-pages="pagesList?.length - 1"
                 :total="items?.length"
                 :per-page="perPage"

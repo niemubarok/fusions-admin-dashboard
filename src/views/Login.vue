@@ -16,15 +16,18 @@
         </small>
       </div>
 
-      <floating-label-input icon="mail" label="Your email" />
+      <floating-label-input
+        v-model="useremail"
+        icon="mail"
+        label="Your email"
+      />
       <jb-buttons class="float-right mt-12">
         <jb-button
           :class="{
-            'cursor-not-allowed bg-red':
-              form.newPassword !== form.repeatNewPassword
+            'cursor-not-allowed bg-red': !useremail
           }"
-          :isDisabled="form.newPassword !== form.repeatNewPassword"
-          type="submit"
+          :isDisabled="!useremail"
+          @click="sendResetLink"
           color="info"
           label="Send reset link"
         />
@@ -43,6 +46,24 @@
         </div>
       </template>
     </modal-box>
+
+    <!-- loading -->
+    <div
+      v-show="isLoading"
+      class="flex items-center flex-col justify-center overflow-hidden fixed inset-0 z-40"
+    >
+      <div class="absolute inset-0 bg-gray-900 bg-opacity-80"></div>
+      <div class="relative w-screen flex justify-center items-center">
+        <div class="absolute left-2/4 animate-ping  h-20 w-20">
+          <logo />
+        </div>
+        <div
+          class="mt-5 -ml-10 text-primary opacity-70 animate animate-pulse z-45 absolute top-1/2 left-1/2"
+        >
+          Logging you in...
+        </div>
+      </div>
+    </div>
     <!-- <div class="flex items-center justify-center"> -->
     <card-component
       class="w-11/12 md:w-5/12 bg-transparent rounded-lg "
@@ -169,7 +190,12 @@ export default {
       remember: false,
       errorMessage: ""
     });
+
+    const useremail = ref("");
     const isModalActive = ref(false);
+    const isLoading = computed({
+      get: () => store.state.loading
+    });
     const notificationColor = ref("");
 
     const router = useRouter();
@@ -199,11 +225,18 @@ export default {
       }
     };
 
+    const sendResetLink = async () => {
+      await store.dispatch("forgotPassword", useremail);
+    };
+
     return {
       isModalActive,
       form,
       submit,
-      notificationColor
+      notificationColor,
+      useremail,
+      sendResetLink,
+      isLoading
     };
   }
 };
