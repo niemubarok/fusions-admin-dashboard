@@ -10,9 +10,17 @@
       />
       <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md">
         <span
+          v-if="userStatus?.toUpperCase() == 'ACTIVE'"
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
           You are about to &nbsp;<strong> ban </strong> &nbsp; a user with name
+        </span>
+        <span
+          v-if="userStatus?.toUpperCase() == 'BANNED'"
+          class="flex justify-center w-full text-gray-900 text-center font-lg"
+        >
+          You are about to &nbsp;<strong> unban </strong> &nbsp; a user with
+          name
         </span>
 
         <strong
@@ -68,7 +76,7 @@
               </h2>
               <div
                 v-if="hasMessage"
-                class="px-3 rounded-md w-full"
+                class="px-3 rounded-md w-full text-center my-2"
                 :class="messageColor"
               >
                 <small> {{ messageUserStatusChange }}</small>
