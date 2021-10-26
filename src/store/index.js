@@ -228,6 +228,43 @@ export default createStore({
         });
       }
     },
+    async resetPassword({commit, state}, payload= null){
+      if(payload !== null){
+
+        await axios({
+          url: state.base_url + "resetPassword",
+        method: "POST",
+        data: {
+          id: payload.id,
+          password: payload.newPassword
+        }
+        // headers: {
+        //   Authorization: sessionStorage.getItem("token")
+        // }
+      })
+      .then(r => {
+        console.log(r.data);
+          if (r.data.status == "Success") {
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: true
+            });
+          } else {
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: false
+            });
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+          commit("basic", {
+            key: "isPasswordChanged",
+            value: false
+          });
+        });
+      }
+      },
     async fetchUserById({ commit, state }, uid = null) {
       await axios({
         url: state.base_url + "user/" + uid,

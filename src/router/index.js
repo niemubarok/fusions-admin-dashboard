@@ -5,8 +5,8 @@ const routes = [
   {
     meta: {
       title: "Login",
-      formScreen: true,
-      middleware: auth
+      formScreen: true
+     
     },
     path: "/",
     name: "login",
@@ -15,8 +15,8 @@ const routes = [
   {
     // Document title tag
     meta: {
-      title: "Dashboard",
-      middleware: auth
+      title: "Dashboard"
+     
     },
     path: "/dashboard",
     name: "dashboard",
@@ -25,8 +25,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Category",
-      middleware: auth
+      title: "Category"
+     
     },
     path: "/user/category/:catId",
     name: "category",
@@ -35,8 +35,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Profile",
-      middleware: auth
+      title: "Profile"
+     
     },
     path: "/user/profile/:id",
     name: "profile",
@@ -47,26 +47,26 @@ const routes = [
     meta: {
       title: "Change Password",
       formScreen: true,
-      middleware: auth
     },
     path: "/change-password",
     name: "changePassword",
     component: () =>
       import(/* webpackChunkName: "changePassword" */ "../views/ChangePassword")
   },
-  // {
-  //   meta: {
-  //     title: "Restaurant List"
-  //   },
-  //   path: "/restaurant/all",
-  //   name: "restaurant",
-  //   component: () =>
-  //     import(/* webpackChunkName: "restaurant" */ "../views/Restaurants")
-  // },
   {
     meta: {
-      title: "Google Analytics",
-      middleware: auth
+      title: "ResetPassword",
+      formScreen: true,
+    },
+    path: "/reset-password/:token",
+    name: "resetPassword",
+    component: () =>
+      import(/* webpackChunkName: "resetPassword" */ "../views/ResetPassword")
+  },
+  {
+    meta: {
+      title: "Google Analytics"
+     
     },
     path: "/analytics",
     name: "googleAnalytics",
@@ -89,10 +89,10 @@ const routes = [
 const router = createRouter({
   mode: history,
   history: createWebHashHistory(),
-  routes
-  // scrollBehavior(to, from, savedPosition) {
-  //   return savedPosition || { top: 0 };
-  // }
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { top: 0 };
+  }
 });
 
 export default router;
