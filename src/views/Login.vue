@@ -244,8 +244,8 @@ export default {
       isError: false,
       errorMessage: "",
     });
-    const isModalActive = ref(true);
-    const isModalResetPassActive = ref(true);
+    const isModalActive = ref(false);
+    const isModalResetPassActive = ref(false);
     const isLoading = computed({
       get: () => store.state.loading,
     });
