@@ -57,6 +57,7 @@ export default createStore({
 
     isEmailSent: false,
     resetPassErrorMessage: "",
+    isSuccessChangeUserStatus: false,
 
     notification: "",
     isPasswordChanged: false,
@@ -204,6 +205,29 @@ export default createStore({
           state.resetPassErrorMessage = err.response.data.message
         });
     },
+    async changeUserStatus({ state }, uid = null) {
+      console.log(uid);
+      if (uid !== null) {
+        await axios({
+          url: state.base_url + "changeUserStatus",
+          method: "PUT",
+          headers: {
+            Authorization: sessionStorage.getItem("token")
+          },
+          data: {
+            id: uid
+          }
+        }).then(r => {
+          // if (r.data.statuscode == 0) {
+          console.log(r.data);
+          state.isSuccessChangeUserStatus = true
+          // }
+        }).catch(err => {
+          console.log(err.response);
+          state.isSuccessChangeUserStatus = false
+        });
+      }
+    },
     async fetchUserById({ commit, state }, uid = null) {
       await axios({
         url: state.base_url + "user/" + uid,
@@ -212,7 +236,6 @@ export default createStore({
           Authorization: sessionStorage.getItem("token")
         }
       }).then(r => {
-        console.log(r.data.data.categories);
         commit("basic", {
           key: "user",
           value: r.data.data.detail
@@ -221,6 +244,8 @@ export default createStore({
           key: "allCategories",
           value: r.data.data.categories
         });
+      }).catch(err => {
+        console.log(err);
       });
     },
 
@@ -284,7 +309,7 @@ export default createStore({
           value: r.data.data.active_users_total
         });
         commit("basic", {
-          key: "bannerUserCount",
+          key: "bannedUserCount",
           value: r.data.data.banned_users_total
         });
         commit("basic", {

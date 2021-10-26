@@ -1,12 +1,6 @@
 <template>
   <main-section>
-    <modal-box
-      v-model="isModalActive"
-      button-label="Yes"
-      has-cancel
-      has-button
-      has-divider
-    >
+    <modal-box v-model="isModalActive" has-divider>
       <feather-icon
         path="alert-triangle"
         w="50"
@@ -28,19 +22,17 @@
         </strong>
       </div>
       <div class="pt-5 flex justify-center">Are you sure to continue ?</div>
+      <template #bottom>
+        <jb-buttons class="float-right mt-10">
+          <jb-button
+            @click="isModalActive = false"
+            label="Cancel"
+            class="bg-gray-300"
+          />
+          <jb-button @click="changeUserStatus" color="danger" label="Yes" />
+        </jb-buttons>
+      </template>
     </modal-box>
-
-    <!-- <div
-      @click="$router.go(-1)"
-      class="ml-5  -mb-8 pt-2 cursor-pointer text-blue-400"
-    >
-      <span class="inline-block align-middle">
-        <feather-icon path="chevron-left" size="20px"> </feather-icon>
-      </span>
-      <span class="-ml-2">
-        back
-      </span>
-    </div> -->
     <div class="w-full text-white bg-main-color">
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2">
@@ -68,11 +60,19 @@
               >
                 {{ user.business_name }}
               </h1>
+
               <h2
                 class="text-gray-600 font-lg text-center text-semibold leading-6"
               >
                 {{ user.user_name }}
               </h2>
+              <div
+                v-if="hasMessage"
+                class="px-3 rounded-md w-full"
+                :class="messageColor"
+              >
+                <small> {{ messageUserStatusChange }}</small>
+              </div>
               <ul
                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm"
               >
@@ -83,11 +83,11 @@
                       class="py-1 px-2 rounded text-sm"
                       :class="{
                         'bg-green-100 text-green-500 px-4':
-                          user.status?.toUpperCase() == 'ACTIVE',
+                          userStatus?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          user.status?.toUpperCase() == 'BANNED',
+                          userStatus?.toUpperCase() == 'BANNED',
                       }"
-                      >{{ user.status }}</span
+                      >{{ userStatus }}</span
                     ></span
                   >
                 </li>
@@ -125,11 +125,11 @@
                   small
                 >
                 </feather-icon>
-                <small v-if="user.status?.toUpperCase() == 'ACTIVE'">
+                <small v-if="userStatus?.toUpperCase() == 'ACTIVE'">
                   <!-- class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400" -->
                   Ban User
                 </small>
-                <small v-else-if="user.status?.toUpperCase() == 'BANNED'">
+                <small v-else-if="userStatus?.toUpperCase() == 'BANNED'">
                   <!-- class="text-green-50 bg-green-400 rounded-md p-2" -->
                   Unban User
                 </small>
@@ -206,6 +206,8 @@ import { onMounted, ref, computed } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import BackButton from "@/components/BackButton.vue";
+import JbButtons from "../components/JbButtons.vue";
+import JbButton from "../components/JbButton.vue";
 
 export default {
   components: {
@@ -215,6 +217,8 @@ export default {
     Invoices,
     FeatherIcon,
     BackButton,
+    JbButtons,
+    JbButton,
   },
   setup() {
     const store = useStore();
@@ -223,16 +227,63 @@ export default {
       get: () => route.params.id,
     });
     const user = ref("");
+    const userStatus = ref("");
     const isModalActive = ref(false);
+    const hasMessage = ref(false);
+    const messageColor = ref("");
+    const messageUserStatusChange = ref("");
+    const isSuccessChangeUserStatus = ref("");
+
+    const changeUserStatus = async () => {
+      await store.dispatch("changeUserStatus", userId.value);
+      isSuccessChangeUserStatus.value = store.state.isSuccessChangeUserStatus;
+      isModalActive.value = false;
+      hasMessage.value = true;
+
+      console.log(isSuccessChangeUserStatus.value);
+      console.log(userStatus.value);
+      if (isSuccessChangeUserStatus.value) {
+        messageColor.value = "bg-green-100 text-green-400 ";
+        messageUserStatusChange.value = "User status changed ";
+        userStatus.value =
+          userStatus.value?.toUpperCase() == "ACTIVE" ? "BANNED" : "ACTIVE";
+        setTimeout(() => {
+          hasMessage.value = false;
+        }, 5000);
+        store.commit("basic", {
+          key: "isSuccessChangeUserStatus",
+          value: false,
+        });
+      } else {
+        // isModalActive.value = false;
+        // hasMessage.value = true;
+        messageColor.value = "bg-red-100 text-red-400 ";
+        messageUserStatusChange.value = "Sorry there is an error";
+
+        setTimeout(() => {
+          hasMessage.value = false;
+        }, 5000);
+      }
+    };
 
     onMounted(async () => {
-      // await dispatch("fetchUserById", userId.value);
+      await store.dispatch("fetchUserById", userId.value);
       await store.dispatch("fetchCategories", userId.value);
 
       user.value = store.state.user;
+      userStatus.value = store.state.user.status;
     });
 
-    return { store, user, isModalActive };
+    return {
+      store,
+      user,
+      isModalActive,
+      messageUserStatusChange,
+      hasMessage,
+      messageColor,
+      changeUserStatus,
+      userStatus,
+    };
   },
 };
 </script>
