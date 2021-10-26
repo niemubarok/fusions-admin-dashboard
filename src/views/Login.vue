@@ -66,7 +66,7 @@
       </div>
       <div class="flex justify-center bg-green-100 p-3 py-5 rounded-md w-full">
         Successfully sent an email to
-        <strong class="ml-1">{{ userEmail.model }}tes</strong>
+        <strong class="ml-1">{{ userEmail.model }}</strong>
       </div>
 
       <template #bottom>
