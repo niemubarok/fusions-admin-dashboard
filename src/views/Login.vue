@@ -15,23 +15,28 @@
           Enter your email address below and we'll get you back on track.
         </small>
       </div>
-
-      <floating-label-input
-        v-model="useremail"
-        icon="mail"
-        label="Your email"
-      />
-      <jb-buttons class="float-right mt-12">
-        <jb-button
-          :class="{
-            'cursor-not-allowed bg-red': !useremail,
-          }"
-          :isDisabled="!useremail"
-          @click="sendResetLink"
-          color="info"
-          label="Send reset link"
+      <form @submit.prevent="sendResetLink">
+        <floating-label-input
+          v-model="userEmail.model"
+          icon="mail"
+          type="email"
+          label="Your email"
         />
-      </jb-buttons>
+        <small v-if="userEmail.isError" class="text-red-400">{{
+          userEmail.errorMessage
+        }}</small>
+        <jb-buttons class="float-right mt-12">
+          <jb-button
+            :class="{
+              'cursor-not-allowed opacity-50': !userEmail.model,
+            }"
+            :isDisabled="!userEmail.model"
+            color="info"
+            type="submit"
+            label="Send reset link"
+          />
+        </jb-buttons>
+      </form>
       <template #bottom>
         <div
           @click="isModalActive = false"
@@ -41,6 +46,38 @@
             <feather-icon path="chevron-left"> </feather-icon>
           </span>
           <small class="-ml-2"> back to login </small>
+        </div>
+      </template>
+    </modal-box>
+
+    <!-- modal successfully sent reset password -->
+    <modal-box v-model="isModalResetPassActive" has-divider>
+      <div class="flex justify-center">
+        <div
+          class="rounded-full h-20 w-20 bg-green-200 flex justify-center items-center"
+        >
+          <feather-icon
+            path="check"
+            size="30px"
+            class="text-green-500 animate-bounce"
+          >
+          </feather-icon>
+        </div>
+      </div>
+      <div class="bg-green-100 p-3 py-5 rounded-md w-full">
+        Successfully sent an email to &nbsp;
+        <strong>{{ userEmail.model }}</strong>
+      </div>
+
+      <template #bottom>
+        <div
+          @click="isModalResetPassActive = false"
+          class="float-left pb-2 cursor-pointer text-blue-400"
+        >
+          <span class="inline-block align-middle">
+            <feather-icon path="chevron-left"> </feather-icon>
+          </span>
+          <small class="-ml-2 -mb-1"> Back to login </small>
         </div>
       </template>
     </modal-box>
@@ -202,8 +239,13 @@ export default {
 
     const isError = ref(false);
     const errorMessage = ref("");
-    const useremail = ref("");
-    const isModalActive = ref(false);
+    const userEmail = reactive({
+      model: "",
+      isError: false,
+      errorMessage: "",
+    });
+    const isModalActive = ref(true);
+    const isModalResetPassActive = ref(true);
     const isLoading = computed({
       get: () => store.state.loading,
     });
@@ -251,7 +293,14 @@ export default {
     };
 
     const sendResetLink = async () => {
-      await store.dispatch("forgotPassword", useremail);
+      await store.dispatch("forgotPassword", userEmail.model);
+      if (store.state.isEmailSent) {
+        isModalActive.value = false;
+        isModalResetPassActive.value = true;
+      } else {
+        userEmail.isError = true;
+        userEmail.errorMessage = store.state.resetPassErrorMessage;
+      }
     };
 
     onMounted(() => {
@@ -262,10 +311,11 @@ export default {
 
     return {
       isModalActive,
+      isModalResetPassActive,
       form,
       submit,
       notificationColor,
-      useremail,
+      userEmail,
       sendResetLink,
       isLoading,
       loadingMessage,

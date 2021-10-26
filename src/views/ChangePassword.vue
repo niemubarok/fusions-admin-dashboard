@@ -241,7 +241,7 @@ export default {
         form.isRepeatNewPasswordError = true;
         notif.message = "Have you typed your new password?";
         notif.color = "danger";
-      } else if (!isNewPasswordMatched()) {
+      } else if (isNewPasswordMatched.value) {
         form.isoldPasswordError = false;
         form.isNewPasswordError = true;
         notif.message = "your new password doesn't matched";

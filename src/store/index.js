@@ -55,6 +55,9 @@ export default createStore({
       message: ""
     },
 
+    isEmailSent: false,
+    resetPassErrorMessage: "",
+
     notification: "",
     isPasswordChanged: false,
     base_url: "https://cloudmenu-backend.fusionsgeek.com/api/v1/admin/",
@@ -179,22 +182,26 @@ export default createStore({
           });
         });
     },
-    async forgotPassword({ state }, payload = null) {
+    async forgotPassword({ commit, state }, payload = null) {
       await axios({
         url: state.base_url + "forgotpass",
         method: "POST",
         data: {
-          username: payload.username
+          username: payload
         },
-        headers: {
-          Authorization: sessionStorage.getItem("token")
-        }
+        // headers: {
+        //   Authorization: sessionStorage.getItem("token")
+        // }
       })
         .then(r => {
-          console.log(r.data.data);
+          if (r.data.status == "Success")
+            commit('basic', {
+              key: 'isEmailSent',
+              value: true
+            })
         })
         .catch(err => {
-          console.log("err", err);
+          state.resetPassErrorMessage = err.response.data.message
         });
     },
     async fetchUserById({ commit, state }, uid = null) {
