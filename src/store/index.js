@@ -205,6 +205,7 @@ export default createStore({
           Authorization: sessionStorage.getItem("token")
         }
       }).then(r => {
+        console.log(r.data.data.categories);
         commit("basic", {
           key: "user",
           value: r.data.data.detail

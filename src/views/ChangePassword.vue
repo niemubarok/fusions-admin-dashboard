@@ -135,10 +135,10 @@
       <jb-buttons class="float-right mt-10">
         <jb-button
           :class="{
-            'cursor-not-allowed opacity-90 text-gray-500 bg-red hover:bg-gray-100': isNewPasswordMatched,
+            'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched,
           }"
           :isDisabled="isNewPasswordMatched"
-          :color="isNewPasswordMatched ? 'light' : 'info'"
+          color="info"
           @click="openModal"
           label="Save new password"
         />
