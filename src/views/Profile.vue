@@ -279,7 +279,7 @@ export default {
       await store.dispatch("fetchCategories", userId.value);
 
       user.value = store.state.user;
-      userStatus.value = store.state.user.status;
+      userStatus.value = store.state.user.status?.toUpperCase();
     });
 
     return {
