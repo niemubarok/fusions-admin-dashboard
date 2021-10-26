@@ -1,11 +1,7 @@
 <template>
-  <div class="flex">
-    <feather-icon
-      @click="atClick"
-      path="chevron-left"
-      size="25px"
-      class="cursor-pointer"
-    ></feather-icon>
+  <div @click="atClick" class="flex cursor-pointer">
+    <feather-icon path="chevron-left" size="25px"></feather-icon>
+    <!-- class="" -->
     <div v-if="hasText" class="space-x-1">
       {{ text }}
     </div>

@@ -22,14 +22,14 @@
       <divider v-if="hasDivider" />
 
       <jb-buttons v-if="hasButton" class="float-right">
-        <jb-button :label="buttonLabel" :color="button" @click="confirm" />
         <jb-button
           v-if="hasCancel"
           label="Cancel"
           @click="cancel"
-          :color="button"
-          outline
+          class="bg-transparent"
         />
+        <!-- color="light" -->
+        <jb-button :label="buttonLabel" :color="button" @click="confirm" />
       </jb-buttons>
       <slot name="bottom" />
     </card-component>
@@ -50,31 +50,31 @@ export default {
     JbButton,
     JbButtons,
     CardComponent,
-    Divider
+    Divider,
   },
   props: {
     title: String,
     button: {
       type: String,
-      default: "info"
+      default: "info",
     },
     buttonLabel: {
       type: String,
-      default: "Confirm"
+      default: "Confirm",
     },
     hasCancel: Boolean,
     hasButton: Boolean,
     hasDivider: Boolean,
-    modelValue: [String, Number, Boolean]
+    modelValue: [String, Number, Boolean],
   },
   emits: ["update:modelValue", "cancel", "confirm"],
   setup(props, { emit }) {
     const value = computed({
       get: () => props.modelValue,
-      set: value => emit("update:modelValue", value)
+      set: (value) => emit("update:modelValue", value),
     });
 
-    const confirmCancel = mode => {
+    const confirmCancel = (mode) => {
       value.value = false;
       emit(mode);
     };
@@ -87,8 +87,8 @@ export default {
       value,
       confirm,
       cancel,
-      mdiClose
+      mdiClose,
     };
-  }
+  },
 };
 </script>

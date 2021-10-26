@@ -116,25 +116,21 @@
               </ul>
               <div
                 @click="isModalActive = true"
-                class="mt-3 flex justify-end cursor-pointer pb-2"
+                class="mb-5 mt-3 flex justify-center cursor-pointer pb-2 text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400 w-2/4 float-right"
               >
-                <!-- <feather-icon
+                <feather-icon
                   size="15px"
-                  class="rounded-md no-border cursor-pointer text-red-400 -mr-1 "
-                  path="trash"
+                  class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
+                  path="user-x"
                   small
                 >
-                </feather-icon> -->
-                <small
-                  v-if="user.status?.toUpperCase() == 'ACTIVE'"
-                  class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400"
-                >
+                </feather-icon>
+                <small v-if="user.status?.toUpperCase() == 'ACTIVE'">
+                  <!-- class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400" -->
                   Ban User
                 </small>
-                <small
-                  v-else-if="user.status?.toUpperCase() == 'BANNED'"
-                  class="text-green-50 bg-green-400 rounded-md p-2"
-                >
+                <small v-else-if="user.status?.toUpperCase() == 'BANNED'">
+                  <!-- class="text-green-50 bg-green-400 rounded-md p-2" -->
                   Unban User
                 </small>
               </div>

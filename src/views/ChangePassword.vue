@@ -151,7 +151,7 @@
         <span class="inline-block align-middle">
           <feather-icon path="chevron-left"> </feather-icon>
         </span>
-        <span class="-ml-2"> back </span>
+        <span class="-ml-2"> Back </span>
       </div>
     </card-component>
   </main-section>
