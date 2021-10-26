@@ -18,20 +18,14 @@ export default {
   name: "Home",
   components: {
     AsideMenu,
-    NavBar
+    NavBar,
   },
   setup() {
     const store = useStore();
 
-    store.commit("user", {
-      name: "Admin",
-      email: "Admin@cloudmenu.com",
-      avatar: "https://avatars.dicebear.com/v2/gridy/John-Doe.svg"
-    });
-
     return {
-      menu
+      menu,
     };
-  }
+  },
 };
 </script>

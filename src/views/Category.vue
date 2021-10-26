@@ -74,9 +74,10 @@
               </div>
 
               <!-- end items  -->
-              <hr />
+              <!-- <hr />
+              <div class="h-15"> -->
               <pagination
-                v-if="items?.length"
+                v-if="items?.length >= 1"
                 :total-pages="pagesList?.length - 1"
                 :total="items?.length"
                 :per-page="perPage"
@@ -86,8 +87,12 @@
                 :hasMorePages="false"
               >
               </pagination>
+              <div>
+                <input type="select" />
+              </div>
+              <!-- </div> -->
               <!-- another categories -->
-              <div class="container p-5">
+              <!-- <div class="container p-5">
                 <div class="md:flex no-wrap md:-mx-2 -mt-10">
                   <div class="w-full">
                     <div class="p-1 shadow-sm rounded-sm">
@@ -102,7 +107,6 @@
                       </div>
                       <div class="container flex">
                         <div class="flex -mx-1 text-gray-700 w-full">
-                          <!-- empty -->
                           <card-component
                             v-if="category === ''"
                             empty
@@ -118,12 +122,12 @@
                                 [
                                   $router.push({
                                     name: 'category',
-                                    params: { catId: category.id }
+                                    params: { catId: category.id },
                                   }),
                                   store.dispatch(
                                     'filterCategoryById',
                                     category.id
-                                  )
+                                  ),
                                 ]
                               "
                             >
@@ -139,11 +143,8 @@
                     </div>
                   </div>
 
-                  <!-- </div> -->
                 </div>
-
-                <!-- pagination -->
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -161,7 +162,7 @@ import {
   ref,
   computed,
   onUpdated,
-  onMounted
+  onMounted,
 } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
@@ -176,14 +177,14 @@ export default {
     // Categories,
     // Invoices,
     FeatherIcon,
-    ItemCard
+    ItemCard,
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const catId = computed({
-      get: () => route.params.catId
+      get: () => route.params.catId,
     });
     const category = computed(() => store.state.category[0]);
     const isModalActive = ref(false);
@@ -193,14 +194,14 @@ export default {
       if (selectedUserId) {
         router.push({
           name: "profile",
-          params: { id: selectedUserId }
+          params: { id: selectedUserId },
         });
       } else {
         router.go(-1);
       }
     };
     const anotherCategories = computed(() => {
-      return store.state.categories.filter(category => {
+      return store.state.categories.filter((category) => {
         return category.id !== catId.value;
       });
     });
@@ -239,7 +240,7 @@ export default {
       return pagesList;
     });
 
-    const showMore = p => {
+    const showMore = (p) => {
       // page.value = p;
       currentPage.value = p;
     };
@@ -247,6 +248,10 @@ export default {
     const items = computed(() => category.value?.items);
 
     onMounted(async () => {
+      await store.dispatch(
+        "fetchCategories",
+        sessionStorage.getItem("selectedUserId")
+      );
       await store.dispatch("filterCategoryById", catId.value);
     });
 
@@ -263,8 +268,8 @@ export default {
       items,
       perPage,
       showMore,
-      maxVisibleButton
+      maxVisibleButton,
     };
-  }
+  },
 };
 </script>

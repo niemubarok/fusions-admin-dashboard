@@ -2,38 +2,30 @@
   <nav
     v-show="isNavBarVisible"
     id="navbar"
-    class=" flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-11/12  md:w-4/5  transition-all  "
+    class="flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-full transition-all"
   >
     <!-- :class="{ 'ml-60': isAsideMobileExpanded }" -->
     <!-- toggle icon -->
     <nav-bar-item type="flex lg:hidden" @click.prevent="menuToggleMobile">
       <icon :path="menuToggleMobileIcon" size="24" />
     </nav-bar-item>
-    <nav-bar-item type="hidden lg:flex xl:hidden" @click.prevent="menuOpenLg">
-      <icon :path="mdiMenu" size="24" />
-    </nav-bar-item>
 
     <!-- logo -->
-    <!-- <logo
-      has-text
-      class="w-full ml-3"
-      :class="{ 'hidden': !isAsideMobileExpanded }"
-    /> -->
+    <logo v-if="!store.state.isAsideMobileExpanded" class="mr-4 md:hidden" />
     <!-- search  -->
     <div class="flex w-full border-primary bg-white rounded-xl">
       <span
-        class="z-10 absolute border-0 h-10 text-primary font-normal text-center text-gray-400 rounded text-base items-center justify-center pt-4 ml-2  "
+        class="z-10 absolute border-0 h-10 text-primary font-normal text-center text-gray-400 rounded text-base items-center justify-center pt-4 ml-2"
       >
         <featherIcon path="search" size="25px" />
       </span>
-      <!-- {{$router.name}} -->
       <!-- search user -->
       <input
         v-if="searchIf.user"
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.user"
-        class="px-2 font-lg w-full border-0 text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
+        class="px-2 font-lg w-full border-0 text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1 pl-10"
       />
 
       <!-- search categories -->
@@ -42,7 +34,7 @@
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.categories"
-        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
+        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1 pl-10"
       />
 
       <!-- search items -->
@@ -51,7 +43,7 @@
         type="text"
         :placeholder="searchPlaceHolder()"
         v-model="store.state.searchModel.items"
-        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1  pl-10"
+        class="px-2 py-2 w-full border-0 bg-white text-gray-600 relative rounded-xl text-sm focus:ring-primary focus:ring-1 pl-10"
       />
     </div>
     <!-- end search -->
@@ -67,7 +59,7 @@ import {
   mdiClose,
   mdiDotsVertical,
   mdiMenu,
-  mdiCogOutline
+  mdiCogOutline,
 } from "@mdi/js";
 import NavBarItem from "@/components/NavBarItem";
 import Icon from "@/components/Icon";
@@ -80,8 +72,8 @@ export default {
   components: {
     NavBarItem,
     Icon,
-    FeatherIcon
-    // Logo
+    FeatherIcon,
+    Logo,
   },
   setup() {
     const store = useStore();
@@ -118,7 +110,7 @@ export default {
       return {
         user: route.path.includes("dashboard"),
         categories: route.path.includes("/profile"),
-        items: route.path.includes("/category")
+        items: route.path.includes("/category"),
       };
     });
 
@@ -145,8 +137,8 @@ export default {
       mdiMenu,
       mdiCogOutline,
       searchPlaceHolder,
-      searchIf
+      searchIf,
     };
-  }
+  },
 };
 </script>

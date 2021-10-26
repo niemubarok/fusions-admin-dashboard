@@ -1,6 +1,6 @@
 <template>
   <section
-    class="px-0 py-6 md:px-6 h-screen "
+    class="px-0 py-6 md:px-6 h-screen mt-14"
     :class="{ 'flex items-center justify-center': isFormScreen }"
   >
     <slot />
@@ -23,7 +23,6 @@ export default {
 
     onMounted(async () => {
       if (route.name !== "login" && !sessionStorage.getItem("token")) {
-        console.log("unauthorized");
         router.push({ name: "login" });
       } else if (sessionStorage.getItem("token")) {
         await store.dispatch("fetchDashboard");
@@ -31,8 +30,8 @@ export default {
     });
 
     return {
-      isFormScreen
+      isFormScreen,
     };
-  }
+  },
 };
 </script>

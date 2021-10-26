@@ -39,7 +39,7 @@
           <div>
             <small
               @click="setFilterActive"
-              class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-md  h-6 px-5 mr-3 bg-green-100 text-green-500"
+              class="cursor-pointer hover:bg-green-500 hover:text-green-50 rounded-md h-6 px-5 mr-3 bg-green-100 text-green-500"
             >
               Active
             </small>
@@ -68,13 +68,14 @@ import {
   mdiAccountMultipleRemove,
   mdiChartTimelineVariant,
   mdiTableBorder,
-  mdiTableOff
+  mdiTableOff,
 } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import ClientsTable from "@/components/ClientsTable";
 import CardComponent from "@/components/CardComponent";
 import CardWidget from "@/components/CardWidget";
 import { useStore } from "vuex";
+import AsideMenu from "../components/AsideMenu.vue";
 
 export default {
   name: "Tables",
@@ -82,13 +83,13 @@ export default {
     MainSection,
     CardWidget,
     CardComponent,
-    ClientsTable
+    ClientsTable,
   },
   setup() {
     const titleStack = ref(["Admin", "Tables"]);
     const store = useStore();
 
-    const setStatus = status => {
+    const setStatus = (status) => {
       store.state.filter == status
         ? (store.state.filter = "")
         : (store.state.filter = status);
@@ -103,13 +104,13 @@ export default {
     };
 
     const activeUsers = () => {
-      return store.state.users.filter(client => {
+      return store.state.users.filter((client) => {
         return client.status.toUpperCase().includes("ACTIVE");
       });
     };
 
     const bannedUsers = () => {
-      return store.state.users.filter(client => {
+      return store.state.users.filter((client) => {
         return client.status.toUpperCase().includes("BANNED");
       });
     };
@@ -130,8 +131,8 @@ export default {
       setFilterActive,
       setFilterBanned,
       activeUsers,
-      bannedUsers
+      bannedUsers,
     };
-  }
+  },
 };
 </script>

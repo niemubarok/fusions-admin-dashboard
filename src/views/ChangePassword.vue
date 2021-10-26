@@ -8,16 +8,14 @@
         size="50px"
         class="flex justify-center w-full text-red-400"
       />
-      <div class="w-full bg-red-600 bg-opacity-20 h-10 pt-2 rounded-md ">
+      <div class="w-full bg-red-600 bg-opacity-20 h-10 pt-2 rounded-md">
         <span
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
           Make sure you remember your new password! <br />
         </span>
       </div>
-      <div class="pt-5 flex justify-center">
-        Are you sure to continue?
-      </div>
+      <div class="pt-5 flex justify-center">Are you sure to continue?</div>
 
       <template #bottom>
         <jb-buttons class="float-right mt-10">
@@ -49,12 +47,10 @@
         You are about to change your password
       </div>
       <div
-        style="font-size:10pt;margin-top:-2px;margin-bottom:15px"
-        class="flex justify-center w-full text-gray-500 font-xs "
+        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+        class="flex justify-center w-full text-gray-500 font-xs"
       >
-        <small>
-          Please enter your old password then the new one
-        </small>
+        <small> Please enter your old password then the new one </small>
       </div>
 
       <!-- old Password -->
@@ -130,7 +126,7 @@
         <small
           v-if="
             form.repeatNewPassword !== '' &&
-              form.newPassword !== form.repeatNewPassword
+            form.newPassword !== form.repeatNewPassword
           "
           class="text-red-400"
           >Password doesn't match</small
@@ -139,10 +135,10 @@
       <jb-buttons class="float-right mt-10">
         <jb-button
           :class="{
-            'cursor-not-allowed bg-red': isNewPasswordMatched
+            'cursor-not-allowed opacity-90 text-gray-500 bg-red hover:bg-gray-100': isNewPasswordMatched,
           }"
-          :isDisabled="!isNewPasswordMatched"
-          :color="isNewPasswordMatched ? 'info' : 'light'"
+          :isDisabled="isNewPasswordMatched"
+          :color="isNewPasswordMatched ? 'light' : 'info'"
           @click="openModal"
           label="Save new password"
         />
@@ -150,21 +146,19 @@
 
       <div
         @click="$router.go(-1)"
-        class="float-left  pb-4 cursor-pointer text-blue-400 mt-16"
+        class="float-left pb-4 cursor-pointer text-blue-400 mt-16"
       >
-        <span class="inline-block align-middle ">
+        <span class="inline-block align-middle">
           <feather-icon path="chevron-left"> </feather-icon>
         </span>
-        <span class="-ml-2 ">
-          back
-        </span>
+        <span class="-ml-2"> back </span>
       </div>
     </card-component>
   </main-section>
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import MainSection from "@/components/MainSection";
@@ -191,7 +185,7 @@ export default {
     FloatingLabelInput,
     Logo,
     FeatherIcon,
-    Notification
+    Notification,
   },
   setup() {
     const store = useStore();
@@ -202,19 +196,19 @@ export default {
       newPassword: "",
       isNewPasswordError: false,
       repeatNewPassword: "",
-      isRepeatNewPasswordError: false
+      isRepeatNewPasswordError: false,
     });
     const isModalActive = ref(false);
-    const isNewPasswordMatched = () => {
+    const isNewPasswordMatched = computed(() => {
       if (
         form.newPassword !== "" &&
-        form.newPassword !== form.repeatNewPassword
+        form.newPassword == form.repeatNewPassword
       ) {
         return false;
       } else {
         return true;
       }
-    };
+    });
 
     const oldPassType = ref("password");
     const newPassType = ref("password");
@@ -222,7 +216,7 @@ export default {
 
     const notif = reactive({
       color: "",
-      message: store.state.notification
+      message: store.state.notification,
     });
 
     const oldPassVisibility = () => {
@@ -262,6 +256,7 @@ export default {
 
     const submit = async () => {
       await store.dispatch("changePassword", form);
+      console.log("submit change password");
 
       if (store.state.isPasswordChanged) {
         notif.color = "success";
@@ -291,8 +286,8 @@ export default {
       newPassVisibility,
       repeatPassVisibility,
       notif,
-      isNewPasswordMatched
+      isNewPasswordMatched,
     };
-  }
+  },
 };
 </script>

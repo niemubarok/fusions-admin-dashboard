@@ -1,24 +1,10 @@
 <template>
   <aside
     v-show="!isFormScreen"
-    class="
-      w-60
-      top-0
-      z-40
-      h-screen
-      transition-position
-      lg:left-0
-      overflow-y-scroll
-      scrollbar-thin scrollbar-thumb-white scrollbar-track-gray-200
-      hover:scrollbar-thumb-blue-900
-      bg-white
-      py-3
-      flow-root
-      fixed
-    "
+    class="w-60 top-0 z-40 h-screen transition-position lg:left-0 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray-200 hover:scrollbar-thumb-blue-900 bg-white py-3 flow-root fixed"
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',
-      isAsideLgActive ? 'block' : 'md:flex lg:block xl:flex'
+      isAsideLgActive ? 'block' : 'md:flex lg:block ',
     ]"
   >
     <div>
@@ -51,13 +37,13 @@ export default {
   name: "AsideMenu",
   components: {
     AsideMenuList,
-    Logo
+    Logo,
   },
   props: {
     menu: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   setup() {
     const store = useStore();
@@ -82,9 +68,9 @@ export default {
       isFormScreen,
       isAsideMobileExpanded,
       isAsideLgActive,
-      asideLgClose
+      asideLgClose,
       // menuClick
     };
-  }
+  },
 };
 </script>

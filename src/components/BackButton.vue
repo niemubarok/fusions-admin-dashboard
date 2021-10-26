@@ -6,7 +6,7 @@
       size="25px"
       class="cursor-pointer"
     ></feather-icon>
-    <div v-if="hasText" class="ml-1">
+    <div v-if="hasText" class="space-x-1">
       {{ text }}
     </div>
   </div>
@@ -17,18 +17,18 @@ import { useRouter } from "vue-router";
 import FeatherIcon from "./FeatherIcon.vue";
 export default {
   components: {
-    FeatherIcon
+    FeatherIcon,
   },
   props: {
     hasText: Boolean,
     text: {
       type: String,
-      default: "back"
+      default: "back",
     },
     to: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   setup(props) {
     const router = useRouter();
@@ -40,6 +40,6 @@ export default {
       }
     };
     return { atClick };
-  }
+  },
 };
 </script>

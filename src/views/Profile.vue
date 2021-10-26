@@ -48,7 +48,7 @@
           <div class="w-full md:w-4/12 md:mx-2 shadow-lg">
             <!-- Profile Card -->
 
-            <div class="bg-white p-2">
+            <div class="bg-white px-2 py-2">
               <back-button
                 hasText
                 to="dashboard"
@@ -127,13 +127,13 @@
                 </feather-icon> -->
                 <small
                   v-if="user.status?.toUpperCase() == 'ACTIVE'"
-                  class="text-red-50 rounded-md px-2 bg-red-400"
+                  class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400"
                 >
                   Ban User
                 </small>
                 <small
-                  v-else
-                  class="text-green-50 bg-green-400 rounded-md px-2"
+                  v-else-if="user.status?.toUpperCase() == 'BANNED'"
+                  class="text-green-50 bg-green-400 rounded-md p-2"
                 >
                   Unban User
                 </small>
@@ -145,14 +145,14 @@
           <!-- Right Side -->
           <div class="w-full h-64">
             <!-- Categories -->
-            <div class="bg-white p-1 shadow-sm rounded-sm shadow-lg">
+            <div class="bg-white px-3 pt-1 pb-3 shadow-sm rounded-sm shadow-lg">
               <div
-                class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-1"
+                class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-2"
               >
                 <span clas="text-green-500">
                   <feather-icon path="grid" />
                 </span>
-                <span class="tracking-wide">All Categories</span>
+                <span class="tracking-wide mb-1">All Categories</span>
               </div>
 
               <categories />
@@ -230,10 +230,7 @@ export default {
     const isModalActive = ref(false);
 
     onMounted(async () => {
-      // localStorage.removeItem("allCategories");
-      // await store.dispatch("fetchDashboard");
-      // await store.dispatch("filterUsersById", userId);
-      // await store.dispatch("fetchUserById", userId.value);
+      // await dispatch("fetchUserById", userId.value);
       await store.dispatch("fetchCategories", userId.value);
 
       user.value = store.state.user;

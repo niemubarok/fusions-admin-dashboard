@@ -4,10 +4,10 @@
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class="flex cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md w-56 "
+      class="flex cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md w-56"
       :class="{
         'py-2': !isSubmenuList,
-        'p-3 text-sm bg-gray-200': isSubmenuList
+        'p-3 text-sm bg-gray-200': isSubmenuList,
       }"
       exact-active-class="bg-primary text-gray-50 "
       @click="menuClick"
@@ -51,22 +51,22 @@ export default {
       import("@/components/AsideMenuList")
     ),
     Icon,
-    featherIcon
+    featherIcon,
   },
   emits: ["menu-click"],
   props: {
     item: {
       type: Object,
-      default: null
+      default: null,
     },
     isSubmenuList: {
       type: Boolean,
-      default: false
+      default: false,
     },
     color: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   setup(props, { emit }) {
     const isDropdownActive = ref(false);
@@ -83,7 +83,7 @@ export default {
 
     const itemHref = computed(() => props.item.href || null);
 
-    const menuClick = event => {
+    const menuClick = (event) => {
       if (props.item.action()) {
         emit("menu-click", event, props.item.action());
       }
@@ -106,8 +106,8 @@ export default {
       dropdownIcon,
       itemTo,
       itemHref,
-      menuClick
+      menuClick,
     };
-  }
+  },
 };
 </script>

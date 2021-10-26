@@ -12,7 +12,7 @@ export default createStore({
     isFormScreen: false,
 
     // sidebar
-    isAsideMobileExpanded: false,
+    isAsideMobileExpanded: true,
     isAsideLgActive: false,
 
     // data
@@ -49,6 +49,10 @@ export default createStore({
       categories: "",
       items: "",
       invoices: ""
+    },
+    login: {
+      isAuth: false,
+      message: ""
     },
 
     notification: "",
@@ -100,7 +104,7 @@ export default createStore({
         value: payload !== null ? payload : !state.isAsideLgActive
       });
     },
-    formScreenToggle({ commit, state }, value) {
+    formScreenToggle({ commit }, value) {
       commit("basic", { key: "isFormScreen", value });
 
       document.documentElement.classList[value ? "add" : "remove"](
@@ -111,11 +115,11 @@ export default createStore({
     async login({ state }, payload = null) {
       state.loading = true;
       state.loadingMessage = "Logging you in...";
-      
+
       await axios({
         method: "POST",
         url: state.base_url + "login",
-        // url: state.base_url+"register",
+        // url: state.base_url + "register",
         data: {
           username: payload.username,
           password: payload.pass
@@ -125,19 +129,21 @@ export default createStore({
           "Content-Type": "application/json"
         }
       })
-      .then(res => {
+        .then(res => {
+          if (res.data.status == "Success") {
 
-        if (res.status == 200) {
-          sessionStorage.setItem("token", res.data.data.token);
-              setTimeout(() => {
-                state.loading = false;
-              }, 2000);
-            }
+            sessionStorage.setItem("token", res.data.data.token);
+            state.login.isAuth = true
+            setTimeout(() => {
+              state.loading = false;
+            }, 2000);
+          }
         })
         .catch(err => {
-          // state.loadingMessage = "Apologize! can't contact the server";
-            state.loading = false;
-          console.log(err);
+          state.loading = false;
+          // if (err.response.status == 401) {
+          state.login.message = err.response.data.message
+          // }
         });
     },
     async changePassword({ commit, state }, payload = null) {
@@ -199,11 +205,6 @@ export default createStore({
           Authorization: sessionStorage.getItem("token")
         }
       }).then(r => {
-        // sessionStorage.setItem("user", JSON.stringify(r.data.data.detail));
-        // sessionStorage.setItem(
-        //   "allCategories",
-        //   JSON.stringify(r.data.data.categories)
-        // );
         commit("basic", {
           key: "user",
           value: r.data.data.detail
@@ -238,10 +239,6 @@ export default createStore({
           }
         })
         .then(r => {
-          // sessionStorage.setItem(
-          //   "categories",
-          //   JSON.stringify(r.data.data.categories)
-          // );
           if (r.data) {
             commit("basic", {
               key: "categories",

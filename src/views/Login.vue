@@ -1,15 +1,15 @@
 <template>
   <main-section>
     <modal-box v-model="isModalActive">
-      <div class="flex justify-center w-full ">
+      <div class="flex justify-center w-full">
         <logo />
       </div>
       <div class="flex justify-center w-full text-gray-500 text-center">
         Forgot Password?
       </div>
       <div
-        style="font-size:10pt;margin-top:-2px;margin-bottom:15px"
-        class="flex justify-center w-full text-gray-500 font-xs "
+        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+        class="flex justify-center w-full text-gray-500 font-xs"
       >
         <small>
           Enter your email address below and we'll get you back on track.
@@ -24,7 +24,7 @@
       <jb-buttons class="float-right mt-12">
         <jb-button
           :class="{
-            'cursor-not-allowed bg-red': !useremail
+            'cursor-not-allowed bg-red': !useremail,
           }"
           :isDisabled="!useremail"
           @click="sendResetLink"
@@ -35,14 +35,12 @@
       <template #bottom>
         <div
           @click="isModalActive = false"
-          class="float-left  pb-4 cursor-pointer text-blue-400 mt-16"
+          class="float-left pb-4 cursor-pointer text-blue-400 mt-16"
         >
-          <span class="inline-block align-middle ">
+          <span class="inline-block align-middle">
             <feather-icon path="chevron-left"> </feather-icon>
           </span>
-          <small class="-ml-2 ">
-            back to login
-          </small>
+          <small class="-ml-2"> back to login </small>
         </div>
       </template>
     </modal-box>
@@ -54,7 +52,7 @@
     >
       <div class="absolute inset-0 bg-gray-900 bg-opacity-80"></div>
       <div class="relative w-screen flex justify-center items-center">
-        <div class="absolute left-2/4 animate-ping  h-20 w-20">
+        <div class="absolute left-2/4 animate-ping h-20 w-20">
           <logo />
         </div>
         <div
@@ -66,32 +64,25 @@
     </div>
     <!-- <div class="flex items-center justify-center"> -->
     <card-component
-      class="w-11/12 md:w-5/12 bg-transparent rounded-lg "
+      class="w-11/12 md:w-5/12 bg-transparent rounded-lg"
       @submit.prevent="submit"
       form
     >
-      <div class="flex justify-center w-full ">
+      <div class="flex justify-center w-full">
         <logo class="mb-3" />
       </div>
       <div class="flex justify-center w-full text-gray-500 text-center font-lg">
         Welcome to Cloud Menu!
       </div>
       <div
-        style="font-size:10pt;margin-top:-2px;margin-bottom:15px"
-        class="flex justify-center w-full text-gray-500 font-xs "
+        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+        class="flex justify-center w-full text-gray-500 font-xs"
       >
-        <small>
-          Please Log-in to your account
-        </small>
+        <small v-if="!isError"> Please Log-in to your account </small>
 
-        <notification
-          v-if="form.errorMessage"
-          :color="notificationColor"
-          class="absolute top-2 right-3 p-2 "
-        >
-          <!-- :outline="true" -->
-          {{ form.errorMessage }}
-        </notification>
+        <small v-else class="text-red-400 bg-red-100 px-2 rounded-sm">
+          {{ errorMessage }}
+        </small>
       </div>
       <div>
         <div
@@ -115,10 +106,24 @@
         >
           <floating-label-input
             label="Password"
-            type="password"
+            :type="form.passType"
             icon="lock"
             v-model="form.pass"
-          />
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="form.passType !== 'password'"
+                path="eye"
+                @click="passVisibility"
+              />
+              <feather-icon
+                v-if="form.passType == 'password'"
+                path="eye-off"
+                @click="passVisibility"
+              />
+            </template>
+          </floating-label-input>
         </div>
         <small v-if="form.isPassError" class="text-red-400">{{
           form.errorMessage
@@ -177,7 +182,7 @@ export default {
     Logo,
     FloatingLabelInput,
     FeatherIcon,
-    Notification
+    // Notification,
   },
   setup() {
     const store = useStore();
@@ -186,45 +191,61 @@ export default {
       username: "",
       isUserNameError: false,
       pass: "",
+      passType: "password",
       isPassError: false,
       remember: false,
-      errorMessage: ""
+      errorMessage: "",
     });
+    const passVisibility = () => {
+      form.passType = form.passType == "password" ? "text" : "password";
+    };
 
+    const isError = ref(false);
+    const errorMessage = ref("");
     const useremail = ref("");
     const isModalActive = ref(false);
     const isLoading = computed({
-      get: () => store.state.loading
+      get: () => store.state.loading,
     });
     const loadingMessage = computed({
-      get: () => store.state.loadingMessage
+      get: () => store.state.loadingMessage,
     });
     const notificationColor = ref("");
 
     const router = useRouter();
 
     const submit = async () => {
+      isError.value = false;
+      console.log(isError.value);
       if (form.username == "") {
         form.isUserNameError = true;
         form.errorMessage = "Please provide your username";
         notificationColor.value = "danger";
       } else if (form.pass == "") {
+        // isError.value = false;
         form.isUserNameError = false;
         form.isPassError = true;
         form.errorMessage = "Have you typed your password?";
         notificationColor.value = "danger";
       } else {
+        // isError.value = false;
         form.isUserNameError = false;
         form.isPassError = false;
         await store.dispatch("login", form);
-        if (route.path == "/" && !sessionStorage.getItem("token")) {
-          form.errorMessage = "Incorrect username or password";
+        // if (route.path == "/" && !sessionStorage.getItem("token")) {
+        if (route.path == "/" && !store.state.login.isAuth) {
+          isError.value = true;
+          errorMessage.value = store.state.login.message;
+          form.pass = "";
+          setTimeout(() => {
+            isError.value = false;
+          }, 10000);
           notificationColor.value = "danger";
           router.push({ name: "login" });
         } else {
           setTimeout(() => {
             router.push("/dashboard");
-          }, 2000);
+          }, 1000);
         }
       }
     };
@@ -247,8 +268,11 @@ export default {
       useremail,
       sendResetLink,
       isLoading,
-      loadingMessage
+      loadingMessage,
+      isError,
+      errorMessage,
+      passVisibility,
     };
-  }
+  },
 };
 </script>
