@@ -6,7 +6,6 @@ const routes = [
     meta: {
       title: "Login",
       formScreen: true
-     
     },
     path: "/",
     name: "login",
@@ -16,7 +15,6 @@ const routes = [
     // Document title tag
     meta: {
       title: "Dashboard"
-     
     },
     path: "/dashboard",
     name: "dashboard",
@@ -26,7 +24,6 @@ const routes = [
   {
     meta: {
       title: "Category"
-     
     },
     path: "/user/category/:catId",
     name: "category",
@@ -36,7 +33,6 @@ const routes = [
   {
     meta: {
       title: "Profile"
-     
     },
     path: "/user/profile/:id",
     name: "profile",
@@ -46,7 +42,7 @@ const routes = [
   {
     meta: {
       title: "Change Password",
-      formScreen: true,
+      formScreen: true
     },
     path: "/change-password",
     name: "changePassword",
@@ -56,7 +52,7 @@ const routes = [
   {
     meta: {
       title: "ResetPassword",
-      formScreen: true,
+      formScreen: true
     },
     path: "/reset-password/:token",
     name: "resetPassword",
@@ -66,7 +62,6 @@ const routes = [
   {
     meta: {
       title: "Google Analytics"
-     
     },
     path: "/analytics",
     name: "googleAnalytics",

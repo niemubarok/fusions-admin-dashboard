@@ -41,96 +41,101 @@
     >
       {{ notif.message }}
     </notification>
-    <card-component
-      class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3"
-      form
-    >
-      <div class="flex justify-center w-full mb-4">
-        <logo />
-      </div>
-      <div class="flex justify-center w-full text-gray-500 text-center font-lg">
-        You are here because you've forgot your password
-      </div>
-      <div
-        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
-        class="flex justify-center w-full text-gray-500 font-xs"
+
+    <div class="relative w-11/12 flex justify-center -mt-20 ">
+      <background-decoration />
+      <card-component
+        class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3 mt-5 shadow-lg"
+        form
       >
-        <!-- <small> Please enter your new password </small> -->
-        <small v-if="!isError"> Please enter your new password </small>
-
-        <small v-else class="text-red-400 bg-red-100 px-2 rounded-sm mt-2">
-          {{ errorMessage }}
-        </small>
-      </div>
-
-      <!-- new password -->
-      <div class="mt-4">
-        <floating-label-input
-          label="New Password"
-          :type="newPassType"
-          icon="lock"
-          v-model="form.newPassword"
-          isPassword
+        <div class="flex justify-center w-full mb-4">
+          <logo />
+        </div>
+        <div
+          class="flex justify-center w-full text-gray-500 text-center font-lg"
         >
-          <template #append>
-            <feather-icon
-              v-if="newPassType !== 'password'"
-              path="eye"
-              @click="newPassVisibility"
-            />
-            <feather-icon
-              v-if="newPassType == 'password'"
-              path="eye-off"
-              @click="newPassVisibility"
-            />
-          </template>
-        </floating-label-input>
-      </div>
-
-      <!-- repeat new Password -->
-      <div class="mt-4">
-        <floating-label-input
-          :type="repeatPassType"
-          label="Repeat New Password"
-          icon="lock"
-          v-model="form.repeatNewPassword"
-          isPassword
+          You are here because you've forgot your password
+        </div>
+        <div
+          style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+          class="flex justify-center w-full text-gray-500 font-xs"
         >
-          <template #append>
-            <feather-icon
-              v-if="repeatPassType !== 'password'"
-              path="eye"
-              @click="repeatPassVisibility"
-            />
-            <feather-icon
-              v-if="repeatPassType == 'password'"
-              path="eye-off"
-              @click="repeatPassVisibility"
-            />
-          </template>
-        </floating-label-input>
-        <small
-          v-if="
-            form.repeatNewPassword !== '' &&
-              form.newPassword !== form.repeatNewPassword
-          "
-          class="text-red-400"
-          >Password doesn't match</small
-        >
-      </div>
-      <jb-buttons class="float-right mt-10">
-        <jb-button
-          :class="{
-            'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched
-          }"
-          :isDisabled="isNewPasswordMatched"
-          color="info"
-          @click="openModal"
-          label="Save new password"
-        />
-      </jb-buttons>
+          <!-- <small> Please enter your new password </small> -->
+          <small v-if="!isError"> Please enter your new password </small>
 
-      <!-- <div
+          <small v-else class="text-red-400 bg-red-100 px-2 rounded-sm mt-2">
+            {{ errorMessage }}
+          </small>
+        </div>
+
+        <!-- new password -->
+        <div class="mt-4">
+          <floating-label-input
+            label="New Password"
+            :type="newPassType"
+            icon="lock"
+            v-model="form.newPassword"
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="newPassType !== 'password'"
+                path="eye"
+                @click="newPassVisibility"
+              />
+              <feather-icon
+                v-if="newPassType == 'password'"
+                path="eye-off"
+                @click="newPassVisibility"
+              />
+            </template>
+          </floating-label-input>
+        </div>
+
+        <!-- repeat new Password -->
+        <div class="mt-4">
+          <floating-label-input
+            :type="repeatPassType"
+            label="Repeat New Password"
+            icon="lock"
+            v-model="form.repeatNewPassword"
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="repeatPassType !== 'password'"
+                path="eye"
+                @click="repeatPassVisibility"
+              />
+              <feather-icon
+                v-if="repeatPassType == 'password'"
+                path="eye-off"
+                @click="repeatPassVisibility"
+              />
+            </template>
+          </floating-label-input>
+          <small
+            v-if="
+              form.repeatNewPassword !== '' &&
+                form.newPassword !== form.repeatNewPassword
+            "
+            class="text-red-400"
+            >Password doesn't match</small
+          >
+        </div>
+        <jb-buttons class="float-right mt-10">
+          <jb-button
+            :class="{
+              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched
+            }"
+            :isDisabled="isNewPasswordMatched"
+            color="info"
+            @click="openModal"
+            label="Save new password"
+          />
+        </jb-buttons>
+
+        <!-- <div
         @click="$router.go(-1)"
         class="float-left pb-4 cursor-pointer text-blue-400 mt-16"
       >
@@ -139,7 +144,8 @@
         </span>
         <span class="-ml-2"> Back </span>
       </div> -->
-    </card-component>
+      </card-component>
+    </div>
   </div>
 </template>
 
@@ -157,6 +163,7 @@ import Logo from "../components/Logo.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import Notification from "../components/Notification.vue";
 import { useStore } from "vuex";
+import BackgroundDecoration from "../components/BackgroundDecoration.vue";
 
 export default {
   name: "Login",
@@ -171,7 +178,8 @@ export default {
     FloatingLabelInput,
     Logo,
     FeatherIcon,
-    Notification
+    Notification,
+    BackgroundDecoration
   },
   setup() {
     const store = useStore();
@@ -247,9 +255,13 @@ export default {
         }, 1000);
       } else {
         isError.value = true;
-        errorMessage.value = "There is an error occured";
+        errorMessage.value = "An error occured, please double check your link";
         isModalActive.value = false;
         notif.color = "danger";
+        setTimeout(() => {
+          isError.value = false;
+          errorMessage.value = "";
+        }, 3000);
       }
     };
     onMounted(() => {

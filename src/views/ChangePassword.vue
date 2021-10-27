@@ -36,124 +36,125 @@
     >
       {{ notif.message }}
     </notification>
-    <card-component
-      class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3"
-      form
-    >
-      <div class="flex justify-center w-full mb-4">
-        <logo />
-      </div>
-      <div class="flex justify-center w-full text-gray-500 text-center font-lg">
-        You are about to change your password
-      </div>
-      <div
-        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
-        class="flex justify-center w-full text-gray-500 font-xs"
+    <div class="relative w-11/12 flex justify-center -mt-32 ">
+      <background-decoration />
+      <card-component
+        class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3 mt-5 shadow-lg"
+        form
       >
-        <small> Please enter your old password then the new one </small>
-      </div>
+        <div class="flex justify-center w-full mb-4">
+          <logo />
+        </div>
+        <div
+          class="flex justify-center w-full text-gray-500 text-center font-lg"
+        >
+          You are about to change your password
+        </div>
+        <div
+          style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+          class="flex justify-center w-full text-gray-500 font-xs"
+        >
+          <small> Please enter your old password then the new one </small>
+        </div>
 
-      <!-- old Password -->
-      <div>
-        <floating-label-input
-          label="Old Password"
-          :type="oldPassType"
-          icon="lock"
-          v-model="form.oldPassword"
-          isPassword
-        >
-          <template #append>
-            <feather-icon
-              v-if="oldPassType !== 'password'"
-              path="eye"
-              @click="oldPassVisibility"
-            />
-            <feather-icon
-              v-if="oldPassType == 'password'"
-              path="eye-off"
-              @click="oldPassVisibility"
-            />
-          </template>
-        </floating-label-input>
-      </div>
+        <!-- old Password -->
+        <div>
+          <floating-label-input
+            label="Old Password"
+            :type="oldPassType"
+            icon="lock"
+            v-model="form.oldPassword"
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="oldPassType !== 'password'"
+                path="eye"
+                @click="oldPassVisibility"
+              />
+              <feather-icon
+                v-if="oldPassType == 'password'"
+                path="eye-off"
+                @click="oldPassVisibility"
+              />
+            </template>
+          </floating-label-input>
+        </div>
 
-      <!-- new password -->
-      <div class="mt-4">
-        <floating-label-input
-          label="New Password"
-          :type="newPassType"
-          icon="lock"
-          v-model="form.newPassword"
-          isPassword
-        >
-          <template #append>
-            <feather-icon
-              v-if="newPassType !== 'password'"
-              path="eye"
-              @click="newPassVisibility"
-            />
-            <feather-icon
-              v-if="newPassType == 'password'"
-              path="eye-off"
-              @click="newPassVisibility"
-            />
-          </template>
-        </floating-label-input>
-      </div>
+        <!-- new password -->
+        <div class="mt-4">
+          <floating-label-input
+            label="New Password"
+            :type="newPassType"
+            icon="lock"
+            v-model="form.newPassword"
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="newPassType !== 'password'"
+                path="eye"
+                @click="newPassVisibility"
+              />
+              <feather-icon
+                v-if="newPassType == 'password'"
+                path="eye-off"
+                @click="newPassVisibility"
+              />
+            </template>
+          </floating-label-input>
+        </div>
 
-      <!-- repeat new Password -->
-      <div class="mt-4">
-        <floating-label-input
-          :type="repeatPassType"
-          label="Repeat New Password"
-          icon="lock"
-          v-model="form.repeatNewPassword"
-          isPassword
-        >
-          <template #append>
-            <feather-icon
-              v-if="repeatPassType !== 'password'"
-              path="eye"
-              @click="repeatPassVisibility"
-            />
-            <feather-icon
-              v-if="repeatPassType == 'password'"
-              path="eye-off"
-              @click="repeatPassVisibility"
-            />
-          </template>
-        </floating-label-input>
-        <small
-          v-if="
-            form.repeatNewPassword !== '' &&
-            form.newPassword !== form.repeatNewPassword
-          "
-          class="text-red-400"
-          >Password doesn't match</small
-        >
-      </div>
-      <jb-buttons class="float-right mt-10">
-        <jb-button
-          :class="{
-            'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched,
-          }"
-          :isDisabled="isNewPasswordMatched"
-          color="info"
-          @click="openModal"
-          label="Save new password"
+        <!-- repeat new Password -->
+        <div class="mt-4">
+          <floating-label-input
+            :type="repeatPassType"
+            label="Repeat New Password"
+            icon="lock"
+            v-model="form.repeatNewPassword"
+            isPassword
+          >
+            <template #append>
+              <feather-icon
+                v-if="repeatPassType !== 'password'"
+                path="eye"
+                @click="repeatPassVisibility"
+              />
+              <feather-icon
+                v-if="repeatPassType == 'password'"
+                path="eye-off"
+                @click="repeatPassVisibility"
+              />
+            </template>
+          </floating-label-input>
+          <small
+            v-if="
+              form.repeatNewPassword !== '' &&
+                form.newPassword !== form.repeatNewPassword
+            "
+            class="text-red-400"
+            >Password doesn't match</small
+          >
+        </div>
+        <jb-buttons class="float-right mt-10">
+          <jb-button
+            :class="{
+              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched
+            }"
+            :isDisabled="isNewPasswordMatched"
+            color="info"
+            @click="openModal"
+            label="Save new password"
+          />
+        </jb-buttons>
+
+        <back-button
+          hasText
+          text="Back"
+          class="float-left pb-4 cursor-pointer text-blue-400 mt-16"
         />
-      </jb-buttons>
-
-      <div
-        @click="$router.go(-1)"
-        class="float-left pb-4 cursor-pointer text-blue-400 mt-16"
-      >
-        <span class="inline-block align-middle">
-          <feather-icon path="chevron-left"> </feather-icon>
-        </span>
-        <span class="-ml-2"> Back </span>
-      </div>
-    </card-component>
+      </card-component>
+    </div>
   </main-section>
 </template>
 
@@ -171,6 +172,8 @@ import Logo from "../components/Logo.vue";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import Notification from "../components/Notification.vue";
 import { useStore } from "vuex";
+import BackgroundDecoration from "../components/BackgroundDecoration.vue";
+import BackButton from "../components/BackButton.vue";
 
 export default {
   name: "Login",
@@ -186,6 +189,8 @@ export default {
     Logo,
     FeatherIcon,
     Notification,
+    BackgroundDecoration,
+    BackButton
   },
   setup() {
     const store = useStore();
@@ -196,7 +201,7 @@ export default {
       newPassword: "",
       isNewPasswordError: false,
       repeatNewPassword: "",
-      isRepeatNewPasswordError: false,
+      isRepeatNewPasswordError: false
     });
     const isModalActive = ref(false);
     const isNewPasswordMatched = computed(() => {
@@ -216,7 +221,7 @@ export default {
 
     const notif = reactive({
       color: "",
-      message: store.state.notification,
+      message: store.state.notification
     });
 
     const oldPassVisibility = () => {
@@ -286,8 +291,8 @@ export default {
       newPassVisibility,
       repeatPassVisibility,
       notif,
-      isNewPasswordMatched,
+      isNewPasswordMatched
     };
-  },
+  }
 };
 </script>

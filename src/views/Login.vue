@@ -15,6 +15,11 @@
           Enter your email address below and we'll get you back on track.
         </small>
       </div>
+      <div class="flex justify-center w-full">
+        <small class="text-red-400 bg-red-100 px-2 rounded-sm">
+          {{ userEmail.errorMessage }}
+        </small>
+      </div>
       <form @submit.prevent="sendResetLink">
         <floating-label-input
           v-model="userEmail.model"
@@ -22,9 +27,9 @@
           type="email"
           label="Your email"
         />
-        <small v-if="userEmail.isError" class="text-red-400">{{
+        <!-- <small v-if="userEmail.isError" class="text-red-400">{{
           userEmail.errorMessage
-        }}</small>
+        }}</small> -->
         <jb-buttons class="float-right mt-12">
           <jb-button
             :class="{
@@ -45,7 +50,7 @@
           <span class="inline-block align-middle">
             <feather-icon path="chevron-left"> </feather-icon>
           </span>
-          <small class="-ml-2"> back to login </small>
+          <small class="-ml-2"> Back to login </small>
         </div>
       </template>
     </modal-box>
@@ -100,98 +105,106 @@
       </div>
     </div>
     <!-- <div class="flex items-center justify-center"> -->
-    <card-component
-      class="w-11/12 md:w-5/12 bg-transparent rounded-lg"
-      @submit.prevent="submit"
-      form
-    >
-      <div class="flex justify-center w-full">
-        <logo class="mb-3" />
-      </div>
-      <div class="flex justify-center w-full text-gray-500 text-center font-lg">
-        Welcome to Cloud Menu!
-      </div>
-      <div
-        style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
-        class="flex justify-center w-full text-gray-500 font-xs"
-      >
-        <small v-if="!isError"> Please Log-in to your account </small>
 
-        <small v-else class="text-red-400 bg-red-100 px-2 rounded-sm">
-          {{ errorMessage }}
-        </small>
-      </div>
-      <div>
+    <div class="relative w-11/12 flex justify-center -mt-20 ">
+      <background-decoration />
+      <card-component
+        class=" w-5/12 bg-transparent rounded-lg shadow-lg mt-8"
+        @submit.prevent="submit"
+        form
+      >
+        <div class="flex justify-center w-full">
+          <logo class="mb-3" />
+        </div>
         <div
-          :class="{ 'border border-red-200 rounded-md': form.isUserNameError }"
+          class="flex justify-center w-full text-gray-500 text-center font-lg"
         >
-          <floating-label-input
-            label="Username"
-            type="email"
-            icon="user"
-            v-model="form.username"
+          Welcome to Cloud Menu!
+        </div>
+        <div
+          style="font-size: 10pt; margin-top: -2px; margin-bottom: 15px"
+          class="flex justify-center w-full text-gray-500 font-xs"
+        >
+          <small v-if="!isError"> Please Log-in to your account </small>
+
+          <small v-else class="text-red-400 bg-red-100 px-2 my-2 rounded-sm">
+            {{ errorMessage }}
+          </small>
+        </div>
+        <div>
+          <div
+            :class="{
+              'border border-red-200 rounded-md': form.isUserNameError
+            }"
+          >
+            <floating-label-input
+              label="Username"
+              type="email"
+              icon="user"
+              v-model="form.username"
+            />
+          </div>
+          <small v-if="form.isUserNameError" class="text-red-400">{{
+            form.errorMessage
+          }}</small>
+        </div>
+        <div>
+          <div
+            class="mt-4"
+            :class="{ 'border border-red-200 rounded-md': form.isPassError }"
+          >
+            <floating-label-input
+              label="Password"
+              :type="form.passType"
+              icon="lock"
+              v-model="form.pass"
+              isPassword
+            >
+              <template #append>
+                <feather-icon
+                  v-if="form.passType !== 'password'"
+                  path="eye"
+                  @click="passVisibility"
+                />
+                <feather-icon
+                  v-if="form.passType == 'password'"
+                  path="eye-off"
+                  @click="passVisibility"
+                />
+              </template>
+            </floating-label-input>
+          </div>
+          <small v-if="form.isPassError" class="text-red-400">{{
+            form.errorMessage
+          }}</small>
+        </div>
+
+        <div class="mt-5 text-gray-500">
+          <check-radio-picker
+            name="remember"
+            v-model="form.remember"
+            :options="{ remember: 'Remember' }"
           />
         </div>
-        <small v-if="form.isUserNameError" class="text-red-400">{{
-          form.errorMessage
-        }}</small>
-      </div>
-      <div>
-        <div
-          class="mt-4"
-          :class="{ 'border border-red-200 rounded-md': form.isPassError }"
-        >
-          <floating-label-input
-            label="Password"
-            :type="form.passType"
-            icon="lock"
-            v-model="form.pass"
-            isPassword
+
+        <divider />
+
+        <jb-buttons class="flex justify-between">
+          <a
+            @click="isModalActive = true"
+            class=" mb-4 cursor-pointer text-blue-400"
+            >Forgot password?</a
           >
-            <template #append>
-              <feather-icon
-                v-if="form.passType !== 'password'"
-                path="eye"
-                @click="passVisibility"
-              />
-              <feather-icon
-                v-if="form.passType == 'password'"
-                path="eye-off"
-                @click="passVisibility"
-              />
-            </template>
-          </floating-label-input>
-        </div>
-        <small v-if="form.isPassError" class="text-red-400">{{
-          form.errorMessage
-        }}</small>
-      </div>
-
-      <div class="mt-5 text-gray-500">
-        <check-radio-picker
-          name="remember"
-          v-model="form.remember"
-          :options="{ remember: 'Remember' }"
-        />
-      </div>
-
-      <divider />
-
-      <jb-buttons class="flex justify-between">
-        <a
-          @click="isModalActive = true"
-          class=" mb-4 cursor-pointer text-blue-400"
-          >Forgot password?</a
-        >
-        <jb-button
-          class="float-right"
-          type="submit"
-          color="info"
-          label="Login"
-        />
-      </jb-buttons>
-    </card-component>
-    <!-- </div> -->
+          <jb-button
+            class="float-right"
+            type="submit"
+            color="info"
+            label="Login"
+          />
+        </jb-buttons>
+      </card-component>
+      <!-- </div> -->
+    </div>
   </main-section>
 </template>
 
@@ -208,8 +221,8 @@ import ModalBox from "@/components/ModalBox";
 import Logo from "@/components/Logo";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import FloatingLabelInput from "../components/FloatingLabelInput.vue";
-import Notification from "../components/Notification.vue";
 import { useStore } from "vuex";
+import BackgroundDecoration from "../components/BackgroundDecoration.vue";
 
 export default {
   name: "username",
@@ -223,8 +236,8 @@ export default {
     ModalBox,
     Logo,
     FloatingLabelInput,
-    FeatherIcon
-    // Notification,
+    FeatherIcon,
+    BackgroundDecoration
   },
   setup() {
     const store = useStore();
@@ -305,6 +318,10 @@ export default {
       } else {
         userEmail.isError = true;
         userEmail.errorMessage = store.state.resetPassErrorMessage;
+        setTimeout(() => {
+          userEmail.isError = true;
+          userEmail.errorMessage = "";
+        }, 3000);
       }
     };
 

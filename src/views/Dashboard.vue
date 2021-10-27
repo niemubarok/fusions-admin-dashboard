@@ -35,7 +35,9 @@
     <card-component title="List of Users" icon="list" has-table>
       <template #header>
         <div class="flex items-center justify-center">
-          <small class="mr-3 text-gray-400">filter :</small>
+          <feather-icon path="filter" size="13px" class="-mr-1 text-gray-500">
+          </feather-icon>
+          <small class="mr-3 text-gray-500">filter :</small>
           <div>
             <small
               @click="setFilterActive"
@@ -68,7 +70,7 @@ import {
   mdiAccountMultipleRemove,
   mdiChartTimelineVariant,
   mdiTableBorder,
-  mdiTableOff,
+  mdiTableOff
 } from "@mdi/js";
 import MainSection from "@/components/MainSection";
 import ClientsTable from "@/components/ClientsTable";
@@ -76,6 +78,7 @@ import CardComponent from "@/components/CardComponent";
 import CardWidget from "@/components/CardWidget";
 import { useStore } from "vuex";
 import AsideMenu from "../components/AsideMenu.vue";
+import FeatherIcon from "../components/FeatherIcon.vue";
 
 export default {
   name: "Tables",
@@ -84,12 +87,13 @@ export default {
     CardWidget,
     CardComponent,
     ClientsTable,
+    FeatherIcon
   },
   setup() {
     const titleStack = ref(["Admin", "Tables"]);
     const store = useStore();
 
-    const setStatus = (status) => {
+    const setStatus = status => {
       store.state.filter == status
         ? (store.state.filter = "")
         : (store.state.filter = status);
@@ -104,19 +108,20 @@ export default {
     };
 
     const activeUsers = () => {
-      return store.state.users.filter((client) => {
+      return store.state.users.filter(client => {
         return client.status.toUpperCase().includes("ACTIVE");
       });
     };
 
     const bannedUsers = () => {
-      return store.state.users.filter((client) => {
+      return store.state.users.filter(client => {
         return client.status.toUpperCase().includes("BANNED");
       });
     };
 
     onMounted(() => {
       store.state.filter = "";
+      store.dispatch("clearSearch");
     });
 
     return {
@@ -131,8 +136,8 @@ export default {
       setFilterActive,
       setFilterBanned,
       activeUsers,
-      bannedUsers,
+      bannedUsers
     };
-  },
+  }
 };
 </script>

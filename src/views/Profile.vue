@@ -35,7 +35,7 @@
           <jb-button
             @click="isModalActive = false"
             label="Cancel"
-            class="bg-gray-300"
+            class="bg-gray-300 text-gray-500"
           />
           <jb-button @click="changeUserStatus" color="danger" label="Yes" />
         </jb-buttons>
@@ -127,9 +127,18 @@
                 class="mb-5 mt-3 flex justify-center cursor-pointer pb-2 text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400 w-2/4 float-right"
               >
                 <feather-icon
+                  v-if="userStatus?.toUpperCase() == 'ACTIVE'"
                   size="15px"
                   class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
                   path="user-x"
+                  small
+                >
+                </feather-icon>
+                <feather-icon
+                  v-if="userStatus?.toUpperCase() == 'BANNED'"
+                  size="15px"
+                  class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
+                  path="user-check"
                   small
                 >
                 </feather-icon>

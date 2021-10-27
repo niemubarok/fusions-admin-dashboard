@@ -15,7 +15,7 @@
     <!-- search  -->
     <div class="flex w-full border-primary bg-white rounded-xl">
       <span
-        class="z-10 absolute border-0 h-10 text-primary font-normal text-center text-gray-400 rounded text-base items-center justify-center pt-4 ml-2"
+        class="z-10 absolute border-0 h-10 text-primary font-normal text-center  rounded text-base items-center justify-center pt-4 ml-2"
       >
         <featherIcon path="search" size="25px" />
       </span>
@@ -59,7 +59,7 @@ import {
   mdiClose,
   mdiDotsVertical,
   mdiMenu,
-  mdiCogOutline,
+  mdiCogOutline
 } from "@mdi/js";
 import NavBarItem from "@/components/NavBarItem";
 import Icon from "@/components/Icon";
@@ -73,7 +73,7 @@ export default {
     NavBarItem,
     Icon,
     FeatherIcon,
-    Logo,
+    Logo
   },
   setup() {
     const store = useStore();
@@ -110,7 +110,7 @@ export default {
       return {
         user: route.path.includes("dashboard"),
         categories: route.path.includes("/profile"),
-        items: route.path.includes("/category"),
+        items: route.path.includes("/category")
       };
     });
 
@@ -137,8 +137,8 @@ export default {
       mdiMenu,
       mdiCogOutline,
       searchPlaceHolder,
-      searchIf,
+      searchIf
     };
-  },
+  }
 };
 </script>

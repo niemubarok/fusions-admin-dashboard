@@ -33,18 +33,18 @@
   </modal-box>
 
   <div class="container flex my-5 mx-auto px-2 md:px-2 ">
-    <div class="flex flex-wrap justify-center text-gray-700 w-full">
+    <div class="flex flex-wrap justify-start text-gray-700 w-full">
       <!-- empty -->
 
       <card-component v-if="!categories?.length" empty class="w-full" />
       <!-- Column -->
       <div
-        class="my-1 px-1 w-full lg:my-2 md:px-2 md:w-60 flex justify-center"
+        class="my-1 px-1 w-full lg:my-2 md:px-2 md:w-4/12 flex justify-center"
         v-for="category of categories"
         :key="category"
       >
         <div
-          class="overflow-hidden rounded-lg shadow-lg h-60 w-11/12 transform transition-all duration-500"
+          class="overflow-hidden rounded-lg shadow-lg  pb-1 w-11/12 min-h-min md:min-w-min transform transition-all duration-500"
         >
           <img
             :alt="category.category_name"
@@ -53,13 +53,13 @@
                 ? 'https://picsum.photos/700/400/?food'
                 : store.state.base_url_image + category.image
             "
-            style="height: 150px"
+            style="height: 120px"
             class="block w-full"
           />
 
           <!-- action -->
           <div
-            class="flex-col -z-20 absolute top-0 h-full w-full text-white opacity-0 bg-gray-200 hover:opacity-100 hover:bg-opacity-20 flex items-center justify-center pb-5"
+            class="flex-col -z-20 absolute top-0 h-60 w-full text-white opacity-0 bg-gray-200 hover:opacity-100 hover:bg-opacity-20 flex items-center justify-center pb-5"
           >
             <div
               class="transform transition duration-200 hover:scale-110 cursor-pointer"
@@ -90,7 +90,7 @@
           <header
             class="flex items-center justify-between leading-tight p-2 md:p-2"
           >
-            <h4 class="text-gray-700 font-bold overflow-ellipsis">
+            <h4 class="text-gray-700 font-bold overflow-ellipsis mr-2">
               {{ category.category_name }}
             </h4>
             <p class="text-gray-500 text-xs flex ">
@@ -100,7 +100,7 @@
             </p>
           </header>
           <hr />
-          <footer class="flex items-center justify-between leading-none md:p-2">
+          <footer class="flex items-center p-1 pb-1">
             <p class="ml-2 text-sm text-gray-500">
               {{ category.description }}
             </p>
@@ -205,7 +205,7 @@ export default {
     };
 
     onMounted(async () => {
-      await store.dispatch("fetchUserById", userId.value);
+      // await store.dispatch("fetchUserById", userId.value);
       await store.dispatch("fetchCategories", userId.value);
     });
 
