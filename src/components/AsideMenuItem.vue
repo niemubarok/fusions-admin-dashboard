@@ -1,27 +1,32 @@
 <template>
-  <li>
+  <li ref="btnRef">
     <component
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class="flex cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md "
+      class=" cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md "
       :class="{
         'py-2': !isSubmenuList,
         'p-3 text-sm bg-gray-200': isSubmenuList,
-        'w-10': miniMode,
-        'w-56': !miniMode
+        'w-10 justify-center': miniMode,
+        'w-56 flex ': !miniMode
       }"
       exact-active-class="bg-primary text-gray-50 "
       @click="menuClick"
+      @mouseenter="toggleTooltip()"
+      @mouseleave="toggleTooltip()"
     >
-      <!-- 'bg-gray-200': item.label == 'Dashboard' -->
-      <feather-icon
-        v-if="item.icon"
-        :path="item.icon"
-        class="flex-none"
-        w="w-9"
-      ></feather-icon>
+      <feather-icon v-if="item.icon" :path="item.icon" w="w-9"></feather-icon>
       <span v-if="!miniMode" class="flex-grow">{{ item.label }}</span>
+      <div
+        v-show="miniMode"
+        :class="{ hidden: !tooltipShow, absolute: tooltipShow }"
+        ref="tooltipRef"
+        class="pl-2 bg-primary flex items-center rounded-r-md  left-10  w-36 z-50 "
+        style="margin-top:-31px;height:38px;"
+      >
+        {{ item.label }}
+      </div>
       <icon
         v-if="hasDropdown"
         :path="dropdownIcon"
@@ -46,6 +51,7 @@ import { mdiMinus, mdiChevronDown } from "@mdi/js";
 import Icon from "@/components/Icon";
 import featherIcon from "@/components/FeatherIcon";
 import { useStore } from "vuex";
+import { createPopper } from "@popperjs/core";
 
 export default {
   name: "AsideMenuItem",
@@ -74,7 +80,9 @@ export default {
   setup(props, { emit }) {
     const store = useStore();
     const isDropdownActive = ref(false);
-
+    const tooltipShow = ref(false);
+    const btnRef = ref();
+    const tooltipRef = ref();
     const componentIs = computed(() => (props.item.to ? "router-link" : "a"));
 
     const hasDropdown = computed(() => !!props.item.menu);
@@ -101,9 +109,17 @@ export default {
 
     const miniMode = computed({ get: () => store.state.miniMode });
 
-    // onMounted(()=>{
-    //   console.log(props.item.icon);
-    // })
+    // tooltip
+    const toggleTooltip = () => {
+      if (tooltipShow.value) {
+        tooltipShow.value = false;
+      } else {
+        tooltipShow.value = true;
+        createPopper(btnRef.value, tooltipRef.value, {
+          placement: "left"
+        });
+      }
+    };
 
     return {
       isDropdownActive,
@@ -113,7 +129,10 @@ export default {
       itemTo,
       itemHref,
       menuClick,
-      miniMode
+      miniMode,
+      tooltipShow,
+      btnRef,
+      toggleTooltip
     };
   }
 };

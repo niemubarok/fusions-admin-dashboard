@@ -37,13 +37,10 @@ export default createStore({
       forgotPassword: ""
     },
 
-    // COMPONENT
-    miniMode: false,
     loading: false,
     loadingMessage: "",
     isSkeleton: {
-      category: true,
-      items: true
+      category: true
     },
 
     // search model
@@ -118,11 +115,6 @@ export default createStore({
         "form-screen"
       );
     },
-    clearSearch({ state }) {
-      state.searchModel.categories = "";
-      state.searchModel.user = "";
-      state.searchModel.items = "";
-    },
 
     async login({ state }, payload = null) {
       state.loading = true;
@@ -143,8 +135,9 @@ export default createStore({
       })
         .then(res => {
           if (res.data.status == "Success") {
+
             sessionStorage.setItem("token", res.data.data.token);
-            state.login.isAuth = true;
+            state.login.isAuth = true
             setTimeout(() => {
               state.loading = false;
             }, 2000);
@@ -153,7 +146,7 @@ export default createStore({
         .catch(err => {
           state.loading = false;
           // if (err.response.status == 401) {
-          state.login.message = err.response.data.message;
+          state.login.message = err.response.data.message
           // }
         });
     },
@@ -196,20 +189,20 @@ export default createStore({
         method: "POST",
         data: {
           username: payload
-        }
+        },
         // headers: {
         //   Authorization: sessionStorage.getItem("token")
         // }
       })
         .then(r => {
           if (r.data.status == "Success")
-            commit("basic", {
-              key: "isEmailSent",
+            commit('basic', {
+              key: 'isEmailSent',
               value: true
-            });
+            })
         })
         .catch(err => {
-          state.resetPassErrorMessage = err.response.data.message;
+          state.resetPassErrorMessage = err.response.data.message
         });
     },
     async changeUserStatus({ state }, uid = null) {
@@ -224,55 +217,54 @@ export default createStore({
           data: {
             id: uid
           }
-        })
-          .then(r => {
-            // if (r.data.statuscode == 0) {
-            console.log(r.data);
-            state.isSuccessChangeUserStatus = true;
-            // }
-          })
-          .catch(err => {
-            console.log(err.response);
-            state.isSuccessChangeUserStatus = false;
-          });
+        }).then(r => {
+          // if (r.data.statuscode == 0) {
+          console.log(r.data);
+          state.isSuccessChangeUserStatus = true
+          // }
+        }).catch(err => {
+          console.log(err.response);
+          state.isSuccessChangeUserStatus = false
+        });
       }
     },
-    async resetPassword({ commit, state }, payload = null) {
-      if (payload !== null) {
+    async resetPassword({commit, state}, payload= null){
+      if(payload !== null){
+
         await axios({
           url: state.base_url + "resetPassword",
-          method: "POST",
-          data: {
-            id: payload.id,
-            password: payload.newPassword
-          }
-          // headers: {
-          //   Authorization: sessionStorage.getItem("token")
-          // }
-        })
-          .then(r => {
-            console.log(r.data);
-            if (r.data.status == "Success") {
-              commit("basic", {
-                key: "isPasswordChanged",
-                value: true
-              });
-            } else {
-              commit("basic", {
-                key: "isPasswordChanged",
-                value: false
-              });
-            }
-          })
-          .catch(err => {
-            console.log("err", err);
+        method: "POST",
+        data: {
+          id: payload.id,
+          password: payload.newPassword
+        }
+        // headers: {
+        //   Authorization: sessionStorage.getItem("token")
+        // }
+      })
+      .then(r => {
+        console.log(r.data);
+          if (r.data.status == "Success") {
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: true
+            });
+          } else {
             commit("basic", {
               key: "isPasswordChanged",
               value: false
             });
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+          commit("basic", {
+            key: "isPasswordChanged",
+            value: false
           });
+        });
       }
-    },
+      },
     async fetchUserById({ commit, state }, uid = null) {
       await axios({
         url: state.base_url + "user/" + uid,
@@ -280,21 +272,18 @@ export default createStore({
         headers: {
           Authorization: sessionStorage.getItem("token")
         }
-      })
-        .then(r => {
-          console.log(r.data.data.categories);
-          commit("basic", {
-            key: "user",
-            value: r.data.data.detail
-          });
-          commit("basic", {
-            key: "allCategories",
-            value: r.data.data.categories
-          });
-        })
-        .catch(err => {
-          console.log(err);
+      }).then(r => {
+        commit("basic", {
+          key: "user",
+          value: r.data.data.detail
         });
+        commit("basic", {
+          key: "allCategories",
+          value: r.data.data.categories
+        });
+      }).catch(err => {
+        console.log(err);
+      });
     },
 
     async filterUsersById({ commit, state }, userId = null) {
@@ -340,7 +329,6 @@ export default createStore({
             key: "category",
             value: filter
           });
-          state.isSkeleton.items = false;
         }
       }
     },

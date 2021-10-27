@@ -55,14 +55,16 @@ module.exports = {
     boxShadow: {
       lg:
         "2px 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.03)"
-    }
+    },
+   
   },
   variants: {
     extend: {
       margin: ["last"],
       backgroundColor: ["checked", "active", "focus"],
       borderColor: ["hover", "focus", "focus-within", "checked"],
-      scale: ["group-hover", "active"]
+      scale: ["group-hover", "active"],
+      overflow:['hover']
     }
   },
   plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar")]

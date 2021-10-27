@@ -6,7 +6,7 @@
       :item="item"
       :is-submenu-list="isSubmenuList"
       @menu-click="menuClick"
-      class="bg-white py-1 ml-2 w-full"
+      class="bg-white py-3 px-2 w-full"
     />
   </ul>
 </template>

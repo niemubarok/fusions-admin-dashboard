@@ -1,11 +1,11 @@
 <template>
   <aside
     v-show="!isFormScreen"
-    class="top-0 z-40 h-screen transition-position lg:left-0 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray-200 hover:scrollbar-thumb-blue-900 bg-white py-3 flow-root fixed"
+    class="top-0 z-40 h-screen transition-position lg:left-0  bg-white py-3 flow-root  fixed"
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',
       isAsideLgActive ? 'block' : 'md:flex lg:block ',
-      miniMode ? 'w-16' : 'w-60'
+      miniMode ? 'w-16 shadow-lg overflow-visible' : 'w-60'
     ]"
   >
     <div>
@@ -16,32 +16,34 @@
         :class="[miniMode ? 'ml-2' : 'ml-5']"
       />
 
-      <hr class="mb-4" />
-      <template v-for="(menuGroup, index) in menu">
-        <p
-          v-if="typeof menuGroup === 'string'"
-          :key="`a-${index}`"
-          class="p-3 text-xs uppercase text-gray-600"
-        >
-          {{ menuGroup }}
-        </p>
-        <aside-menu-list v-else :key="`b-${index}`" :menu="menuGroup" />
-        <!-- @menu-click="menuClick" -->
-      </template>
+      <hr class="mb-5" />
+      <div :class="[miniMode ? 'ml-1 mt-6' : '']">
+        <template v-for="(menuGroup, index) in menu">
+          <p
+            v-if="typeof menuGroup === 'string'"
+            :key="`a-${index}`"
+            class="p-3 text-xs uppercase text-gray-600"
+          >
+            {{ menuGroup }}
+          </p>
+          <aside-menu-list v-else :key="`b-${index}`" :menu="menuGroup" />
+        </template>
+      </div>
     </div>
+
     <div
-      class="absolute bottom-5 opacity-0 md:opacity-100 "
-      :class="[miniMode ? 'left-6' : 'left-52']"
+      class="absolute bottom-3 opacity-0 md:opacity-100 "
+      :class="[miniMode ? 'left-2' : 'left-52']"
     >
       <nav-bar-item type="flex" @click.prevent="toggleMiniMode">
-        <icon :path="menuToggleMobileIcon" size="24" />
+        <icon :path="menuToggleMobileIcon" size="20" />
       </nav-bar-item>
     </div>
   </aside>
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import AsideMenuList from "@/components/AsideMenuList";
 import Logo from "@/components/Logo";
@@ -92,23 +94,8 @@ export default {
     );
 
     const toggleMiniMode = () => {
-      !miniMode.value
-        ? [
-            document.getElementById("app").classList["add"]("-ml-48"),
-            document.getElementById("app").classList["remove"]("ml-60")
-          ]
-        : [
-            // document.getElementById("app").classList["add"]("ml-60"),
-            document.getElementById("app").classList["remove"]("-ml-48")
-          ];
-
-      document.documentElement.classList[miniMode.value ? "add" : "remove"](
-        "m-clipped"
-      );
       store.state.miniMode = !store.state.miniMode;
     };
-
-    const menuToggleMobile = () => (store.state.isAsideMobileExpanded = false);
 
     return {
       isFormScreen,
@@ -116,7 +103,6 @@ export default {
       isAsideLgActive,
       asideLgClose,
       menuToggleMobileIcon,
-      menuToggleMobile,
       toggleMiniMode,
       sidebarWidth,
       miniMode
