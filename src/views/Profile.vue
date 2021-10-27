@@ -13,13 +13,13 @@
           v-if="userStatus?.toUpperCase() == 'ACTIVE'"
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
-          You are about to &nbsp;<strong> ban </strong> &nbsp; a user with name
+          You are about to <strong class="mx-1"> ban </strong> a user with name
         </span>
         <span
           v-if="userStatus?.toUpperCase() == 'BANNED'"
           class="flex justify-center w-full text-gray-900 text-center font-lg"
         >
-          You are about to &nbsp;<strong> unban </strong> &nbsp; a user with
+          You are about to <strong class="mx-1"> unban </strong> a user with
           name
         </span>
 

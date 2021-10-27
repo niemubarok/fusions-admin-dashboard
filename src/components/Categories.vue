@@ -32,7 +32,7 @@
     </div>
   </modal-box>
 
-  <div class="container flex my-5 mx-auto px-2 md:px-2 ">
+  <div v-if="!isSkeleton" class="container flex my-5 mx-auto px-2 md:px-2 ">
     <div class="flex flex-wrap justify-start text-gray-700 w-full">
       <!-- empty -->
 
@@ -113,7 +113,10 @@
   </div>
 
   <!-- skeleton -->
-  <div v-show="isSkeleton" class="container flex my-5 mx-auto px-2 md:px-12">
+
+  <card-skeleton v-if="isSkeleton" />
+
+  <!-- <div v-if="isSkeleton" class="container flex my-5 mx-auto px-2 md:px-12">
     <div class="flex flex-wrap -mx-1 text-gray-700 w-full">
       <div
         class="my-1 px-1 w-full lg:my-2 md:px-3 lg:w-2/6 flex justify-center"
@@ -154,11 +157,9 @@
             </p>
           </footer>
         </div>
-        <!-- END Article -->
       </div>
-      <!-- END Column -->
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -166,6 +167,7 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { onMounted, ref } from "vue";
 import CardComponent from "./CardComponent.vue";
+import CardSkeleton from "./CardSkeleton.vue";
 import FeatherIcon from "./FeatherIcon.vue";
 import ModalBox from "./ModalBox.vue";
 import { useRoute } from "vue-router";
@@ -173,7 +175,8 @@ export default {
   components: {
     CardComponent,
     FeatherIcon,
-    ModalBox
+    ModalBox,
+    CardSkeleton
   },
   setup() {
     const store = useStore();

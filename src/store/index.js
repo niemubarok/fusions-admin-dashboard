@@ -37,10 +37,13 @@ export default createStore({
       forgotPassword: ""
     },
 
+    // COMPONENT
+    miniMode: false,
     loading: false,
     loadingMessage: "",
     isSkeleton: {
-      category: true
+      category: true,
+      items: true
     },
 
     // search model
@@ -337,6 +340,7 @@ export default createStore({
             key: "category",
             value: filter
           });
+          state.isSkeleton.items = false;
         }
       }
     },

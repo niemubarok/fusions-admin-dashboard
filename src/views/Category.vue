@@ -65,11 +65,13 @@
                     class="my-1 px-1 w-full lg:my-4 lg:px-4 lg:w-1/3 flex justify-center"
                   >
                     <item-card
+                      v-if="!isSkeleton"
                       :name="item.name"
                       :price="item.price"
                       :description="item.description"
                     />
                   </div>
+                  <card-skeleton v-if="isSkeleton" />
                 </div>
               </div>
 
@@ -97,7 +99,7 @@
                   <div class="w-full">
                     <div class="p-1 shadow-sm rounded-sm">
                       <div
-                        class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mt-1"
+                        class="flex items-center space-x-\1 font-semibold text-gray-900 leading-8 mt-1"
                       >
                         <small
                           v-if="anotherCategories?.length"
@@ -162,12 +164,13 @@ import {
   ref,
   computed,
   onUpdated,
-  onMounted,
+  onMounted
 } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
 import ItemCard from "../components/ItemCard.vue";
 import Pagination from "@/components/Pagination.vue";
+import CardSkeleton from "@/components/CardSkeleton.vue";
 export default {
   components: {
     MainSection,
@@ -178,13 +181,17 @@ export default {
     // Invoices,
     FeatherIcon,
     ItemCard,
+    CardSkeleton
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const catId = computed({
-      get: () => route.params.catId,
+      get: () => route.params.catId
+    });
+    const isSkeleton = computed({
+      get: () => store.state.isSkeleton.items
     });
     const category = computed(() => store.state.category[0]);
     const isModalActive = ref(false);
@@ -194,14 +201,14 @@ export default {
       if (selectedUserId) {
         router.push({
           name: "profile",
-          params: { id: selectedUserId },
+          params: { id: selectedUserId }
         });
       } else {
         router.go(-1);
       }
     };
     const anotherCategories = computed(() => {
-      return store.state.categories.filter((category) => {
+      return store.state.categories.filter(category => {
         return category.id !== catId.value;
       });
     });
@@ -240,7 +247,7 @@ export default {
       return pagesList;
     });
 
-    const showMore = (p) => {
+    const showMore = p => {
       // page.value = p;
       currentPage.value = p;
     };
@@ -269,7 +276,8 @@ export default {
       perPage,
       showMore,
       maxVisibleButton,
+      isSkeleton
     };
-  },
+  }
 };
 </script>
