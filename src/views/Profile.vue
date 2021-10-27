@@ -93,7 +93,7 @@
                         'bg-green-100 text-green-500 px-4':
                           userStatus?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          userStatus?.toUpperCase() == 'BANNED',
+                          userStatus?.toUpperCase() == 'BANNED'
                       }"
                       >{{ userStatus }}</span
                     ></span
@@ -117,7 +117,7 @@
                 </li>
                 <li class="flex items-center py-3">
                   <small>Country</small>
-                  <span class="ml-auto w-1/2 overflow-ellipsis">{{
+                  <span class="ml-auto text-end w-1/2 overflow-ellipsis">{{
                     user.country
                   }}</span>
                 </li>
@@ -226,13 +226,13 @@ export default {
     FeatherIcon,
     BackButton,
     JbButtons,
-    JbButton,
+    JbButton
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const userId = computed({
-      get: () => route.params.id,
+      get: () => route.params.id
     });
     const user = ref("");
     const userStatus = ref("");
@@ -248,8 +248,6 @@ export default {
       isModalActive.value = false;
       hasMessage.value = true;
 
-      console.log(isSuccessChangeUserStatus.value);
-      console.log(userStatus.value);
       if (isSuccessChangeUserStatus.value) {
         messageColor.value = "bg-green-100 text-green-400 ";
         messageUserStatusChange.value = "User status changed ";
@@ -260,11 +258,9 @@ export default {
         }, 5000);
         store.commit("basic", {
           key: "isSuccessChangeUserStatus",
-          value: false,
+          value: false
         });
       } else {
-        // isModalActive.value = false;
-        // hasMessage.value = true;
         messageColor.value = "bg-red-100 text-red-400 ";
         messageUserStatusChange.value = "Sorry there is an error";
 
@@ -290,8 +286,8 @@ export default {
       hasMessage,
       messageColor,
       changeUserStatus,
-      userStatus,
+      userStatus
     };
-  },
+  }
 };
 </script>

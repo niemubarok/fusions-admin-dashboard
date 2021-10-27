@@ -43,6 +43,11 @@ module.exports = {
         "screen-menu": "calc(100vh - 3.5rem)",
         modal: "calc(100vh - 160px)"
       },
+      minWidth: {
+        "0": "0",
+        "1/2": "50%",
+        "3/4": "75%"
+      },
       transitionProperty: {
         position: "right, left, top, bottom, margin, padding"
       }

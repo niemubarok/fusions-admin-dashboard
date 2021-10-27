@@ -32,14 +32,14 @@
     </div>
   </modal-box>
 
-  <div class="container flex my-5 mx-auto px-2 md:px-12">
-    <div class="flex flex-wrap -mx-1 text-gray-700 w-full">
+  <div class="container flex my-5 mx-auto px-2 md:px-2 ">
+    <div class="flex flex-wrap justify-center text-gray-700 w-full">
       <!-- empty -->
 
       <card-component v-if="!categories?.length" empty class="w-full" />
       <!-- Column -->
       <div
-        class="my-1 px-1 w-full lg:my-2 md:px-3 lg:w-2/6 flex justify-center"
+        class="my-1 px-1 w-full lg:my-2 md:px-2 md:w-60 flex justify-center"
         v-for="category of categories"
         :key="category"
       >
@@ -68,7 +68,7 @@
                 @click="
                   $router.push({
                     name: 'category',
-                    params: { catId: category.id },
+                    params: { catId: category.id }
                   })
                 "
                 class="rounded-md bg-primary px-2 pb-1 mb-5 hover:bg-opacity-100"
@@ -90,11 +90,11 @@
           <header
             class="flex items-center justify-between leading-tight p-2 md:p-2"
           >
-            <h3 class="text-gray-700 font-bold overflow-ellipsis">
+            <h4 class="text-gray-700 font-bold overflow-ellipsis">
               {{ category.category_name }}
-            </h3>
-            <p class="text-gray-500 text-xs">
-              {{ category.total_item }}
+            </h4>
+            <p class="text-gray-500 text-xs flex ">
+              <span class="mr-1"> {{ category.total_item }}</span>
               <span v-if="category.total_item > 1">items</span>
               <span v-else>item</span>
             </p>
@@ -164,7 +164,7 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import {  onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import CardComponent from "./CardComponent.vue";
 import FeatherIcon from "./FeatherIcon.vue";
 import ModalBox from "./ModalBox.vue";
@@ -173,7 +173,7 @@ export default {
   components: {
     CardComponent,
     FeatherIcon,
-    ModalBox,
+    ModalBox
   },
   setup() {
     const store = useStore();
@@ -184,12 +184,12 @@ export default {
     const categoryNameToDelete = ref("");
     const isModalActive = ref(false);
     const isSkeleton = computed({
-      get: () => store.state.isSkeleton.category,
+      get: () => store.state.isSkeleton.category
     });
     const categories = computed(() => {
       let listCategories = [];
 
-      const filtered = store.state.allCategories.filter((element) => {
+      const filtered = store.state.allCategories.filter(element => {
         return element.category_name
           .toUpperCase()
           .includes(store.state.searchModel.categories.toUpperCase());
@@ -199,7 +199,7 @@ export default {
       return listCategories[0];
     });
 
-    const deleteButton = (name) => {
+    const deleteButton = name => {
       categoryNameToDelete.value = name;
       isModalActive.value = true;
     };
@@ -215,8 +215,8 @@ export default {
       isModalActive,
       deleteButton,
       store,
-      isSkeleton,
+      isSkeleton
     };
-  },
+  }
 };
 </script>
