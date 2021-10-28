@@ -1,15 +1,15 @@
 <template>
-  <li ref="btnRef">
+  <li>
     <component
       :is="componentIs"
       :to="itemTo"
       :href="itemHref"
-      class=" cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md "
+      class="cursor-pointer hover:bg-primary hover:text-gray-100 rounded-md"
       :class="{
         'py-2': !isSubmenuList,
         'p-3 text-sm bg-gray-200': isSubmenuList,
         'w-10 justify-center': miniMode,
-        'w-56 flex ': !miniMode
+        'w-56 flex ': !miniMode,
       }"
       exact-active-class="bg-primary text-gray-50 "
       @click="menuClick"
@@ -22,8 +22,8 @@
         v-show="miniMode"
         :class="{ hidden: !tooltipShow, absolute: tooltipShow }"
         ref="tooltipRef"
-        class="pl-2 bg-primary flex items-center rounded-r-md  left-10  w-36 z-50 "
-        style="margin-top:-31px;height:38px;"
+        class="pl-2 bg-primary flex items-center -ml-2 shadow-lg rounded-md left-16 w-36 z-50"
+        style="margin-top: -31px; height: 38px"
       >
         {{ item.label }}
       </div>
@@ -60,22 +60,22 @@ export default {
       import("@/components/AsideMenuList")
     ),
     Icon,
-    featherIcon
+    featherIcon,
   },
   emits: ["menu-click"],
   props: {
     item: {
       type: Object,
-      default: null
+      default: null,
     },
     isSubmenuList: {
       type: Boolean,
-      default: false
+      default: false,
     },
     color: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   setup(props, { emit }) {
     const store = useStore();
@@ -95,7 +95,7 @@ export default {
 
     const itemHref = computed(() => props.item.href || null);
 
-    const menuClick = event => {
+    const menuClick = (event) => {
       if (props.item.action()) {
         emit("menu-click", event, props.item.action());
       }
@@ -116,7 +116,7 @@ export default {
       } else {
         tooltipShow.value = true;
         createPopper(btnRef.value, tooltipRef.value, {
-          placement: "left"
+          placement: "left",
         });
       }
     };
@@ -132,8 +132,8 @@ export default {
       miniMode,
       tooltipShow,
       btnRef,
-      toggleTooltip
+      toggleTooltip,
     };
-  }
+  },
 };
 </script>

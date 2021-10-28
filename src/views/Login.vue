@@ -33,7 +33,7 @@
         <jb-buttons class="float-right mt-12">
           <jb-button
             :class="{
-              'cursor-not-allowed opacity-50': !userEmail.model
+              'cursor-not-allowed opacity-50': !userEmail.model,
             }"
             :isDisabled="!userEmail.model"
             color="info"
@@ -106,10 +106,10 @@
     </div>
     <!-- <div class="flex items-center justify-center"> -->
 
-    <div class="relative w-11/12 flex justify-center -mt-20 ">
+    <div class="relative w-11/12 flex justify-center -mt-20">
       <background-decoration />
       <card-component
-        class=" w-5/12 bg-transparent rounded-lg shadow-lg mt-8"
+        class="w-full md:w-5/12 bg-transparent rounded-lg shadow-lg mt-8"
         @submit.prevent="submit"
         form
       >
@@ -134,7 +134,7 @@
         <div>
           <div
             :class="{
-              'border border-red-200 rounded-md': form.isUserNameError
+              'border border-red-200 rounded-md': form.isUserNameError,
             }"
           >
             <floating-label-input
@@ -192,7 +192,7 @@
         <jb-buttons class="flex justify-between">
           <a
             @click="isModalActive = true"
-            class=" mb-4 cursor-pointer text-blue-400"
+            class="mb-4 cursor-pointer text-blue-400"
             >Forgot password?</a
           >
           <jb-button
@@ -237,7 +237,7 @@ export default {
     Logo,
     FloatingLabelInput,
     FeatherIcon,
-    BackgroundDecoration
+    BackgroundDecoration,
   },
   setup() {
     const store = useStore();
@@ -249,7 +249,7 @@ export default {
       passType: "password",
       isPassError: false,
       remember: false,
-      errorMessage: ""
+      errorMessage: "",
     });
     const passVisibility = () => {
       form.passType = form.passType == "password" ? "text" : "password";
@@ -260,15 +260,15 @@ export default {
     const userEmail = reactive({
       model: "",
       isError: false,
-      errorMessage: ""
+      errorMessage: "",
     });
     const isModalActive = ref(false);
     const isModalResetPassActive = ref(false);
     const isLoading = computed({
-      get: () => store.state.loading
+      get: () => store.state.loading,
     });
     const loadingMessage = computed({
-      get: () => store.state.loadingMessage
+      get: () => store.state.loadingMessage,
     });
     const notificationColor = ref("");
 
@@ -343,8 +343,8 @@ export default {
       loadingMessage,
       isError,
       errorMessage,
-      passVisibility
+      passVisibility,
     };
-  }
+  },
 };
 </script>

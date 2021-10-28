@@ -1,20 +1,24 @@
 <template>
   <aside
     v-show="!isFormScreen"
-    class="top-0 z-40 h-screen transition-position lg:left-0  bg-white py-3 flow-root  fixed"
+    class="top-0 z-40 h-screen transition-position lg:left-0 bg-white py-3 flow-root fixed"
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',
       isAsideLgActive ? 'block' : 'md:flex lg:block ',
-      miniMode ? 'w-16 shadow-lg overflow-visible' : 'w-60'
+      miniMode ? 'w-16 shadow-lg overflow-visible' : 'w-60',
     ]"
   >
     <div>
-      <!-- logo -->
-      <logo
-        :has-text="!miniMode"
-        class="w-full  mb-11 mt-6"
-        :class="[miniMode ? 'ml-2' : 'ml-5']"
-      />
+      <div class="justify-center mb-11" :class="[miniMode ? 'ml-2' : 'ml-5']">
+        <!-- logo -->
+        <logo :has-text="!miniMode" class="w-full mt-6" />
+        <small
+          v-if="miniMode"
+          class="truncate font-bold -ml-1"
+          style="font-size: 9px"
+          >Cloud Menu</small
+        >
+      </div>
 
       <hr class="mb-5" />
       <div :class="[miniMode ? 'ml-1 mt-6' : '']">
@@ -32,7 +36,7 @@
     </div>
 
     <div
-      class="absolute bottom-3 opacity-0 md:opacity-100 "
+      class="absolute bottom-3 opacity-0 md:opacity-100"
       :class="[miniMode ? 'left-2' : 'left-52']"
     >
       <nav-bar-item type="flex" @click.prevent="toggleMiniMode">
@@ -58,13 +62,13 @@ export default {
     AsideMenuList,
     NavBarItem,
     Logo,
-    Icon
+    Icon,
   },
   props: {
     menu: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   setup() {
     const store = useStore();
@@ -105,8 +109,8 @@ export default {
       menuToggleMobileIcon,
       toggleMiniMode,
       sidebarWidth,
-      miniMode
+      miniMode,
     };
-  }
+  },
 };
 </script>

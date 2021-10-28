@@ -10,7 +10,7 @@
     &nbsp;
   </div>
   <div
-    class="absolute -bottom-2 right-64 opacity-10 rounded-lg bg-primary w-48 h-48 -z-1"
+    class="animate-bounce absolute -bottom-2 right-64 opacity-10 rounded-lg bg-primary w-48 h-48 -z-1"
   >
     &nbsp;
   </div>

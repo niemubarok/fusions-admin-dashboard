@@ -26,7 +26,7 @@
           v-if="hasCancel"
           label="Cancel"
           @click="cancel"
-          class="bg-transparent"
+          class="bg-gray-300 text-gray-500"
         />
         <!-- color="light" -->
         <jb-button :label="buttonLabel" :color="button" @click="confirm" />

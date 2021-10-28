@@ -31,7 +31,7 @@
       </div>
       <div class="pt-5 flex justify-center">Are you sure to continue ?</div>
       <template #bottom>
-        <jb-buttons class="float-right mt-10">
+        <jb-buttons class="float-right mt-4">
           <jb-button
             @click="isModalActive = false"
             label="Cancel"
@@ -93,7 +93,7 @@
                         'bg-green-100 text-green-500 px-4':
                           userStatus?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          userStatus?.toUpperCase() == 'BANNED'
+                          userStatus?.toUpperCase() == 'BANNED',
                       }"
                       >{{ userStatus }}</span
                     ></span
@@ -235,13 +235,13 @@ export default {
     FeatherIcon,
     BackButton,
     JbButtons,
-    JbButton
+    JbButton,
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const userId = computed({
-      get: () => route.params.id
+      get: () => route.params.id,
     });
     const user = ref("");
     const userStatus = ref("");
@@ -267,7 +267,7 @@ export default {
         }, 5000);
         store.commit("basic", {
           key: "isSuccessChangeUserStatus",
-          value: false
+          value: false,
         });
       } else {
         messageColor.value = "bg-red-100 text-red-400 ";
@@ -295,8 +295,8 @@ export default {
       hasMessage,
       messageColor,
       changeUserStatus,
-      userStatus
+      userStatus,
     };
-  }
+  },
 };
 </script>

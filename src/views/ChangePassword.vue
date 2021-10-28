@@ -36,10 +36,10 @@
     >
       {{ notif.message }}
     </notification>
-    <div class="relative w-11/12 flex justify-center -mt-32 ">
+    <div class="relative w-11/12 flex justify-center -mt-20">
       <background-decoration />
       <card-component
-        class="w-11/12 md:w-5/12 bg-transparent rounded-lg pb-3 mt-5 shadow-lg"
+        class="w-full md:w-5/12 bg-transparent rounded-lg shadow-lg mt-8"
         form
       >
         <div class="flex justify-center w-full mb-4">
@@ -130,7 +130,7 @@
           <small
             v-if="
               form.repeatNewPassword !== '' &&
-                form.newPassword !== form.repeatNewPassword
+              form.newPassword !== form.repeatNewPassword
             "
             class="text-red-400"
             >Password doesn't match</small
@@ -139,7 +139,7 @@
         <jb-buttons class="float-right mt-10">
           <jb-button
             :class="{
-              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched
+              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched,
             }"
             :isDisabled="isNewPasswordMatched"
             color="info"
@@ -190,7 +190,7 @@ export default {
     FeatherIcon,
     Notification,
     BackgroundDecoration,
-    BackButton
+    BackButton,
   },
   setup() {
     const store = useStore();
@@ -201,7 +201,7 @@ export default {
       newPassword: "",
       isNewPasswordError: false,
       repeatNewPassword: "",
-      isRepeatNewPasswordError: false
+      isRepeatNewPasswordError: false,
     });
     const isModalActive = ref(false);
     const isNewPasswordMatched = computed(() => {
@@ -221,7 +221,7 @@ export default {
 
     const notif = reactive({
       color: "",
-      message: store.state.notification
+      message: store.state.notification,
     });
 
     const oldPassVisibility = () => {
@@ -291,8 +291,8 @@ export default {
       newPassVisibility,
       repeatPassVisibility,
       notif,
-      isNewPasswordMatched
+      isNewPasswordMatched,
     };
-  }
+  },
 };
 </script>

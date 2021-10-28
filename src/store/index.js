@@ -42,6 +42,10 @@ export default createStore({
     isSkeleton: {
       category: true
     },
+    isDeleted: {
+      category: false,
+      item: false
+    },
 
     // search model
     searchModel: {
@@ -86,6 +90,8 @@ export default createStore({
     }
   },
   actions: {
+
+    // component
     asideMobileToggle({ commit, state }, payload = null) {
       const isShow = payload !== null ? payload : !state.isAsideMobileExpanded;
 
@@ -115,6 +121,8 @@ export default createStore({
         "form-screen"
       );
     },
+
+    // form
 
     async login({ state }, payload = null) {
       state.loading = true;
@@ -205,6 +213,47 @@ export default createStore({
           state.resetPassErrorMessage = err.response.data.message
         });
     },
+
+    async resetPassword({ commit, state }, payload = null) {
+      if (payload !== null) {
+
+        await axios({
+          url: state.base_url + "resetPassword",
+          method: "POST",
+          data: {
+            id: payload.id,
+            password: payload.newPassword
+          }
+          // headers: {
+          //   Authorization: sessionStorage.getItem("token")
+          // }
+        })
+          .then(r => {
+            console.log(r.data);
+            if (r.data.status == "Success") {
+              commit("basic", {
+                key: "isPasswordChanged",
+                value: true
+              });
+            } else {
+              commit("basic", {
+                key: "isPasswordChanged",
+                value: false
+              });
+            }
+          })
+          .catch(err => {
+            console.log("err", err);
+            commit("basic", {
+              key: "isPasswordChanged",
+              value: false
+            });
+          });
+      }
+    },
+
+    //user 
+
     async changeUserStatus({ state }, uid = null) {
       console.log(uid);
       if (uid !== null) {
@@ -228,43 +277,6 @@ export default createStore({
         });
       }
     },
-    async resetPassword({commit, state}, payload= null){
-      if(payload !== null){
-
-        await axios({
-          url: state.base_url + "resetPassword",
-        method: "POST",
-        data: {
-          id: payload.id,
-          password: payload.newPassword
-        }
-        // headers: {
-        //   Authorization: sessionStorage.getItem("token")
-        // }
-      })
-      .then(r => {
-        console.log(r.data);
-          if (r.data.status == "Success") {
-            commit("basic", {
-              key: "isPasswordChanged",
-              value: true
-            });
-          } else {
-            commit("basic", {
-              key: "isPasswordChanged",
-              value: false
-            });
-          }
-        })
-        .catch(err => {
-          console.log("err", err);
-          commit("basic", {
-            key: "isPasswordChanged",
-            value: false
-          });
-        });
-      }
-      },
     async fetchUserById({ commit, state }, uid = null) {
       await axios({
         url: state.base_url + "user/" + uid,
@@ -300,6 +312,8 @@ export default createStore({
         return null;
       }
     },
+
+    //categories
     async fetchCategories({ commit, state }, userId = null) {
       state.isSkeleton.category = true;
       await axios
@@ -332,6 +346,24 @@ export default createStore({
         }
       }
     },
+    async deleteCategory({ state }, catId = null) {
+      console.log(catId);
+      // await axios({
+      //   method: "DELETE",
+      //   url: state.base_url + 'category/' + catId,
+      //   headers: {
+      //     Authorization: sessionStorage.getItem('token')
+      //   }
+      // }).then(r => {
+      //   console.log(r);
+      // }).catch(err => {
+      //   console.log(err);
+      // })
+    },
+
+    //items
+
+    //dashboard
     async fetchDashboard({ commit, state }) {
       await axios({
         url: state.base_url + "dashboard",
@@ -355,25 +387,20 @@ export default createStore({
         });
         // sessionStorage.setItem("users", JSON.stringify(r.data.data.users));
       });
+    },
+    async clearSearch({ commit }) {
+      const searchModel = {
+        user: "",
+        categories: "",
+        items: "",
+        invoices: ""
+      }
+      commit('basic', {
+        key: "searchModel",
+        value: searchModel
+      })
     }
   },
   modules: {}
 });
 
-// fetchUsers({ commit, state }) {
-//   axios
-//     .get("data-sources/restaurants.json")
-//     .then(r => {
-//       if (r.data) {
-//         if (r.data.data) {
-//           commit("basic", {
-//             key: "users",
-//             value: r.data.data
-//           });
-//         }
-//       }
-//     })
-//     .catch(error => {
-//       alert(error.message);
-//     });
-// },

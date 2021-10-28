@@ -4,7 +4,8 @@ export const colorsBg = {
   success: ["bg-green-400 text-white"],
   danger: ["bg-red-400 text-white"],
   warning: ["bg-yellow-500 text-white"],
-  info: ["bg-blue-500 text-white"]
+  info: ["bg-blue-500 text-white"],
+  primary: ["#DC5C4B"]
 };
 
 export const colorsBorders = {
