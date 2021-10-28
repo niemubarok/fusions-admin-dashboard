@@ -1,5 +1,5 @@
 body {
-  @apply bg-gray-50 text-base lg:pl-60 ;
+  @apply bg-gray-50 text-base lg:pl-60;
 }
 
 #app {
@@ -18,26 +18,30 @@ body {
 .form-screen body {
   @apply p-0;
 }
-.floating-input>input::placeholder {
-    color: transparent;
+.floating-input > input::placeholder {
+  color: transparent;
 }
 
-.floating-input>input:focus,
-.floating-input>input:not(:placeholder-shown) { 
-@apply pt-8
+.floating-input > input:focus,
+.floating-input > input:not(:placeholder-shown) {
+  @apply pt-8;
 }
 
-.floating-input>input:focus~label, 
-.floating-input>input:not(:placeholder-shown)~label {
-  @apply opacity-75 scale-75 -translate-y-5 translate-x-1; 
+.floating-input > input:focus ~ label,
+.floating-input > input:not(:placeholder-shown) ~ label {
+  @apply opacity-75 scale-75 -translate-y-5 translate-x-1;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
 }
 
 img:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    height: 50%;
-    width: 100%;
-    background-image: url("https://via.placeholder.com/200");
+  content: " ";
+  display: block;
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  background-image: url("https://via.placeholder.com/200");
 }
-

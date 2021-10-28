@@ -95,7 +95,7 @@
       :class="[
         categoryDeleteStatus.isSuccess
           ? 'bg-green-100 text-green-500'
-          : 'bg-red-100 text-red-500',
+          : 'bg-red-100 text-red-500'
       ]"
     >
       <feather-icon path="bell" size="10px"></feather-icon>
@@ -133,7 +133,7 @@
 
           <!-- action -->
           <div
-            class="flex-col -z-20 absolute top-0 h-60 w-full text-white opacity-0 bg-gray-200 hover:opacity-100 hover:bg-opacity-20 flex items-center justify-center pb-5"
+            class="flex-col -z-20 absolute -top-1 h-60 w-full text-white opacity-0 bg-gray-200 hover:opacity-100 hover:bg-opacity-20 flex items-center justify-center pb-5"
           >
             <div
               class="transform transition duration-200 hover:scale-110 cursor-pointer"
@@ -142,10 +142,10 @@
                 @click="
                   $router.push({
                     name: 'category',
-                    params: { catId: category.id },
+                    params: { catId: category.id }
                   })
                 "
-                class="rounded-md bg-primary px-2 pb-1 mb-5 hover:bg-opacity-100"
+                class="rounded-md flex items-center bg-primary shadow-lg py-2 px-3 mb-5 hover:bg-opacity-100"
               >
                 enter
               </span>
@@ -212,7 +212,7 @@ export default {
     ModalBox,
     CardSkeleton,
     JbButtons,
-    JbButton,
+    JbButton
   },
   setup() {
     const store = useStore();
@@ -225,12 +225,12 @@ export default {
     const categoryIndex = ref("");
     const isModalActive = ref(false);
     const isSkeleton = computed({
-      get: () => store.state.isSkeleton.category,
+      get: () => store.state.isSkeleton.category
     });
     const categories = computed(() => {
       let listCategories = [];
 
-      const filtered = store.state.allCategories.filter((element) => {
+      const filtered = store.state.allCategories.filter(element => {
         return element.category_name
           .toUpperCase()
           .includes(store.state.searchModel.categories.toUpperCase());
@@ -243,7 +243,7 @@ export default {
     const categoryDeleteStatus = reactive({
       notification: false,
       isSuccess: false,
-      message: "",
+      message: ""
     });
     const deleteButton = (name, id, index) => {
       categoryNameToDelete.value = name;
@@ -285,8 +285,8 @@ export default {
       deleteButton,
       store,
       isSkeleton,
-      categoryDeleteStatus,
+      categoryDeleteStatus
     };
-  },
+  }
 };
 </script>

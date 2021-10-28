@@ -48,7 +48,7 @@
           <div class="w-full md:w-4/12 md:mx-2 shadow-lg">
             <!-- Profile Card -->
 
-            <div class="bg-white px-2 py-2">
+            <div class="bg-white px-2 py-2 text-sm :md-text-md">
               <back-button
                 hasText
                 to="dashboard"
@@ -93,7 +93,7 @@
                         'bg-green-100 text-green-500 px-4':
                           userStatus?.toUpperCase() == 'ACTIVE',
                         'bg-red-100 text-red-500 px-3':
-                          userStatus?.toUpperCase() == 'BANNED',
+                          userStatus?.toUpperCase() == 'BANNED'
                       }"
                       >{{ userStatus }}</span
                     ></span
@@ -122,34 +122,36 @@
                   }}</span>
                 </li>
               </ul>
-              <div
-                @click="isModalActive = true"
-                class="mb-5 mt-3 flex justify-center cursor-pointer pb-2 text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400 w-2/4 float-right"
-              >
-                <feather-icon
-                  v-if="userStatus?.toUpperCase() == 'ACTIVE'"
-                  size="15px"
-                  class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
-                  path="user-x"
-                  small
+              <div class="flex justify-end items-center flex-no-wrap">
+                <div
+                  @click="isModalActive = true"
+                  class="mb-5 mt-3 flex justify-start items-center cursor-pointer pb-2 text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400 min-w-min "
                 >
-                </feather-icon>
-                <feather-icon
-                  v-if="userStatus?.toUpperCase() == 'BANNED'"
-                  size="15px"
-                  class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
-                  path="user-check"
-                  small
-                >
-                </feather-icon>
-                <small v-if="userStatus?.toUpperCase() == 'ACTIVE'">
-                  <!-- class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400" -->
-                  Ban User
-                </small>
-                <small v-else-if="userStatus?.toUpperCase() == 'BANNED'">
-                  <!-- class="text-green-50 bg-green-400 rounded-md p-2" -->
-                  Unban User
-                </small>
+                  <feather-icon
+                    v-if="userStatus?.toUpperCase() == 'ACTIVE'"
+                    size="15px"
+                    class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
+                    path="user-x"
+                    small
+                  >
+                  </feather-icon>
+                  <feather-icon
+                    v-if="userStatus?.toUpperCase() == 'BANNED'"
+                    size="15px"
+                    class="rounded-md no-border cursor-pointer text-gray-50 space-x-2"
+                    path="user-check"
+                    small
+                  >
+                  </feather-icon>
+                  <small v-if="userStatus?.toUpperCase() == 'ACTIVE'">
+                    <!-- class="text-red-50 rounded-md px-3 shadow shadow-lg py-1 bg-red-400" -->
+                    Ban User
+                  </small>
+                  <small v-else-if="userStatus?.toUpperCase() == 'BANNED'">
+                    <!-- class="text-green-50 bg-green-400 rounded-md p-2" -->
+                    Unban User
+                  </small>
+                </div>
               </div>
             </div>
             <!-- End of profile card -->
@@ -235,13 +237,13 @@ export default {
     FeatherIcon,
     BackButton,
     JbButtons,
-    JbButton,
+    JbButton
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const userId = computed({
-      get: () => route.params.id,
+      get: () => route.params.id
     });
     const user = ref("");
     const userStatus = ref("");
@@ -267,7 +269,7 @@ export default {
         }, 5000);
         store.commit("basic", {
           key: "isSuccessChangeUserStatus",
-          value: false,
+          value: false
         });
       } else {
         messageColor.value = "bg-red-100 text-red-400 ";
@@ -295,8 +297,8 @@ export default {
       hasMessage,
       messageColor,
       changeUserStatus,
-      userStatus,
+      userStatus
     };
-  },
+  }
 };
 </script>

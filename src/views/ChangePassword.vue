@@ -61,76 +61,39 @@
         <div>
           <floating-label-input
             label="Old Password"
-            :type="oldPassType"
+            type="password"
             icon="lock"
             v-model="form.oldPassword"
             isPassword
-          >
-            <template #append>
-              <feather-icon
-                v-if="oldPassType !== 'password'"
-                path="eye"
-                @click="oldPassVisibility"
-              />
-              <feather-icon
-                v-if="oldPassType == 'password'"
-                path="eye-off"
-                @click="oldPassVisibility"
-              />
-            </template>
-          </floating-label-input>
+          />
         </div>
 
         <!-- new password -->
         <div class="mt-4">
           <floating-label-input
             label="New Password"
-            :type="newPassType"
+            type="password"
             icon="lock"
             v-model="form.newPassword"
             isPassword
           >
-            <template #append>
-              <feather-icon
-                v-if="newPassType !== 'password'"
-                path="eye"
-                @click="newPassVisibility"
-              />
-              <feather-icon
-                v-if="newPassType == 'password'"
-                path="eye-off"
-                @click="newPassVisibility"
-              />
-            </template>
           </floating-label-input>
         </div>
 
         <!-- repeat new Password -->
         <div class="mt-4">
           <floating-label-input
-            :type="repeatPassType"
+            type="password"
             label="Repeat New Password"
             icon="lock"
             v-model="form.repeatNewPassword"
             isPassword
           >
-            <template #append>
-              <feather-icon
-                v-if="repeatPassType !== 'password'"
-                path="eye"
-                @click="repeatPassVisibility"
-              />
-              <feather-icon
-                v-if="repeatPassType == 'password'"
-                path="eye-off"
-                @click="repeatPassVisibility"
-              />
-            </template>
           </floating-label-input>
           <small
             v-if="
               form.repeatNewPassword !== '' &&
-              form.newPassword !== form.repeatNewPassword
+                form.newPassword !== form.repeatNewPassword
             "
             class="text-red-400"
             >Password doesn't match</small
@@ -139,7 +102,7 @@
         <jb-buttons class="float-right mt-10">
           <jb-button
             :class="{
-              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched,
+              'cursor-not-allowed opacity-40 text-gray-200 bg-red hover:bg-gray-100': isNewPasswordMatched
             }"
             :isDisabled="isNewPasswordMatched"
             color="info"
@@ -190,7 +153,7 @@ export default {
     FeatherIcon,
     Notification,
     BackgroundDecoration,
-    BackButton,
+    BackButton
   },
   setup() {
     const store = useStore();
@@ -201,7 +164,7 @@ export default {
       newPassword: "",
       isNewPasswordError: false,
       repeatNewPassword: "",
-      isRepeatNewPasswordError: false,
+      isRepeatNewPasswordError: false
     });
     const isModalActive = ref(false);
     const isNewPasswordMatched = computed(() => {
@@ -215,24 +178,23 @@ export default {
       }
     });
 
-    const oldPassType = ref("password");
-    const newPassType = ref("password");
-    const repeatPassType = ref("password");
+    const oldPassType = ref(false);
+    const newPassType = ref(false);
+    const repeatPassType = ref(false);
 
     const notif = reactive({
       color: "",
-      message: store.state.notification,
+      message: store.state.notification
     });
 
     const oldPassVisibility = () => {
-      oldPassType.value = oldPassType.value == "password" ? "text" : "password";
+      oldPassType.value = !oldPassType.value;
     };
     const newPassVisibility = () => {
-      newPassType.value = newPassType.value == "password" ? "text" : "password";
+      newPassType.value = !newPassType.value;
     };
     const repeatPassVisibility = () => {
-      repeatPassType.value =
-        repeatPassType.value == "password" ? "text" : "password";
+      repeatPassType.value = !repeatPassType.value;
     };
 
     const openModal = () => {
@@ -291,8 +253,8 @@ export default {
       newPassVisibility,
       repeatPassVisibility,
       notif,
-      isNewPasswordMatched,
+      isNewPasswordMatched
     };
-  },
+  }
 };
 </script>
