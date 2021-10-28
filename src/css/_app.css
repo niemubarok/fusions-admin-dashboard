@@ -3,7 +3,7 @@ body {
 }
 
 #app {
-  @apply w-screen transition-all lg:w-auto;
+  @apply w-screen transition-all lg:w-auto pb-6;
 }
 
 .dropdown {

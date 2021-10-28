@@ -1,6 +1,6 @@
 <template>
   <main-section>
-    <div class="w-full text-white bg-main-color">
+    <div class="w-full bg-main-color mb-14">
       <div class="container my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2">
           <div class="w-full h-64">
@@ -29,11 +29,35 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import FeatherIcon from "../components/FeatherIcon.vue";
 import Items from "../components/Items.vue";
 import MainSection from "../components/MainSection.vue";
 export default {
   components: { Items, MainSection, FeatherIcon },
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    const category = computed(() => store.state.category[0]);
+    const selectedUserId = sessionStorage.getItem("selectedUserId");
+    const backButtonAction = () => {
+      if (selectedUserId) {
+        router.push({
+          name: "profile",
+          params: { id: selectedUserId },
+        });
+      } else {
+        router.go(-1);
+      }
+    };
+
+    return {
+      category,
+      backButtonAction,
+    };
+  },
 };
 </script>
     

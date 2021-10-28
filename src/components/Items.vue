@@ -1,5 +1,5 @@
 <template>
-  <!-- modal delete categories -->
+  <!-- modal delete item -->
   <modal-box v-model="isModalActive" has-cancel has-divider>
     <feather-icon
       path="alert-triangle"
@@ -8,42 +8,36 @@
       size="50px"
       class="flex justify-center w-full text-red-400"
     />
-    <div class="w-full bg-red-600 bg-opacity-20 h-20 pt-2 rounded-md">
+    <div class="w-full bg-red-600 bg-opacity-20 min-h-min py-2 rounded-md">
       <span
         class="flex justify-center w-full text-gray-900 text-center font-lg"
       >
-        You are deleting a category and all items inside
+        You are deleting <strong class="ml-1"> {{ itemNameToDelete }}</strong>
       </span>
-
-      <strong
-        class="flex justify-center w-full text-gray-900 text-center font-lg mt-3"
-      >
-        {{ itemNameToDelete }}
-      </strong>
     </div>
     <div class="pt-5 flex justify-center text-gray-500">
       Are you sure to continue ?
     </div>
     <template #bottom>
-      <jb-buttons class="float-right mt-4">
+      <jb-buttons class="float-right">
         <jb-button
           @click="isModalActive = false"
           label="Cancel"
           class="bg-gray-300 text-gray-500"
         />
-        <jb-button
-          @click="deleteCategoryConfirmation"
-          color="danger"
-          label="Yes"
-        />
+        <jb-button @click="deleteItemConfirmation" color="danger" label="Yes" />
       </jb-buttons>
     </template>
   </modal-box>
 
-  <div v-if="!isSkeleton" class="container flex my-5 mx-auto px-2 md:px-2">
+  <div
+    v-if="!isSkeleton"
+    class="relative container flex my-5 mx-auto px-2 md:px-2"
+  >
+    <!-- notification -->
     <div
       v-if="itemDeleteStatus.notification"
-      class="absolute -top-10 right-4 min-w-min text-xs px-2 rounded-md"
+      class="absolute -top-14 right-4 min-w-min text-xs px-2 rounded-md"
       :class="[
         itemDeleteStatus.isSuccess
           ? 'bg-green-100 text-green-500'
@@ -59,13 +53,16 @@
         Failed to delete<strong class="ml-1">{{ itemNameToDelete }}</strong>
       </span>
     </div>
+
+    <!-- end notification -->
+
     <div class="flex flex-wrap justify-start text-gray-700 w-full">
       <!-- empty -->
 
       <card-component v-if="!itemsPaginated?.length" empty class="w-full" />
       <!-- Column -->
       <div
-        class="my-1 px-1 w-full lg:my-2 md:px-2 md:w-4/12 flex justify-center relative"
+        class="my-1 px-1 w-full lg:my-2 md:px-2 md:w-3/12 flex justify-center relative"
         v-for="(item, index) of itemsPaginated"
         :key="index"
       >
@@ -92,7 +89,7 @@
             >
               <div>
                 <small
-                  @click="deleteButton(item.name, item.id, index)"
+                  @click="deleteButtonAction(item.name, item.id, index)"
                   class="py-1 bg-red-500 bg-opacity-80 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
                   style="border-bottom-left-radius: 10px"
                 >
@@ -134,18 +131,37 @@
   <!-- skeleton -->
 
   <card-skeleton v-if="isSkeleton" />
-
-  <pagination
-    v-if="items?.length >= 1"
-    :total-pages="pagesList?.length - 1"
-    :total="items?.length"
-    :per-page="perPage"
-    :current-page="currentPage"
-    @pagechanged="showMore"
-    :maxVisibleButtons="maxVisibleButton"
-    :hasMorePages="false"
-  >
-  </pagination>
+  <div v-if="items?.length >= 1" class="flex justify-between px-4">
+    <div class="text-left flex items-center justify-start">
+      <span class="mr-2 text-gray-500">Show</span>
+      <select
+        v-model="perPage"
+        class="border-1 rounded-md border-gray-300 text-xs h-9"
+      >
+        <option
+          v-for="number of 10"
+          :key="number"
+          :value="number"
+          class="text-gray-500"
+        >
+          {{ number }}
+        </option>
+      </select>
+      <span class="ml-2 text-gray-500">per page</span>
+    </div>
+    <div>
+      <pagination
+        :total-pages="pagesList?.length - 1"
+        :total="items?.length"
+        :per-page="perPage"
+        :current-page="currentPage"
+        @pagechanged="showMore"
+        :maxVisibleButtons="maxVisibleButton"
+        :hasMorePages="false"
+      >
+      </pagination>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -170,14 +186,10 @@ import JbButtons from "./JbButtons.vue";
 import JbButton from "./JbButton.vue";
 export default {
   components: {
-    // MainSection,
     ModalBox,
     CardComponent,
     Pagination,
-    // Categories,
-    // Invoices,
     FeatherIcon,
-    // ItemCard,
     CardSkeleton,
     JbButton,
     JbButtons,
@@ -186,8 +198,6 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const items = computed(() => category.value?.items);
-    const itemNameToDelete = ref("");
     const catId = computed({
       get: () => route.params.catId,
     });
@@ -198,11 +208,44 @@ export default {
     const isModalActive = ref(false);
 
     // items
+    const itemId = ref("");
+    const itemIndex = ref("");
+
+    const items = computed(() => category.value?.items);
+    const itemNameToDelete = ref("");
     const itemDeleteStatus = reactive({
       notification: false,
       isSuccess: false,
       message: "",
     });
+
+    const deleteButtonAction = (name, id, index) => {
+      itemNameToDelete.value = name;
+      itemId.value = id;
+      itemIndex.value = index;
+      isModalActive.value = true;
+    };
+
+    const deleteItemConfirmation = async () => {
+      await store.dispatch("deleteItem", itemId.value);
+
+      if (store.state.isDeleted.item) {
+        items.value?.splice(itemIndex.value, 1);
+        itemDeleteStatus.isSuccess = true;
+        itemDeleteStatus.notification = true;
+        isModalActive.value = false;
+      } else {
+        itemDeleteStatus.isSuccess = false;
+        itemDeleteStatus.notification = true;
+        isModalActive.value = false;
+      }
+
+      setTimeout(() => {
+        itemDeleteStatus.isSuccess = false;
+        itemDeleteStatus.notification = false;
+        itemDeleteStatus.message = "";
+      }, 4000);
+    };
 
     const selectedUserId = sessionStorage.getItem("selectedUserId");
     const backButtonAction = () => {
@@ -284,6 +327,9 @@ export default {
       maxVisibleButton,
       isSkeleton,
       itemDeleteStatus,
+      deleteItemConfirmation,
+      deleteButtonAction,
+      itemNameToDelete,
     };
   },
 };

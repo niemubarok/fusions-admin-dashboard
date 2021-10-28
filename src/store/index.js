@@ -347,21 +347,43 @@ export default createStore({
       }
     },
     async deleteCategory({ state }, catId = null) {
-      console.log(catId);
-      // await axios({
-      //   method: "DELETE",
-      //   url: state.base_url + 'category/' + catId,
-      //   headers: {
-      //     Authorization: sessionStorage.getItem('token')
-      //   }
-      // }).then(r => {
-      //   console.log(r);
-      // }).catch(err => {
-      //   console.log(err);
-      // })
+      // state.isDeleted.category = true
+
+      await axios({
+        method: "DELETE",
+        url: state.base_url + 'category/' + catId,
+        headers: {
+          Authorization: sessionStorage.getItem('token')
+        }
+      }).then(r => {
+        if (r.data.status == "Success") {
+          state.isDeleted.category = true
+        }
+      }).catch(err => {
+        console.log(err.response.status)
+        state.isDeleted.category = false
+        console.log(err);
+      })
     },
 
     //items
+    async deleteItem({ state }, itemId = null) {
+      await axios({
+        method: "DELETE",
+        url: state.base_url + 'item/' + itemId,
+        headers: {
+          Authorization: sessionStorage.getItem('token')
+        }
+      }).then(r => {
+        if (r.data.status == "Success") {
+          state.isDeleted.item = true
+        }
+
+      }).catch(err => {
+        state.isDeleted.item = false
+        console.log(err);
+      })
+    },
 
     //dashboard
     async fetchDashboard({ commit, state }) {

@@ -23,6 +23,7 @@ export default {
 
     onMounted(async () => {
       if (route.name !== "login" && !sessionStorage.getItem("token")) {
+        console.log("unauthorized");
         router.push({ name: "login" });
       } else if (sessionStorage.getItem("token")) {
         await store.dispatch("fetchDashboard");

@@ -18,7 +18,7 @@ export default {
   name: "Home",
   components: {
     AsideMenu,
-    NavBar
+    NavBar,
   },
   setup() {
     const store = useStore();
@@ -26,8 +26,8 @@ export default {
 
     return {
       miniMode,
-      menu
+      menu,
     };
-  }
+  },
 };
 </script>

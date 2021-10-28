@@ -155,7 +155,8 @@
                 @click="
                   deleteButton(category.category_name, category.id, index)
                 "
-                class="absolute top-1 right-2 rounded-md bg-red-500 bg-opacity-50 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
+                class="absolute top-0 right-0 bg-red-500 bg-opacity-50 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
+                style="border-bottom-left-radius: 10px"
               >
                 <feather-icon path="trash" size="14px" class="text-gray-200" />
               </small>
@@ -238,12 +239,12 @@ export default {
       listCategories.push(filtered);
       return listCategories[0];
     });
+
     const categoryDeleteStatus = reactive({
       notification: false,
       isSuccess: false,
       message: "",
     });
-
     const deleteButton = (name, id, index) => {
       categoryNameToDelete.value = name;
       categoryId.value = id;
@@ -251,13 +252,19 @@ export default {
       isModalActive.value = true;
     };
 
-    const deleteCategoryConfirmation = () => {
-      // store.dispatch("deleteCategory", categoryId.value);
-      categories.value?.splice(categoryIndex.value, 1);
-      categoryDeleteStatus.isSuccess = true;
-      categoryDeleteStatus.notification = true;
-      isModalActive.value = false;
+    const deleteCategoryConfirmation = async () => {
+      await store.dispatch("deleteCategory", categoryId.value);
 
+      if (store.state.isDeleted.category) {
+        categories.value?.splice(categoryIndex.value, 1);
+        categoryDeleteStatus.isSuccess = true;
+        categoryDeleteStatus.notification = true;
+        isModalActive.value = false;
+      } else {
+        categoryDeleteStatus.isSuccess = false;
+        categoryDeleteStatus.notification = true;
+        isModalActive.value = false;
+      }
       setTimeout(() => {
         categoryDeleteStatus.isSuccess = false;
         categoryDeleteStatus.notification = false;
