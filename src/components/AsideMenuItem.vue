@@ -9,7 +9,7 @@
         'py-2': !isSubmenuList,
         'p-3 text-sm bg-gray-200': isSubmenuList,
         'w-10 justify-center': miniMode,
-        'w-56 flex ': !miniMode,
+        'w-56 flex ': !miniMode
       }"
       exact-active-class="bg-primary text-gray-50 "
       @click="menuClick"
@@ -51,7 +51,6 @@ import { mdiMinus, mdiChevronDown } from "@mdi/js";
 import Icon from "@/components/Icon";
 import featherIcon from "@/components/FeatherIcon";
 import { useStore } from "vuex";
-import { createPopper } from "@popperjs/core";
 
 export default {
   name: "AsideMenuItem",
@@ -60,22 +59,22 @@ export default {
       import("@/components/AsideMenuList")
     ),
     Icon,
-    featherIcon,
+    featherIcon
   },
   emits: ["menu-click"],
   props: {
     item: {
       type: Object,
-      default: null,
+      default: null
     },
     isSubmenuList: {
       type: Boolean,
-      default: false,
+      default: false
     },
     color: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   setup(props, { emit }) {
     const store = useStore();
@@ -95,7 +94,7 @@ export default {
 
     const itemHref = computed(() => props.item.href || null);
 
-    const menuClick = (event) => {
+    const menuClick = event => {
       if (props.item.action()) {
         emit("menu-click", event, props.item.action());
       }
@@ -115,9 +114,9 @@ export default {
         tooltipShow.value = false;
       } else {
         tooltipShow.value = true;
-        createPopper(btnRef.value, tooltipRef.value, {
-          placement: "left",
-        });
+        // createPopper(btnRef.value, tooltipRef.value, {
+        //   placement: "left",
+        // });
       }
     };
 
@@ -132,8 +131,8 @@ export default {
       miniMode,
       tooltipShow,
       btnRef,
-      toggleTooltip,
+      toggleTooltip
     };
-  },
+  }
 };
 </script>
