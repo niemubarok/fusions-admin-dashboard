@@ -32,7 +32,7 @@
 
   <div
     v-if="!isSkeleton"
-    class="relative container flex my-5 mx-auto px-2 md:px-2"
+    class="relative container flex my-5 mx-auto px-2 md:px-2 mb-8"
   >
     <!-- notification -->
     <div
@@ -41,7 +41,7 @@
       :class="[
         itemDeleteStatus.isSuccess
           ? 'bg-green-100 text-green-500'
-          : 'bg-red-100 text-red-500',
+          : 'bg-red-100 text-red-500'
       ]"
     >
       <feather-icon path="bell" size="10px"></feather-icon>
@@ -90,7 +90,7 @@
               <div>
                 <small
                   @click="deleteButtonAction(item.name, item.id, index)"
-                  class="py-1 bg-red-500 bg-opacity-80 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
+                  class="py-1 bg-red-500 bg-opacity-80 hover:bg-opacity-100 cursor-pointer transform transition duration-400 hover:scale-150 hover:p-2"
                   style="border-bottom-left-radius: 10px"
                 >
                   <feather-icon
@@ -131,7 +131,9 @@
   <!-- skeleton -->
 
   <card-skeleton v-if="isSkeleton" />
-  <div v-if="items?.length >= 1" class="flex justify-between px-4">
+
+  <hr />
+  <div v-if="items?.length >= 1" class="flex justify-between px-4 pb-4 mt-2">
     <div class="text-left flex items-center justify-start">
       <span class="mr-2 text-gray-500">Show</span>
       <select
@@ -175,7 +177,7 @@ import {
   computed,
   onUpdated,
   onMounted,
-  reactive,
+  reactive
 } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import ModalBox from "@/components/ModalBox.vue";
@@ -192,17 +194,17 @@ export default {
     FeatherIcon,
     CardSkeleton,
     JbButton,
-    JbButtons,
+    JbButtons
   },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const catId = computed({
-      get: () => route.params.catId,
+      get: () => route.params.catId
     });
     const isSkeleton = computed({
-      get: () => store.state.isSkeleton.items,
+      get: () => store.state.isSkeleton.items
     });
     const category = computed(() => store.state.category[0]);
     const isModalActive = ref(false);
@@ -216,7 +218,7 @@ export default {
     const itemDeleteStatus = reactive({
       notification: false,
       isSuccess: false,
-      message: "",
+      message: ""
     });
 
     const deleteButtonAction = (name, id, index) => {
@@ -252,7 +254,7 @@ export default {
       if (selectedUserId) {
         router.push({
           name: "profile",
-          params: { id: selectedUserId },
+          params: { id: selectedUserId }
         });
       } else {
         router.go(-1);
@@ -298,7 +300,7 @@ export default {
       return pagesList;
     });
 
-    const showMore = (p) => {
+    const showMore = p => {
       // page.value = p;
       currentPage.value = p;
     };
@@ -329,8 +331,8 @@ export default {
       itemDeleteStatus,
       deleteItemConfirmation,
       deleteButtonAction,
-      itemNameToDelete,
+      itemNameToDelete
     };
-  },
+  }
 };
 </script>

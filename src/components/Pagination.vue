@@ -1,16 +1,17 @@
 <template>
   <div class="flex justify-end">
-    <ul class="pagination bg-white p-2 shadow-sm rounded">
-      <li class="pagination-item">
+    <ul class="pagination bg-white p-2 shadow-sm rounded flex items-center">
+      <li class="pagination-item ">
         <button
           type="button"
           @click="onClickPreviousPage"
           :disabled="isInFirstPage"
           aria-label="Go to previous page"
-          class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
-          :class="{ 'cursor-not-allowed': isInFirstPage }"
+          class="rounded-sm  hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+          :class="{ hidden: isInFirstPage }"
         >
           <feather-icon
+            size="25px"
             path="chevron-left"
             :class="{ 'text-gray-200': isInFirstPage }"
           />
@@ -38,10 +39,11 @@
           @click="onClickNextPage"
           :disabled="isInLastPage"
           aria-label="Go to next page"
-          class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
-          :class="{ 'cursor-not-allowed text-gray-200': isInLastPage }"
+          class="rounded-sm hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+          :class="{ hidden: isInLastPage }"
         >
           <feather-icon
+            size="25px"
             path="chevron-right"
             :class="{ 'text-gray-200': isInLastPage }"
           />
@@ -111,7 +113,6 @@ export default {
       type: Boolean,
       required: true
     }
-
   },
 
   computed: {},

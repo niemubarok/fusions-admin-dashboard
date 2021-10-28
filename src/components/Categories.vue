@@ -155,10 +155,14 @@
                 @click="
                   deleteButton(category.category_name, category.id, index)
                 "
-                class="absolute top-0 right-0 bg-red-500 bg-opacity-50 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-110"
+                class="absolute p-1  top-0 right-0 bg-red-500 bg-opacity-50 hover:bg-opacity-100 cursor-pointer transform transition duration-200 hover:scale-125 hover:pt-2"
                 style="border-bottom-left-radius: 10px"
               >
-                <feather-icon path="trash" size="14px" class="text-gray-200" />
+                <feather-icon
+                  path="trash"
+                  size="14px"
+                  class="text-gray-200 scale-0 "
+                />
               </small>
             </div>
           </div>

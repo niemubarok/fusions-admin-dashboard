@@ -48,12 +48,12 @@
           <div class="w-full md:w-4/12 md:mx-2 shadow-lg">
             <!-- Profile Card -->
 
-            <div class="bg-white px-2 py-2 text-sm :md-text-md">
+            <div class="bg-white px-2 py-2 ">
               <back-button
                 hasText
                 to="dashboard"
                 text="Details"
-                class="text-gray-800 mb-5"
+                class="text-gray-800 font-medium mb-5"
               />
 
               <div class="image overflow-hidden">
@@ -160,7 +160,7 @@
           <!-- Right Side -->
           <div class="w-full h-64">
             <!-- Categories -->
-            <div class="bg-white px-3 pt-1 pb-3 shadow-sm rounded-sm shadow-lg">
+            <div class="bg-white px-3 pt-1 pb-3 rounded-md">
               <div
                 class="flex items-center space-x-1 font-semibold text-gray-900 leading-8 mb-2"
               >
