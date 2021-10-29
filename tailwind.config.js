@@ -13,6 +13,9 @@ module.exports = {
     //   'xl': '1280px',
     //   // => @media (min-width: 1280px) { ... }
     // },
+    fontFamily: {
+      'sans': ['roboto']
+    },
     backgroundColor: theme => ({
       ...theme("colors"),
       primary: "#DC5C4B"
@@ -56,7 +59,7 @@ module.exports = {
       lg:
         "2px 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.03)"
     },
-   
+
   },
   variants: {
     extend: {
@@ -64,9 +67,9 @@ module.exports = {
       backgroundColor: ["checked", "active", "focus"],
       borderColor: ["hover", "focus", "focus-within", "checked"],
       scale: ["group-hover", "active"],
-      overflow:['hover'],
-      inset:["hover"],
-      padding:["hover"],
+      overflow: ['hover'],
+      inset: ["hover"],
+      padding: ["hover"],
     }
   },
   plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar")]

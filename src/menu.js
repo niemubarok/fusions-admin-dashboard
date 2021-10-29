@@ -18,7 +18,7 @@ export default [
       action: () => false
     },
     {
-      to: "/",
+      to: "/login",
       label: "Log Out",
       icon: "log-out",
       action: () => {

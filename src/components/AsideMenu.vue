@@ -1,7 +1,7 @@
 <template>
   <aside
     v-show="!isFormScreen"
-    class="top-0 z-40 h-screen transition-position lg:left-0 bg-white py-3 flow-root fixed"
+    class="top-0 z-40 h-screen transition duration-150 lg:left-0 bg-white py-3 flow-root fixed"
     :class="[
       isAsideMobileExpanded ? 'left-0' : '-left-60',
       isAsideLgActive ? 'block' : 'md:flex lg:block ',

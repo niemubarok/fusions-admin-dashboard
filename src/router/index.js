@@ -1,13 +1,21 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import auth from "./middleware/auth";
 
 const routes = [
+  {
+    meta: {
+      title: "Landing Page",
+      formScreen: true
+    },
+    path: "/",
+    name: "landingPage",
+    component: () => import(/* webpackChunkName: "landingPage" */ "../views/LandingPage")
+  },
   {
     meta: {
       title: "Login",
       formScreen: true
     },
-    path: "/",
+    path: "/login",
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   },
