@@ -1,28 +1,30 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-  {
-    meta: {
-      title: "Landing Page",
-      formScreen: true
-    },
-    path: "/",
-    name: "landingPage",
-    component: () => import(/* webpackChunkName: "landingPage" */ "../views/LandingPage")
-  },
+  // {
+  //   meta: {
+  //     title: "Landing Page",
+  //     formScreen: true
+  //   },
+  //   path: "/",
+  //   name: "landingPage",
+  //   component: () => import(/* webpackChunkName: "landingPage" */ "../views/LandingPage")
+  // },
   {
     meta: {
       title: "Login",
-      formScreen: true
+      formScreen: true,
+      isNavbar:false
     },
-    path: "/login",
+    path: "/",
     name: "login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login")
   },
   {
     // Document title tag
     meta: {
-      title: "Dashboard"
+      title: "Dashboard",
+      isNavbar:true
     },
     path: "/dashboard",
     name: "dashboard",
@@ -50,7 +52,8 @@ const routes = [
   {
     meta: {
       title: "Change Password",
-      formScreen: true
+      formScreen: true,
+      isNavbar:false
     },
     path: "/change-password",
     name: "changePassword",
@@ -60,7 +63,8 @@ const routes = [
   {
     meta: {
       title: "ResetPassword",
-      formScreen: true
+      formScreen: true,
+      isNavbar:false
     },
     path: "/reset-password/:token",
     name: "resetPassword",
@@ -69,7 +73,8 @@ const routes = [
   },
   {
     meta: {
-      title: "Google Analytics"
+      title: "Google Analytics",
+      isNavbar:false
     },
     path: "/analytics",
     name: "googleAnalytics",

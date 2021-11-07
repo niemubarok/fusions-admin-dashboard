@@ -1,6 +1,6 @@
 <template>
   <nav
-    v-show="isNavBarVisible"
+    v-show="route.meta.isNavbar"
     id="navbar"
     class="flex flex-nowrap justify-center fixed bg-gray-100 rounded-lg h-14 ml-5 -mt-10 mb-10 shadow-lg z-30 w-full transition-all"
   >
@@ -138,6 +138,7 @@ export default {
       mdiCogOutline,
       searchPlaceHolder,
       searchIf,
+      route
     };
   },
 };

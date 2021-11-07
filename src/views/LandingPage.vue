@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen">
+  <div>
     <nav-bar />
     <banner />
   </div>
@@ -12,14 +12,13 @@ import NavBar from "../components/LandingPage/NavBar.vue";
 export default {
   components: {
     NavBar,
-    Banner,
+    Banner
   },
 
   setup() {
     return {};
-  },
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

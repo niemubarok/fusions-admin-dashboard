@@ -2,7 +2,7 @@
   <div @click="atClick" class="flex cursor-pointer">
     <feather-icon path="chevron-left" size="25px"></feather-icon>
     <!-- class="" -->
-    <div v-if="hasText" class="space-x-1">
+    <div v-if="hasText" class="space-x-1" style="margin-top:2px;">
       {{ text }}
     </div>
   </div>
@@ -19,7 +19,7 @@ export default {
     hasText: Boolean,
     text: {
       type: String,
-      default: "back",
+      default: "Back",
     },
     to: {
       type: String,

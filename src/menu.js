@@ -6,11 +6,12 @@ export default [
       label: "Dashboard",
       action: () => false
     },
-    // {
-    //   to: "/analytics",
-    //   label: "Google Analytics",
-    //   icon: "trending-up"
-    // },
+    {
+      to: "/analytics",
+      label: "Google Analytics",
+      icon: "trending-up",
+      action: () => false
+    },
     {
       to: "/change-password",
       label: "Change Password",
@@ -18,7 +19,7 @@ export default [
       action: () => false
     },
     {
-      to: "/login",
+      to: "/",
       label: "Log Out",
       icon: "log-out",
       action: () => {

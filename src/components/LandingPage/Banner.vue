@@ -25,18 +25,21 @@
       </div>
     </div>
     <div class="-mt-8 hidden md:block">
-      <svg-desktop />
+      <img src="/assets/img/Desktop.png" style="height:450px; width:750px" />
+      <!-- <svg-desktop /> -->
     </div>
   </div>
 </template>
 
 <script>
 import LpButton from "./LpButton.vue";
-import SvgDesktop from "./SvgDesktop.vue";
+// import SvgDesktop from "./SvgDesktop.vue";
 export default {
-  components: { SvgDesktop, LpButton },
+  components: {
+    // SvgDesktop,
+    LpButton
+  }
 };
 </script>
 
-<style>
-</style>
+<style></style>

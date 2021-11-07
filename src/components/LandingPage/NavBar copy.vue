@@ -15,7 +15,7 @@
     </div>
 
     <!-- btn menu on mobile -->
-    <div class="block lg:hidden">
+    <div class="block sm:hidden">
       <button
         @click="humberger"
         class="flex items-center px-3 py-2 border-0 rounded text-teal-200 border-teal-400 hover:text-gray-600 hover:border-gray-500"

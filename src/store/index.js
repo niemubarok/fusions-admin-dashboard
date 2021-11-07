@@ -116,7 +116,6 @@ export default createStore({
     },
     formScreenToggle({ commit }, value) {
       commit("basic", { key: "isFormScreen", value });
-
       document.documentElement.classList[value ? "add" : "remove"](
         "form-screen"
       );
